@@ -1,0 +1,38 @@
+.env
+*.env
+
+# --- PYTHON ---
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.venv/
+.pytest_cache/
+*.egg-info/
+
+# --- ANDROID (IDE & BUILD) ---
+.gradle/
+build/
+captures/
+.externalNativeBuild/
+.cxx/
+local.properties
+*.iml
+.idea/
+.navigation/
+
+# --- EDITORES (VS Code / JetBrains) ---
+.vscode/
+.idea/workspace.xml
+*.swp
+*.bak
+
+# --- SISTEMA OPERATIVO ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- LOGS ---
+*.log
+logs/
