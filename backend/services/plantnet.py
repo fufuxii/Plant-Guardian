@@ -18,4 +18,4 @@ async def identificar_planta(archivo_imagen):
         "nombre_comun": mejor_resultado['species']['commonNames'][0] if mejor_resultado['species']['commonNames'] else "Desconocido"
       }
     else:
-      return {"error": "No se pudo identificar la planta"}
+      return {"error": "No se pudo identificar la planta."}
