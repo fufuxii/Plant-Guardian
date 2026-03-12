@@ -33,18 +33,20 @@ async def post_identificar_planta(imagen: UploadFile = File(...)):
   return {"temp_id": temp_id, "resultado": resultado}
 
 @app.post("/analizar/{temp_id}")
-async def post_analizar_planta(temp_id: str):
+async def post_analizar_planta(temp_id: str, lugar: str):
   if temp_id not in plantas_pendientes: 
     raise HTTPException(status_code=404, detail="ID no encontrado")
   
-  registro = plantas_pendientes[temp_id]
-  analisis_completo = await analizar_planta(
-    nombre_planta=registro["identificacion"]["nombre_cientifico"],
-    bytes_foto=registro["bytes_foto"],
-    mime_type=registro["mime_type"]
+  planta = plantas_pendientes[temp_id]
+  analisis = await analizar_planta(
+    nombre_planta=planta["identificacion"]["nombre_cientifico"], 
+    lugar_planta=lugar, 
+    bytes_foto=planta["bytes_foto"], 
+    mime_type=planta["mime_type"]
   )
 
-  registro["analisis_ia"] = analisis_completo
-  registro["analizada"] = True
+  planta["lugar"] = lugar
+  planta["analisis"] = analisis
+  planta["analizada"] = True
 
-  return analisis_completo
+  return analisis
