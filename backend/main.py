@@ -23,7 +23,6 @@ async def post_identificar_planta(imagen: UploadFile = File(...)):
   contenido = await imagen.read()
   await imagen.seek(0) 
   resultado = await identificar_planta(imagen)
-
   temp_id = str(uuid.uuid4())
   plantas_pendientes[temp_id] = {
     "informacion": resultado,
@@ -31,7 +30,6 @@ async def post_identificar_planta(imagen: UploadFile = File(...)):
     "mime_type": imagen.content_type,
     "analizada": False
   }
-
   return {"temp_id": temp_id, "resultado": resultado}
 
 
@@ -70,7 +68,6 @@ async def post_guardar_planta(temp_id: str, datos: Datos):
       lugar=planta["lugar"],
       imagen=None
     )
-
     del plantas_pendientes[temp_id]
     return {"mensaje": "¡Planta añadida con éxito!", "data": resultado}
 
