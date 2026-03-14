@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
-MODELOS_IA = ["gemini-2.0-flash", "gemini-flash-latest", "gemini-3-flash-preview"]
+MODELOS_IA = ["gemini-flash-latest", "gemini-2.0-flash", "gemini-3-flash-preview"]
 
 
 async def consultar_gemini(contenido: list):

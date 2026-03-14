@@ -1,5 +1,6 @@
-from datetime import datetime
+import re
 from database import supabase
+from datetime import datetime, timedelta
 from services.gemini import obtener_info_extra
 
 
@@ -34,5 +35,26 @@ async def registrar_planta_usuario(id_usuario: str, id_planta: str, analisis: di
     "consejos": analisis["consejos"],
     "fecha_obtencion": datetime.now().isoformat()
   }
-  res = supabase.table("Usuario_Planta").insert(nueva_planta).execute()
-  return res.data[0]
+  res_planta = supabase.table("Usuario_Planta").insert(nueva_planta).execute()
+  id_registro = res_planta.data[0]["id"]
+  await crear_tareas_planta(id_registro, analisis.get("tareas", []))
+  return res_planta.data[0]
+
+
+async def crear_tareas_planta(id_usuario_planta: str, tareas: list):
+  if not tareas: return []
+  fecha_base = datetime.now()
+  filas_tareas = []
+  for t in tareas:
+    frecuencia_num = re.findall(r'\d+', t["frecuencia"])
+    dias = int(frecuencia_num[0])
+    filas_tareas.append({
+      "id_usuario_planta": id_usuario_planta,
+      "titulo": t["tarea"],
+      "frecuencia_textual": t["frecuencia"],
+      "frecuencia_numerica": dias,
+      "fecha_proxima": (fecha_base + timedelta(days=dias)).isoformat(),
+      "hecho": False
+    })
+  res = supabase.table("Tarea").insert(filas_tareas).execute()
+  return res.data
