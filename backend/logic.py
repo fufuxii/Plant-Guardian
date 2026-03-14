@@ -37,11 +37,11 @@ async def registrar_planta_usuario(id_usuario: str, id_planta: str, analisis: di
   }
   res_planta = supabase.table("Usuario_Planta").insert(nueva_planta).execute()
   id_registro = res_planta.data[0]["id"]
-  await crear_tareas_planta(id_registro, analisis.get("tareas", []))
+  await crear_planta_tareas(id_registro, analisis.get("tareas", []))
   return res_planta.data[0]
 
 
-async def crear_tareas_planta(id_usuario_planta: str, tareas: list):
+async def crear_planta_tareas(id_usuario_planta: str, tareas: list):
   if not tareas: return []
   fecha_base = datetime.now()
   filas_tareas = []
@@ -58,3 +58,15 @@ async def crear_tareas_planta(id_usuario_planta: str, tareas: list):
     })
   res = supabase.table("Tarea").insert(filas_tareas).execute()
   return res.data
+
+
+async def reiniciar_tarea(id_tarea: str):
+  res_tarea = supabase.table("Tarea").select("frecuencia_numerica").eq("id", id_tarea).execute()
+  if not res_tarea.data: return None
+  frecuencia = res_tarea.data[0]["frecuencia_numerica"]
+  nueva_fecha = datetime.now() + timedelta(days=frecuencia)
+  res_update = supabase.table("Tarea").update({
+    "fecha_proxima": nueva_fecha.isoformat(),
+    "hecho": False
+  }).eq("id", id_tarea).execute()
+  return res_update.data[0]

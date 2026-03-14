@@ -55,8 +55,7 @@ async def post_analizar_planta(temp_id: str, lugar: str):
 @app.post("/guardar/{temp_id}")
 async def post_guardar_planta(temp_id: str, datos: Datos):
   planta = plantas_pendientes.get(temp_id)
-  
-  if not planta:
+  if not planta: 
     raise HTTPException(status_code=404, detail="El análisis de la planta ha expirado.")
 
   try:
@@ -74,3 +73,11 @@ async def post_guardar_planta(temp_id: str, datos: Datos):
   except Exception as e:
     print(f"Error en la confirmación: {e}")
     raise HTTPException(status_code=500, detail="Error interno al procesar el guardado.")
+  
+
+@app.patch("/tareas/{id_tarea}/completar")
+async def patch_completar_tarea(id_tarea: str):
+  resultado = await reiniciar_tarea(id_tarea)
+  if not resultado: 
+    raise HTTPException(status_code=404, detail="La tarea no existe.")
+  return {"mensaje": "¡Tarea completada!", "data": resultado}
