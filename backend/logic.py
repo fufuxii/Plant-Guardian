@@ -1,4 +1,5 @@
 import re
+import uuid
 from database import supabase
 from datetime import datetime, timedelta
 from services.gemini import obtener_info_extra
@@ -22,11 +23,29 @@ async def obtener_planta_id(planta_info: dict):
   return query.data[0]["id"] if query.data else await registrar_planta(planta_info)
 
 
-async def registrar_planta_usuario(id_usuario: str, id_planta: str, analisis: dict, lugar: str, imagen: str):
+async def subir_planta_imagen(foto_bytes: bytes, mime_type: str):
+  try:
+    extension = mime_type.split("/")[-1]
+    nombre_archivo = f"{uuid.uuid4()}.{extension}"
+    supabase.storage.from_("plantas").upload(
+      path=nombre_archivo,
+      file=foto_bytes,
+      file_options={"content-type": mime_type}
+    )
+    res_url = supabase.storage.from_("plantas").get_public_url(nombre_archivo)
+    return res_url
+  except Exception as e:
+    print(f"Error subiendo imagen: {e}")
+    return None
+
+
+async def registrar_planta_usuario(id_usuario: str, id_planta: str, analisis: dict, 
+                                  lugar: str, foto_bytes: bytes, mime_type: str,):
+  url_imagen = await subir_planta_imagen(foto_bytes, mime_type)
   nueva_planta = {
     "id_usuario": id_usuario,
     "id_planta": id_planta,
-    "imagen": imagen,
+    "imagen": url_imagen,
     "lugar": lugar,
     "estado": analisis["estado"],
     "problema": analisis["problema"],

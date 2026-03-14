@@ -65,7 +65,8 @@ async def post_guardar_planta(temp_id: str, datos: Datos):
       id_planta=id_planta,
       analisis=planta["analisis"],
       lugar=planta["lugar"],
-      imagen=None
+      foto_bytes=planta["foto_bytes"], 
+      mime_type=planta["mime_type"]
     )
     del plantas_pendientes[temp_id]
     return {"mensaje": "¡Planta añadida con éxito!", "data": resultado}
