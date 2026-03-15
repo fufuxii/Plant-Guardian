@@ -1,6 +1,7 @@
 from database import supabase
 from datetime import datetime, timedelta
 
+
 async def reiniciar_tarea(id_tarea: str):
   res_tarea = supabase.table("Tarea").select("frecuencia_numerica").eq("id", id_tarea).execute()
   if not res_tarea.data: return None
