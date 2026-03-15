@@ -18,13 +18,14 @@ def verificar_password(password_plana: str, password_encriptada: str):
 
 async def registrar_usuario(datos: UsuarioRegistro):
   try:
+    url_icono = supabase.storage.from_("iconos").get_public_url("default.png")
     password_encriptada = encriptar_password(datos.contraseña)
     nuevo_usuario = {
       "nombre": datos.nombre,
       "correo": datos.correo,
       "contraseña": password_encriptada,
       "ubicacion": datos.ubicacion,
-      "icono": "default", 
+      "icono": url_icono, 
       "nivel": 1,
       "experiencia": 0
     }
