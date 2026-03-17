@@ -1,6 +1,6 @@
 import uuid
 from fastapi import APIRouter, HTTPException, UploadFile, File
-from logic.plantas_logic import obtener_planta_id, registrar_planta_usuario
+from logic.plantas_logic import obtener_planta_id, registrar_planta_usuario, eliminar_planta_usuario
 from services.plantnet import identificar_planta
 from services.gemini import analizar_planta
 from schemas import Datos
@@ -65,3 +65,11 @@ async def post_guardar_planta(temp_id: str, datos: Datos):
   except Exception as e:
     print(f"Error en la confirmación: {e}")
     raise HTTPException(status_code=500, detail="Error interno al procesar el guardado.")
+  
+
+@router.delete("/{id_usuario_planta}")
+async def delete_planta(id_usuario_planta: str):
+  resultado = await eliminar_planta_usuario(id_usuario_planta)
+  if "error" in resultado:
+    raise HTTPException(status_code=400, detail=resultado["error"])
+  return resultado

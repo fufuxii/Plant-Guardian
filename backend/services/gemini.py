@@ -5,7 +5,7 @@ from google.genai import types
 from dotenv import load_dotenv
 
 load_dotenv()
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+CLIENT = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 MODELOS_IA = ["gemini-flash-latest", "gemini-2.0-flash", "gemini-3-flash-preview"]
 
 
@@ -13,7 +13,7 @@ async def consultar_gemini(contenido: list):
   for modelo in MODELOS_IA:
     try:
       print(f"Intentando con el modelo: {modelo}")
-      response = client.models.generate_content(model=modelo, contents=contenido)
+      response = CLIENT.models.generate_content(model=modelo, contents=contenido)
       texto = response.text
       inicio = texto.find('{')
       fin = texto.rfind('}') + 1

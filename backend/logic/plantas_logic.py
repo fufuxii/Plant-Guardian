@@ -77,3 +77,20 @@ async def crear_planta_tareas(id_usuario_planta: str, tareas: list):
     })
   res = supabase.table("Tarea").insert(filas_tareas).execute()
   return res.data
+
+
+async def eliminar_planta_usuario(id_usuario_planta: str):
+  try:
+    planta_res = supabase.table("Usuario_Planta").select("imagen").eq("id", id_usuario_planta).execute()
+    if not planta_res.data: return {"error": "La planta no existe."}
+    url_imagen = planta_res.data[0].get("imagen")
+    supabase.table("Usuario_Planta").delete().eq("id", id_usuario_planta).execute()
+    
+    if url_imagen:
+      nombre_archivo = url_imagen.split("/")[-1]
+      supabase.storage.from_("plantas").remove([nombre_archivo])
+    return {"mensaje": "Planta con datos eliminados correctamente."}
+
+  except Exception as e:
+    print(f"Error al eliminar planta: {e}")
+    return {"error": "No se pudo eliminar la planta."}
