@@ -5,7 +5,7 @@ API_KEY = os.getenv("PLANTNET_API_KEY")
 URL = "https://my-api.plantnet.org/v2/identify/all"
 
 
-async def identificar_planta(imagen):
+async def plantnet_identificar_planta(imagen):
   params = {"api-key": API_KEY, "lang": "es"}
   files = {'images': (imagen.filename, imagen.file, imagen.content_type)}
   

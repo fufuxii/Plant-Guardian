@@ -2,11 +2,11 @@ import re
 import uuid
 from database import supabase
 from datetime import datetime, timedelta
-from services.gemini import obtener_info_extra
+from services.gemini import gemini_obtener_info_extra
 
 
 async def registrar_planta(planta_info: dict):
-  planta_info_extra = await obtener_info_extra(planta_info["nombre_cientifico"])
+  planta_info_extra = await gemini_obtener_info_extra(planta_info["nombre_cientifico"])
   nueva_planta = {
     "nombre_cientifico": planta_info["nombre_cientifico"],
     "nombre_comun": planta_info["nombre_comun"],

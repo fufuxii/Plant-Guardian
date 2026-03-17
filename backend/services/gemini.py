@@ -26,7 +26,7 @@ async def consultar_gemini(contenido: list):
   return None
 
 
-async def obtener_info_extra(nombre: str):
+async def gemini_obtener_info_extra(nombre: str):
   prompt = f"""
   Eres una enciclopedia botánica. Proporciona información sobre la especie: {nombre}.
   Devuelve estrictamente un JSON con:
@@ -41,7 +41,7 @@ async def obtener_info_extra(nombre: str):
   }
 
 
-async def analizar_planta(nombre: str, lugar: str, foto_bytes: bytes, mime_type: str):
+async def gemini_analizar_planta(nombre: str, lugar: str, foto_bytes: bytes, mime_type: str):
   foto = types.Part.from_bytes(data=foto_bytes, mime_type=mime_type)
   prompt = f"""
   Actúa como un experto botánico. Te proporciono una foto y el nombre de la planta: {nombre}.

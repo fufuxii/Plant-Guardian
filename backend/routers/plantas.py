@@ -1,8 +1,8 @@
 import uuid
 from fastapi import APIRouter, HTTPException, UploadFile, File
 from logic.plantas_logic import obtener_planta_id, registrar_planta_usuario, eliminar_planta_usuario
-from services.plantnet import identificar_planta
-from services.gemini import analizar_planta
+from services.plantnet import plantnet_identificar_planta
+from services.gemini import gemini_analizar_planta
 from schemas import Datos
 
 router = APIRouter(prefix="/plantas", tags=["Plantas"])
@@ -10,10 +10,10 @@ plantas_pendientes = {}
 
 
 @router.post("/identificar")
-async def post_identificar_planta(imagen: UploadFile = File(...)):
+async def identificar_planta(imagen: UploadFile = File(...)):
   contenido = await imagen.read()
   await imagen.seek(0) 
-  resultado = await identificar_planta(imagen)
+  resultado = await plantnet_identificar_planta(imagen)
   temp_id = str(uuid.uuid4())
   plantas_pendientes[temp_id] = {
     "informacion": resultado,
@@ -25,12 +25,12 @@ async def post_identificar_planta(imagen: UploadFile = File(...)):
 
 
 @router.post("/analizar/{temp_id}")
-async def post_analizar_planta(temp_id: str, lugar: str):
+async def analizar_planta(temp_id: str, lugar: str):
   if temp_id not in plantas_pendientes: 
     raise HTTPException(status_code=404, detail="ID no encontrado.")
   
   planta = plantas_pendientes[temp_id]
-  analisis = await analizar_planta(
+  analisis = await gemini_analizar_planta(
     nombre=planta["informacion"]["nombre_cientifico"], 
     lugar=lugar, 
     foto_bytes=planta["foto_bytes"], 
@@ -44,7 +44,7 @@ async def post_analizar_planta(temp_id: str, lugar: str):
 
 
 @router.post("/guardar/{temp_id}")
-async def post_guardar_planta(temp_id: str, datos: Datos):
+async def guardar_planta(temp_id: str, datos: Datos):
   planta = plantas_pendientes.get(temp_id)
   if not planta: 
     raise HTTPException(status_code=404, detail="El análisis de la planta ha expirado.")
@@ -68,7 +68,7 @@ async def post_guardar_planta(temp_id: str, datos: Datos):
   
 
 @router.delete("/{id_usuario_planta}")
-async def delete_planta(id_usuario_planta: str):
+async def eliminar_planta(id_usuario_planta: str):
   resultado = await eliminar_planta_usuario(id_usuario_planta)
   if "error" in resultado:
     raise HTTPException(status_code=400, detail=resultado["error"])
