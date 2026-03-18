@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routers import usuarios, plantas, tareas
+from routers import usuarios, plantas, tareas, clima
 
 app = FastAPI(
   title="Plant Guardian API",
@@ -9,6 +9,7 @@ app = FastAPI(
 app.include_router(usuarios.router)
 app.include_router(plantas.router)
 app.include_router(tareas.router)
+app.include_router(clima.router)
 
 @app.get("/")
 def inicio():
