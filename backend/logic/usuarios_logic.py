@@ -53,3 +53,14 @@ async def login_usuario(datos: UsuarioLogin):
         
   except Exception as e:
     return {"error": "Error al intentar iniciar sesión."}
+  
+
+async def obtener_usuario_ubicacion(id_usuario: str):
+  try:
+    res = supabase.table("Usuario").select("ubicacion").eq("id", id_usuario).execute()
+    if res.data: return res.data[0]["ubicacion"]
+    return "Desconocida"
+  
+  except Exception as e:
+    print(f"Error al obtener ubicación: {e}")
+    return "Desconocida"

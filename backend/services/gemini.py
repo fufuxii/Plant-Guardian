@@ -41,11 +41,14 @@ async def gemini_obtener_info_extra(nombre: str):
   }
 
 
-async def gemini_analizar_planta(nombre: str, lugar: str, foto_bytes: bytes, mime_type: str):
+async def gemini_analizar_planta(nombre: str, lugar: str, ubicacion: str, foto_bytes: bytes, mime_type: str):
   foto = types.Part.from_bytes(data=foto_bytes, mime_type=mime_type)
   prompt = f"""
   Actúa como un experto botánico. Te proporciono una foto y el nombre de la planta: {nombre}.
-  Analiza visualmente la planta en la foto para detectar su salud actual teniendo en cuenta que está en el/la {lugar}.
+  Analiza visualmente la planta para detectar su salud considerando estos dos contextos:
+    1. Está ubicada en el/la {lugar} de la casa.
+    2. La persona vive en **{ubicacion}**. 
+  Usa tu conocimiento sobre el clima actual, la humedad y la temperatura de **{ubicacion}** para que tu diagnóstico sea preciso.
   Devuelve la respuesta estrictamente en formato JSON con estas claves: 
   - estado: Estado de salud detectado en la foto (ej. Saludable, Enferma, Estrés hídrico).
   - problema: El problema más crítico detectado (ej. Sequedad, Plagas, Exceso de riego). Si no hay, pon 'Ninguno'.

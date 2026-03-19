@@ -1,9 +1,10 @@
 import uuid
 from fastapi import APIRouter, HTTPException, UploadFile, File
 from logic.plantas_logic import obtener_planta_id, registrar_planta_usuario, eliminar_planta_usuario
+from logic.usuarios_logic import obtener_usuario_ubicacion
 from services.plantnet import plantnet_identificar_planta
 from services.gemini import gemini_analizar_planta
-from schemas import Datos
+from schemas import Usuario
 
 router = APIRouter(prefix="/plantas", tags=["Plantas"])
 plantas_pendientes = {}
@@ -25,14 +26,16 @@ async def identificar_planta(imagen: UploadFile = File(...)):
 
 
 @router.post("/analizar/{temp_id}")
-async def analizar_planta(temp_id: str, lugar: str):
+async def analizar_planta(temp_id: str, lugar: str, id_usuario: str):
   if temp_id not in plantas_pendientes: 
     raise HTTPException(status_code=404, detail="ID no encontrado.")
   
+  ubicacion = await obtener_usuario_ubicacion(id_usuario)
   planta = plantas_pendientes[temp_id]
   analisis = await gemini_analizar_planta(
     nombre=planta["informacion"]["nombre_cientifico"], 
     lugar=lugar, 
+    ubicacion=ubicacion,
     foto_bytes=planta["foto_bytes"], 
     mime_type=planta["mime_type"]
   )
@@ -44,7 +47,7 @@ async def analizar_planta(temp_id: str, lugar: str):
 
 
 @router.post("/guardar/{temp_id}")
-async def guardar_planta(temp_id: str, datos: Datos):
+async def guardar_planta(temp_id: str, usuario: Usuario):
   planta = plantas_pendientes.get(temp_id)
   if not planta: 
     raise HTTPException(status_code=404, detail="El análisis de la planta ha expirado.")
@@ -52,7 +55,7 @@ async def guardar_planta(temp_id: str, datos: Datos):
   try:
     id_planta = await obtener_planta_id(planta["informacion"])
     resultado = await registrar_planta_usuario(
-      id_usuario=datos.id_usuario,
+      id_usuario=usuario.id_usuario,
       id_planta=id_planta,
       analisis=planta["analisis"],
       lugar=planta["lugar"],
