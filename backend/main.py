@@ -3,7 +3,7 @@ from routers import usuarios, plantas, tareas, clima
 
 app = FastAPI(
   title="Plant Guardian API",
-  description="API para el cuidado de plantas con IA y Gamificación",
+  description="API para el cuidado de plantas con IA.",
 )
 
 app.include_router(usuarios.router)

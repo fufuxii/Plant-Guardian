@@ -73,7 +73,8 @@ async def crear_planta_tareas(id_usuario_planta: str, tareas: list):
       "frecuencia_textual": t["frecuencia"],
       "frecuencia_numerica": dias,
       "fecha_proxima": (fecha_base + timedelta(days=dias)).isoformat(),
-      "hecho": False
+      "hecho": False,
+      "experiencia": t["experiencia"]
     })
   res = supabase.table("Tarea").insert(filas_tareas).execute()
   return res.data

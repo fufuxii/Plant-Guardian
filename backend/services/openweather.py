@@ -5,7 +5,7 @@ API_KEY = os.getenv("OPENWEATHER_API_KEY")
 BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
 
 
-async def obtener_clima(ubicacion: str):
+async def openweather_obtener_clima(ubicacion: str):
   params = {
     "q": ubicacion,
     "appid": API_KEY,

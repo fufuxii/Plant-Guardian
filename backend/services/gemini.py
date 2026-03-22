@@ -54,7 +54,11 @@ async def gemini_analizar_planta(nombre: str, lugar: str, ubicacion: str, foto_b
   - problema: El problema más crítico detectado (ej. Sequedad, Plagas, Exceso de riego). Si no hay, pon 'Ninguno'.
   - descripcion: Breve descripción sobre el aspecto visual de la planta. Máximo 2 frases.
   - consejos: [Lista de 3 consejos de mantenimiento].
-  - tareas: [{{"tarea": "Nombre de la acción (ej. Riego, Poda, Abonado)", "frecuencia": "Formato en 'Cada X días' (ej. Cada 7 días)"}}]
+  - tareas: [{{
+    "tarea": "Nombre de la acción (ej. Riego, Poda, Abonado)", 
+    "frecuencia": "Formato en 'Cada X días' (ej. Cada 7 días)",
+    "experiencia": "Número de experiencia que se otorga al completar la tarea. El mínimo es 10 y el máximo es 20."
+    }}]
   Responde solo el JSON, sé muy breve.
   """
   resultado = await consultar_gemini([prompt, foto])
