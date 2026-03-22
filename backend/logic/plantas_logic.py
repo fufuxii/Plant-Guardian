@@ -13,8 +13,8 @@ async def registrar_planta(planta_info: dict):
     "nombre_otros": planta_info_extra.get("nombre_otros"),
     "descripcion": planta_info_extra.get("descripcion") 
   }
-  res = supabase.table("Planta").insert(nueva_planta).execute()
-  return res.data[0]["id"]
+  planta_bd = supabase.table("Planta").insert(nueva_planta).execute()
+  return planta_bd.data[0]["id"]
 
 
 async def obtener_planta_id(planta_info: dict):
@@ -32,8 +32,8 @@ async def subir_planta_imagen(foto_bytes: bytes, mime_type: str):
       file=foto_bytes,
       file_options={"content-type": mime_type}
     )
-    res_url = supabase.storage.from_("plantas").get_public_url(nombre_archivo)
-    return res_url
+    imagen_url = supabase.storage.from_("plantas").get_public_url(nombre_archivo)
+    return imagen_url
   except Exception as e:
     print(f"Error subiendo imagen: {e}")
     return None
@@ -41,11 +41,11 @@ async def subir_planta_imagen(foto_bytes: bytes, mime_type: str):
 
 async def registrar_planta_usuario(id_usuario: str, id_planta: str, analisis: dict, 
                                   lugar: str, foto_bytes: bytes, mime_type: str,):
-  url_imagen = await subir_planta_imagen(foto_bytes, mime_type)
+  imagen_url = await subir_planta_imagen(foto_bytes, mime_type)
   nueva_planta = {
     "id_usuario": id_usuario,
     "id_planta": id_planta,
-    "imagen": url_imagen,
+    "imagen": imagen_url,
     "lugar": lugar,
     "estado": analisis["estado"],
     "problema": analisis["problema"],
@@ -54,10 +54,10 @@ async def registrar_planta_usuario(id_usuario: str, id_planta: str, analisis: di
     "consejos": analisis["consejos"],
     "fecha_obtencion": datetime.now().isoformat()
   }
-  res_planta = supabase.table("Usuario_Planta").insert(nueva_planta).execute()
-  id_registro = res_planta.data[0]["id"]
+  planta_bd = supabase.table("Usuario_Planta").insert(nueva_planta).execute()
+  id_registro = planta_bd.data[0]["id"]
   await crear_planta_tareas(id_registro, analisis.get("tareas", []))
-  return res_planta.data[0]
+  return planta_bd.data[0]
 
 
 async def crear_planta_tareas(id_usuario_planta: str, tareas: list):
@@ -82,9 +82,9 @@ async def crear_planta_tareas(id_usuario_planta: str, tareas: list):
 
 async def eliminar_planta_usuario(id_usuario_planta: str):
   try:
-    planta_res = supabase.table("Usuario_Planta").select("imagen").eq("id", id_usuario_planta).execute()
-    if not planta_res.data: return {"error": "La planta no existe."}
-    url_imagen = planta_res.data[0].get("imagen")
+    planta_bd = supabase.table("Usuario_Planta").select("imagen").eq("id", id_usuario_planta).execute()
+    if not planta_bd.data: return {"error": "La planta no existe."}
+    url_imagen = planta_bd.data[0].get("imagen")
     supabase.table("Usuario_Planta").delete().eq("id", id_usuario_planta).execute()
     
     if url_imagen:

@@ -15,10 +15,10 @@ async def openweather_obtener_clima(ubicacion: str):
 
   async with httpx.AsyncClient() as client:
     try:
-      response = await client.get(BASE_URL, params=params)
+      resultado = await client.get(BASE_URL, params=params)
       
-      if response.status_code == 200:
-        data = response.json()
+      if resultado.status_code == 200:
+        data = resultado.json()
         return {
           "clima_id": data["weather"][0]["id"],
           "temp": data["main"]["temp"],
@@ -29,7 +29,7 @@ async def openweather_obtener_clima(ubicacion: str):
           "icono": f"https://openweathermap.org/img/wn/{data['weather'][0]['icon']}@2x.png",
         }
       
-      elif response.status_code == 404:
+      elif resultado.status_code == 404:
         return {"error": "Ciudad no encontrada."}
       
       else:

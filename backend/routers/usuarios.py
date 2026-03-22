@@ -13,10 +13,6 @@ async def registro(usuario: UsuarioRegistro):
   return {
     "mensaje": "Usuario creado con éxito.",
     "id_usuario": resultado["id"],
-    "progreso": {
-      "nivel": resultado["nivel"],
-      "exp": resultado["experiencia"]
-    }
   }
 
 
@@ -25,7 +21,6 @@ async def login(datos: UsuarioLogin):
   resultado = await login_usuario(datos)
   if isinstance(resultado, dict) and "error" in resultado:
     raise HTTPException(status_code=401, detail=resultado["error"])
-  
   return {
     "mensaje": "Inicio de sesión correcto.",
     "usuario": resultado

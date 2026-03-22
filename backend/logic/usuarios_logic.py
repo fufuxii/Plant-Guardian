@@ -18,19 +18,20 @@ def verificar_password(password_plana: str, password_encriptada: str):
 
 async def registrar_usuario(datos: UsuarioRegistro):
   try:
-    url_icono = supabase.storage.from_("iconos").get_public_url("default.png")
+    icono_url = supabase.storage.from_("iconos").get_public_url("default.png")
     password_encriptada = encriptar_password(datos.contraseña)
     nuevo_usuario = {
       "nombre": datos.nombre,
       "correo": datos.correo,
       "contraseña": password_encriptada,
       "ubicacion": datos.ubicacion,
-      "icono": url_icono, 
+      "icono": icono_url, 
       "nivel": 1,
-      "experiencia": 0
+      "experiencia_actual": 0,
+      "experiencia_nivel": 100
     }
-    res = supabase.table("Usuario").insert(nuevo_usuario).execute()
-    return res.data[0]
+    usuario_bd = supabase.table("Usuario").insert(nuevo_usuario).execute()
+    return usuario_bd.data[0]
   
   except Exception as e:
     error_msg = str(e)
@@ -41,13 +42,13 @@ async def registrar_usuario(datos: UsuarioRegistro):
 
 async def login_usuario(datos: UsuarioLogin):
   try:
-    res = supabase.table("Usuario").select("*").eq("correo", datos.correo).execute()
-    if not res.data: return {"error": "El correo no está registrado."}
+    usuario_bd = supabase.table("Usuario").select("*").eq("correo", datos.correo).execute()
+    if not usuario_bd.data: return {"error": "El correo no está registrado."}
     
-    usuario_db = res.data[0]
-    if verificar_password(datos.contraseña, usuario_db["contraseña"]):
-      usuario_db.pop("contraseña")
-      return usuario_db
+    usuario = usuario_bd.data[0]
+    if verificar_password(datos.contraseña, usuario["contraseña"]):
+      usuario.pop("contraseña")
+      return usuario
     else:
       return {"error": "Contraseña incorrecta."}
         
@@ -57,8 +58,8 @@ async def login_usuario(datos: UsuarioLogin):
 
 async def obtener_usuario_ubicacion(id_usuario: str):
   try:
-    res = supabase.table("Usuario").select("ubicacion").eq("id", id_usuario).execute()
-    if res.data: return res.data[0]["ubicacion"]
+    usuario_bd = supabase.table("Usuario").select("ubicacion").eq("id", id_usuario).execute()
+    if usuario_bd.data: return usuario_bd.data[0]["ubicacion"]
     return "Desconocida"
   
   except Exception as e:
