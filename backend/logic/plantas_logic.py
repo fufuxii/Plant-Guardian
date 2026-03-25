@@ -104,7 +104,6 @@ async def verificar_planta_logros(id_usuario: str):
     .select("id", count="exact")\
     .eq("id_usuario", id_usuario).execute()
   total_plantas = res_count.count if res_count.count is not None else 0
-  print(f"DEBUG: Usuario {id_usuario} tiene {total_plantas} plantas.")
   return await gestionar_usuario_logros(
     id_usuario=id_usuario, 
     tipo_logro="planta", 
