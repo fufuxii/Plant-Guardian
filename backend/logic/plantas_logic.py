@@ -3,6 +3,7 @@ import uuid
 from database import supabase
 from datetime import datetime, timedelta
 from services.gemini import gemini_obtener_info_extra
+from logic.logros_logic import gestionar_usuario_logros
 
 
 async def registrar_planta(planta_info: dict):
@@ -57,7 +58,8 @@ async def registrar_planta_usuario(id_usuario: str, id_planta: str, analisis: di
   planta_bd = supabase.table("Usuario_Planta").insert(nueva_planta).execute()
   id_registro = planta_bd.data[0]["id"]
   await crear_planta_tareas(id_registro, analisis.get("tareas", []))
-  return planta_bd.data[0]
+  logros_ganados = await verificar_planta_logros(id_usuario)
+  return {"planta": planta_bd.data[0], "logros_nuevos": logros_ganados}
 
 
 async def crear_planta_tareas(id_usuario_planta: str, tareas: list):
@@ -95,3 +97,16 @@ async def eliminar_planta_usuario(id_usuario_planta: str):
   except Exception as e:
     print(f"Error al eliminar planta: {e}")
     return {"error": "No se pudo eliminar la planta."}
+  
+
+async def verificar_planta_logros(id_usuario: str):
+  res_count = supabase.table("Usuario_Planta")\
+    .select("id", count="exact")\
+    .eq("id_usuario", id_usuario).execute()
+  total_plantas = res_count.count if res_count.count is not None else 0
+  print(f"DEBUG: Usuario {id_usuario} tiene {total_plantas} plantas.")
+  return await gestionar_usuario_logros(
+    id_usuario=id_usuario, 
+    tipo_logro="planta", 
+    valor_actual=total_plantas
+  )

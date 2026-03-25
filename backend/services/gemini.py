@@ -12,7 +12,7 @@ MODELOS_IA = ["gemini-flash-latest", "gemini-2.0-flash", "gemini-3-flash-preview
 async def consultar_gemini(contenido: list):
   for modelo in MODELOS_IA:
     try:
-      print(f"Intentando con el modelo: {modelo}")
+      print(f"DEBUG: Intentando con el modelo: {modelo}")
       response = CLIENT.models.generate_content(model=modelo, contents=contenido)
       texto = response.text
       inicio = texto.find('{')
