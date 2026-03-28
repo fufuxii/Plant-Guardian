@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from logic.usuarios_logic import registrar_usuario, login_usuario, actualizar_usuario_datos
-from schemas import UsuarioRegistro, UsuarioLogin, UsuarioActualizar
+from logic.usuarios_logic import registrar_usuario, login_usuario, actualizar_usuario_datos, cambiar_usuario_icono, obtener_iconos_disponibles
+from schemas import UsuarioRegistro, UsuarioLogin, UsuarioActualizar, IconoActualizar
 
 router = APIRouter(prefix="/usuarios", tags=["Usuarios"])
 
@@ -41,3 +41,20 @@ async def editar_perfil(id_usuario: str, datos: UsuarioActualizar):
     "mensaje": "Perfil actualizado con éxito",
     "usuario": resultado
   }
+
+
+@router.get("/{id_usuario}/iconos")
+async def obtener_iconos(id_usuario: str):
+  iconos = await obtener_iconos_disponibles(id_usuario)
+  if iconos is None:
+    raise HTTPException(status_code=404, detail="Usuario no encontrado.")
+  return iconos
+
+
+@router.patch("/{id_usuario}/icono")
+async def actualizar_icono(id_usuario: str, datos: IconoActualizar):
+  url_seleccionada = datos.url
+  resultado = await cambiar_usuario_icono(id_usuario, url_seleccionada)
+  if isinstance(resultado, dict) and "error" in resultado:
+    raise HTTPException(status_code=403, detail=resultado["error"])
+  return {"mensaje": "Icono actualizado.", "usuario": resultado}

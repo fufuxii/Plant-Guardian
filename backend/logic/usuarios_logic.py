@@ -1,3 +1,4 @@
+import re
 import bcrypt
 from database import supabase
 from passlib.context import CryptContext
@@ -18,7 +19,7 @@ def verificar_password(password_plana: str, password_encriptada: str):
 
 async def registrar_usuario(datos: UsuarioRegistro):
   try:
-    icono_url = supabase.storage.from_("iconos").get_public_url("default.png")
+    icono_url = supabase.storage.from_("iconos").get_public_url("lvl1.png")
     password_encriptada = encriptar_password(datos.contraseña)
     nuevo_usuario = {
       "nombre": datos.nombre,
@@ -79,3 +80,39 @@ async def actualizar_usuario_datos(id_usuario: str, datos_actualizados: dict):
     .eq("id", id_usuario).execute()
 
   return res.data[0] if res.data else None
+
+
+async def obtener_iconos_disponibles(id_usuario: str):
+  usuario_bd = supabase.table("Usuario").select("nivel").eq("id", id_usuario).execute()
+  if not usuario_bd.data: return None
+
+  nivel_actual = usuario_bd.data[0]["nivel"]
+  bucket_name = "publico"
+  folder_path = "iconos"
+  iconos_elegibles = []
+  
+  for n in range(1, nivel_actual + 1):
+    file_name = f"lvl{n}.png"
+    url = supabase.storage.from_(bucket_name).get_public_url(f"{folder_path}/{file_name}")
+    iconos_elegibles.append({
+      "id": n,
+      "url": url,
+      "nombre": f"Nivel {n}"
+    })
+  
+  return iconos_elegibles
+
+
+async def cambiar_usuario_icono(id_usuario: str, url_seleccionada: str):
+  match = re.search(r'lvl(\d+)\.png', url_seleccionada)
+  if not match: return {"error": "Formato de icono no válido."}
+  
+  icono_lvl = int(match.group(1))
+  user_res = supabase.table("Usuario").select("nivel").eq("id", id_usuario).execute()
+  nivel_usuario = user_res.data[0]["nivel"]
+  
+  if icono_lvl > nivel_usuario:
+    return {"error": "Aún no has alcanzado el nivel necesario para este icono."}
+  
+  usuario_bd = supabase.table("Usuario").update({"icono": url_seleccionada}).eq("id", id_usuario).execute()
+  return usuario_bd.data[0]

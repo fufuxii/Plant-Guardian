@@ -18,3 +18,6 @@ class UsuarioActualizar(BaseModel):
   nombre: Optional[str] = None
   ubicacion: Optional[str] = None
   correo: Optional[str] = None
+
+class IconoActualizar(BaseModel):
+  url: str
