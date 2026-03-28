@@ -65,3 +65,17 @@ async def obtener_usuario_ubicacion(id_usuario: str):
   except Exception as e:
     print(f"Error al obtener ubicación: {e}")
     return "Desconocida"
+  
+
+async def actualizar_usuario_datos(id_usuario: str, datos_actualizados: dict):
+  campos_permitidos = ["nombre", "ubicacion", "correo"]
+  data_para_actualizar = {k: v for k, v in datos_actualizados.items() if k in campos_permitidos}
+
+  if not data_para_actualizar:
+    return {"error": "No hay datos válidos para actualizar."}
+
+  res = supabase.table("Usuario")\
+    .update(data_para_actualizar)\
+    .eq("id", id_usuario).execute()
+
+  return res.data[0] if res.data else None
