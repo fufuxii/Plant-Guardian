@@ -1,7 +1,6 @@
 import re
 import bcrypt
 from database import supabase
-from passlib.context import CryptContext
 from schemas import UsuarioRegistro, UsuarioLogin
 
 
