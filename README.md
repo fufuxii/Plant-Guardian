@@ -1,33 +1,37 @@
 # 🌿 Plant Guardian
 
-**Plant Guardian** es una aplicación móvil diseñada para el cuidado inteligente de plantas, combinando Inteligencia Artificial (IA) y elementos de gamificación para transformar la jardinería en una experiencia interactiva y educativa.
+**Plant Guardian** es una aplicación móvil para el cuidado inteligente de plantas que combina Inteligencia Artificial y gamificación para transformar la jardinería en una experiencia interactiva y educativa.
 
 ---
 
-## Características Principales
-- **Análisis de la planta:** Integración con **Google Gemini AI** para diagnosticar la salud de las plantas a través de fotos.
-- **Identificación botánica:** Uso de la API de **Pl@ntNet** para reconocer especies automáticamente.
-- **Sistema de gamificación:** 
-  - Progresión por niveles y puntos de experiencia (XP).
-  - Sistema de logros (Nivel, Colección de Plantas, Constancia en Tareas).
-  - Avatares desbloqueables según el nivel del usuario.
-- **Gestión de tareas:** Calendario dinámico de riego y cuidados basado en el clima local con **OpenWeather**.
+## Características principales
+
+- **Diagnóstico con IA:** Integración con Google Gemini AI para analizar la salud de las plantas mediante fotos.
+- **Identificación botánica:** Reconocimiento automático de especies a través de la API de Pl@ntNet.
+- **Gamificación:** Sistema de niveles, puntos de experiencia (XP), logros y avatares desbloqueables.
+- **Gestión de tareas:** Calendario de riego y cuidados adaptado al clima local mediante OpenWeather.
 
 ---
 
 ## Tecnología
 
 ### Backend
-- **Lenguaje:** Python 3.10+
-- **Framework:** [FastAPI](https://fastapi.tiangolo.com/)
-- **Base de Datos:** [Supabase](https://supabase.com/) (PostgreSQL)
-- **Autenticación:** JWT & Bcrypt
-- **Arquitectura:** Arquitectura por capas
+
+| Elemento       | Detalle                        |
+|----------------|-------------------------------|
+| Lenguaje       | Python 3.10+                  |
+| Framework      | FastAPI                       |
+| Base de datos  | Supabase (PostgreSQL)         |
+| Autenticación  | JWT & Bcrypt                  |
+| Arquitectura   | Arquitectura por capas        |
 
 ### Frontend
-- **Lenguaje:** Kotlin
-- **Entorno:** Android Studio
-- **Arquitectura:** MVVM (Model-View-ViewModel)
+
+| Elemento     | Detalle              |
+|--------------|----------------------|
+| Lenguaje     | Kotlin               |
+| Entorno      | Android Studio       |
+| Arquitectura | MVVM                 |
 
 ---
 
@@ -43,4 +47,56 @@ PlantGuardian/
 ├── frontend/          # Proyecto Android Studio (Kotlin)
 ├── docs/              # Documentación e informes de progreso
 ├── imgs/              # Imágenes e iconos del proyecto
-└── .gitignore         # Archivos excluidos de Git
+└── .gitignore
+```
+
+---
+
+## Instalación
+
+### 1. Clonar el repositorio
+
+```bash
+git clone https://github.com/tu-usuario/PlantGuardian.git
+cd PlantGuardian/backend
+```
+
+### 2. Crear el entorno virtual
+
+```bash
+# Crear
+python -m venv venv
+
+# Activar en Windows
+venv\Scripts\activate
+
+# Activar en Mac/Linux
+source venv/bin/activate
+```
+
+### 3. Instalar dependencias
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Variables de entorno
+
+Crea un archivo `.env` dentro de `backend/`:
+
+```env
+SUPABASE_URL=tu_url
+SUPABASE_KEY=tu_key
+GEMINI_API_KEY=tu_api_key
+OPENWEATHER_API_KEY=tu_api_key
+```
+
+---
+
+## Ejecución
+
+```bash
+uvicorn main:app --reload
+```
+
+El servidor estará disponible en `http://127.0.0.1:8000`.
