@@ -42,4 +42,5 @@ PlantGuardian/
 │   └── database.py    # Conexión con Supabase
 ├── frontend/          # Proyecto Android Studio (Kotlin)
 ├── docs/              # Documentación e informes de progreso
+├── imgs/              # Imágenes e iconos del proyecto
 └── .gitignore         # Archivos excluidos de Git
