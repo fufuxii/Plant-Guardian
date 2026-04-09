@@ -1,4 +1,4 @@
-package com.fiorella.plantguardian
+package com.fiorella.plantguardian.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
