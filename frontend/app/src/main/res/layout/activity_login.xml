@@ -4,56 +4,128 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="32dp">
+    android:background="@color/blanco"
+    android:padding="25dp">
+
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_launcher_foreground" />
 
     <TextView
-        android:id="@+id/tvTitle"
+        android:id="@+id/tvTituloApp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Plant Guardian"
-        android:textSize="32sp"
+        android:textColor="@color/verde_principal"
+        android:textSize="40sp"
         android:textStyle="bold"
-        android:textColor="#2D5A27"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="80dp"/>
-
-    <EditText
-        android:id="@+id/etEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Correo electrónico"
-        android:inputType="textEmailAddress"
-        android:layout_marginTop="50dp"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle"/>
-
-    <EditText
-        android:id="@+id/etPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Contraseña"
-        android:inputType="textPassword"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/etEmail"/>
-
-    <Button
-        android:id="@+id/btnLogin"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:text="Iniciar Sesión"
-        android:backgroundTint="#4CAF50"
-        android:layout_marginTop="32dp"
-        app:layout_constraintTop_toBottomOf="@id/etPassword"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
 
     <TextView
-        android:id="@+id/tvRegister"
+        android:id="@+id/tvTituloCorreo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="¿No tienes cuenta? Regístrate"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/btnLogin"
+        android:layout_marginTop="60dp"
+        android:text="Correo"
+        android:textColor="@color/gris_texto"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/tvTituloApp" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvCorreo"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="20dp"
+        app:cardBackgroundColor="#D9E7D2"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTituloCorreo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvTituloContra"
+        app:layout_constraintTop_toTopOf="@+id/tvTituloCorreo">
+
+        <EditText
+            android:id="@+id/etCorreo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical"
+            android:hint="ejemplo@ejemplo.com"
+            android:inputType="textEmailAddress"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:textColor="@color/gris_texto"
+            android:textSize="14sp" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/tvTituloContra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Contraseña"
+        android:textColor="@color/gris_texto"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cvCorreo" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvContra"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="20dp"
+        app:cardBackgroundColor="#D9E7D2"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTituloContra"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvTituloContra"
+        app:layout_constraintTop_toTopOf="@+id/tvTituloContra">
+
+        <EditText
+            android:id="@+id/etContra"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:hint="******"
+            android:inputType="textPassword"
+            android:paddingStart="20dp"
+            android:textSize="14sp" />
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/btnEntrar"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="60dp"
+        android:backgroundTint="@color/verde_principal"
+        android:text="Entrar"
+        android:textColor="@color/blanco"
+        android:textSize="16sp"
+        app:cornerRadius="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cvContra" />
+
+    <TextView
+        android:id="@+id/tvRegistro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="¿No tienes cuenta? Regístrate aquí"
+        android:textColor="@color/gris_texto"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnEntrar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
