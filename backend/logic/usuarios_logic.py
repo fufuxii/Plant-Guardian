@@ -19,11 +19,11 @@ def verificar_password(password_plana: str, password_encriptada: str):
 async def registrar_usuario(datos: UsuarioRegistro):
   try:
     icono_url = supabase.storage.from_("iconos").get_public_url("lvl1.png")
-    password_encriptada = encriptar_password(datos.contraseña)
+    password_encriptada = encriptar_password(datos.password)
     nuevo_usuario = {
       "nombre": datos.nombre,
       "correo": datos.correo,
-      "contraseña": password_encriptada,
+      "password": password_encriptada,
       "ubicacion": datos.ubicacion,
       "icono": icono_url, 
       "nivel": 1,
@@ -46,8 +46,8 @@ async def login_usuario(datos: UsuarioLogin):
     if not usuario_bd.data: return {"error": "El correo no está registrado."}
     
     usuario = usuario_bd.data[0]
-    if verificar_password(datos.contraseña, usuario["contraseña"]):
-      usuario.pop("contraseña")
+    if verificar_password(datos.password, usuario["password"]):
+      usuario.pop("password")
       return usuario
     else:
       return {"error": "Contraseña incorrecta."}

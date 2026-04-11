@@ -7,12 +7,12 @@ class Usuario(BaseModel):
 class UsuarioRegistro(BaseModel):
   nombre: str
   correo: EmailStr
-  contraseña: str
+  password: str
   ubicacion: str
 
 class UsuarioLogin(BaseModel):
   correo: EmailStr
-  contraseña: str
+  password: str
 
 class UsuarioActualizar(BaseModel):
   nombre: Optional[str] = None

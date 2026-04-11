@@ -1,51 +1,74 @@
 package com.fiorella.plantguardian.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import coil.load
+import androidx.lifecycle.lifecycleScope
 import com.fiorella.plantguardian.R
+import com.fiorella.plantguardian.data.model.LoginRequest
+import com.fiorella.plantguardian.data.network.RetrofitClient
+import com.fiorella.plantguardian.ui.main.MainActivity
+import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        val ivLogo = findViewById<ImageView>(R.id.ivLogo)
-        val etEmail = findViewById<EditText>(R.id.etEmail)
-        val etPassword = findViewById<EditText>(R.id.etPassword)
+
+        // 1. Enlazamos los componentes del XML con Kotlin
+        val etCorreo = findViewById<EditText>(R.id.etCorreo)
+        val etContra = findViewById<EditText>(R.id.etContra)
         val btnEntrar = findViewById<Button>(R.id.btnEntrar)
+        val tvGoToRegister = findViewById<TextView>(R.id.tvRegistro) // Verifica que este ID sea el del XML
 
-        val urlLogo = "https://zzfvpteyfvghpvyfhekj.supabase.co/storage/v1/object/public/app/logo_plant_guardian.png"
-
-        ivLogo.load(urlLogo) {
-            crossfade(true)
-            placeholder(R.drawable.ic_launcher_foreground) // Imagen mientras carga
-            error(R.drawable.ic_launcher_background)      // Imagen si falla la carga
-        }
-
-        // 3. Configurar el evento del botón Entrar
+        // 2. Configuramos el clic del botón Entrar
         btnEntrar.setOnClickListener {
-            val email = etEmail.text.toString().trim()
-            val pass = etPassword.text.toString().trim()
+            val correo = etCorreo.text.toString().trim()
+            val contra = etContra.text.toString().trim()
 
-            if (email.isEmpty() || pass.isEmpty()) {
-                Toast.makeText(this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show()
-            } else {
-                // Aquí llamaremos a tu ViewModel para validar con el backend
-                validarUsuario(email, pass)
+            if (correo.isEmpty() || contra.isEmpty()) {
+                Toast.makeText(this, "Por favor, completa los campos", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // Iniciamos la llamada a la API en una corrutina
+            lifecycleScope.launch {
+                try {
+                    // Creamos el objeto con los datos
+                    val request = LoginRequest(correo = correo, password = contra)
+
+                    // Llamamos a la API a través de Retrofit
+                    val response = RetrofitClient.instance.login(request)
+
+                    if (response.isSuccessful) {
+                        val loginResponse = response.body()
+
+                        // Si el login es exitoso en tu FastAPI
+                        Toast.makeText(this@LoginActivity, "¡Bienvenida, ${correo}!", Toast.LENGTH_SHORT).show()
+
+                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        // Si el servidor responde pero con error (ej. 401 Unauthorized)
+                        Toast.makeText(this@LoginActivity, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    // Si no hay internet o el servidor está apagado
+                    Toast.makeText(this@LoginActivity, "Error de conexión: ${e.message}", Toast.LENGTH_LONG).show()
+                }
             }
         }
-    }
 
-    private fun validarUsuario(email: String, pass: String) {
-        // Por ahora, solo un aviso para verificar que el botón funciona
-        Toast.makeText(this, "Conectando con el servidor...", Toast.LENGTH_SHORT).show()
-
-        // El siguiente paso será configurar Retrofit aquí para enviar
-        // los datos a tu FastAPI
+        // 3. Ir al registro
+        tvGoToRegister.setOnClickListener {
+            // Intent para RegisterActivity cuando la tengas lista
+            Toast.makeText(this, "Abriendo registro...", Toast.LENGTH_SHORT).show()
+        }
     }
 }
