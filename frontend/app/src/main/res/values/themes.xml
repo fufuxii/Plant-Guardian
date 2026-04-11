@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.PlantGuardian" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.PlantGuardian" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
 </resources>
