@@ -8,7 +8,7 @@
     android:padding="25dp">
 
     <ImageView
-        android:id="@+id/ivLogo"
+        android:id="@+id/ivLogoApp"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_marginTop="60dp"
@@ -27,10 +27,10 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
+        app:layout_constraintTop_toBottomOf="@+id/ivLogoApp" />
 
     <TextView
-        android:id="@+id/tvTituloCorreo"
+        android:id="@+id/tvLabelLoginCorreo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
@@ -41,20 +41,20 @@
         app:layout_constraintTop_toBottomOf="@+id/tvTituloApp" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cvCorreo"
+        android:id="@+id/cvLoginCorreo"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="35dp"
         android:layout_marginStart="20dp"
         app:cardBackgroundColor="#D9E7D2"
         app:cardCornerRadius="20dp"
         app:cardElevation="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvTituloCorreo"
+        app:layout_constraintBottom_toBottomOf="@+id/tvLabelLoginCorreo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvTituloContra"
-        app:layout_constraintTop_toTopOf="@+id/tvTituloCorreo">
+        app:layout_constraintStart_toEndOf="@+id/tvLabelLoginContra"
+        app:layout_constraintTop_toTopOf="@+id/tvLabelLoginCorreo">
 
         <EditText
-            android:id="@+id/etCorreo"
+            android:id="@+id/etLoginCorreo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
@@ -67,7 +67,7 @@
     </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/tvTituloContra"
+        android:id="@+id/tvLabelLoginContra"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -75,23 +75,23 @@
         android:textColor="@color/gris_texto"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cvCorreo" />
+        app:layout_constraintTop_toBottomOf="@+id/cvLoginCorreo" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cvContra"
+        android:id="@+id/cvLoginContra"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="35dp"
         android:layout_marginStart="20dp"
         app:cardBackgroundColor="#D9E7D2"
         app:cardCornerRadius="20dp"
         app:cardElevation="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvTituloContra"
+        app:layout_constraintBottom_toBottomOf="@+id/tvLabelLoginContra"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvTituloContra"
-        app:layout_constraintTop_toTopOf="@+id/tvTituloContra">
+        app:layout_constraintStart_toEndOf="@+id/tvLabelLoginContra"
+        app:layout_constraintTop_toTopOf="@+id/tvLabelLoginContra">
 
         <EditText
-            android:id="@+id/etContra"
+            android:id="@+id/etLoginContra"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
@@ -110,10 +110,11 @@
         android:text="Entrar"
         android:textColor="@color/blanco"
         android:textSize="16sp"
+        android:textAllCaps="false"
         android:background="@drawable/btn_entrar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cvContra" />
+        app:layout_constraintTop_toBottomOf="@+id/cvLoginContra" />
 
     <TextView
         android:id="@+id/tvRegistro"

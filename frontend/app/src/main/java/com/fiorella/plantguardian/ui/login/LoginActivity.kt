@@ -19,6 +19,7 @@ import com.fiorella.plantguardian.data.network.RetrofitClient
 import com.fiorella.plantguardian.ui.main.MainActivity
 import kotlinx.coroutines.launch
 import coil.load
+import com.fiorella.plantguardian.ui.registro.RegistroActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -31,7 +32,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun configurar_app_logo() {
-        val ivLogo = findViewById<ImageView>(R.id.ivLogo)
+        val ivLogo = findViewById<ImageView>(R.id.ivLogoApp)
         val urlLogo = "https://zzfvpteyfvghpvyfhekj.supabase.co/storage/v1/object/public/app/logo_plant_guardian.png"
         ivLogo.load(urlLogo) {
             crossfade(true)
@@ -51,13 +52,14 @@ class LoginActivity : AppCompatActivity() {
 
         tvRegistro.text = spannable
         tvRegistro.setOnClickListener {
-            Toast.makeText(this, "Abriendo registro...", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, RegistroActivity::class.java)
+            startActivity(intent)
         }
     }
 
     private fun configurarBotonEntrar() {
-        val etCorreo = findViewById<EditText>(R.id.etCorreo)
-        val etContra = findViewById<EditText>(R.id.etContra)
+        val etCorreo = findViewById<EditText>(R.id.etLoginCorreo)
+        val etContra = findViewById<EditText>(R.id.etLoginContra)
         val btnEntrar = findViewById<Button>(R.id.btnEntrar)
 
         btnEntrar.setOnClickListener {
