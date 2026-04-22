@@ -3,6 +3,7 @@ package com.fiorella.plantguardian.ui.login
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -13,6 +14,7 @@ import com.fiorella.plantguardian.data.model.LoginRequest
 import com.fiorella.plantguardian.data.network.RetrofitClient
 import com.fiorella.plantguardian.ui.main.MainActivity
 import kotlinx.coroutines.launch
+import coil.load
 
 class LoginActivity : AppCompatActivity() {
 
@@ -24,6 +26,11 @@ class LoginActivity : AppCompatActivity() {
         val etContra = findViewById<EditText>(R.id.etContra)
         val btnEntrar = findViewById<Button>(R.id.btnEntrar)
         val tvRegistro = findViewById<TextView>(R.id.tvRegistro)
+        val ivLogo = findViewById<ImageView>(R.id.ivLogo)
+
+        ivLogo.load("https://zzfvpteyfvghpvyfhekj.supabase.co/storage/v1/object/public/app/logo_plant_guardian.png") {
+            crossfade(true)
+        }
 
         btnEntrar.setOnClickListener {
             val correo = etCorreo.text.toString().trim()
