@@ -7,7 +7,7 @@ router = APIRouter(tags=["Clima"])
 
 
 @router.get("/clima/usuario/{user_id}")
-async def clima_por_usuario(user_id: UUID):
+async def obtener_clima(user_id: UUID):
   usuario_id = supabase.table("Usuario").select("ubicacion").eq("id", user_id).execute()
   if not usuario_id.data:
     raise HTTPException(status_code=404, detail="Usuario no encontrado")

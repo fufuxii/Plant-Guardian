@@ -10,6 +10,7 @@ import android.widget.Toast
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -20,6 +21,7 @@ import com.fiorella.plantguardian.ui.main.MainActivity
 import kotlinx.coroutines.launch
 import coil.load
 import com.fiorella.plantguardian.ui.registro.RegistroActivity
+import androidx.core.content.edit
 
 class LoginActivity : AppCompatActivity() {
 
@@ -28,7 +30,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         configurar_app_logo()
         configurar_registro_txt()
-        configurarBotonEntrar()
+        configurar_boton_entrar()
     }
 
     private fun configurar_app_logo() {
@@ -57,7 +59,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun configurarBotonEntrar() {
+    private fun configurar_boton_entrar() {
         val etCorreo = findViewById<EditText>(R.id.etLoginCorreo)
         val etContra = findViewById<EditText>(R.id.etLoginContra)
         val btnEntrar = findViewById<Button>(R.id.btnEntrar)
@@ -83,18 +85,25 @@ class LoginActivity : AppCompatActivity() {
     private fun ejecutar_login(correo: String, password: String) {
         lifecycleScope.launch {
             try {
-                val request = LoginRequest(correo = correo, password = password)
-                val response = RetrofitClient.instance.login(request)
+                val response = RetrofitClient.instance.login(LoginRequest(correo, password))
 
-                if (response.isSuccessful) {
-                    Toast.makeText(this@LoginActivity, "¡Bienvenido/a!", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                    finish()
+                if (response.isSuccessful && response.body() != null) {
+                    val loginRes = response.body()!!
+                    val uuidUsuario = loginRes.usuario?.id
+
+                    if (uuidUsuario != null) {
+                        getSharedPreferences("PlantGuardianPrefs", MODE_PRIVATE)
+                            .edit {
+                                putString("user_id", uuidUsuario)
+                            }
+                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                        finish()
+                    }
                 } else {
-                    Toast.makeText(this@LoginActivity, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@LoginActivity, "Credenciales incorrectas.", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
-                Toast.makeText(this@LoginActivity, "Error de conexión: ${e.message}", Toast.LENGTH_LONG).show()
+                Log.e("LOGIN_ERROR", "Fallo de conexión: ${e.message}")
             }
         }
     }

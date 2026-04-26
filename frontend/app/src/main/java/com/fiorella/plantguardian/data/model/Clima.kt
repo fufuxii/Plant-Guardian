@@ -1,7 +1,6 @@
 package com.fiorella.plantguardian.data.model
 
-data class TemperaturaResponse(
-    val clima_id: Int,
+data class ClimaData(
     val temp: Double,
     val humedad: Int,
     val viento: Double,

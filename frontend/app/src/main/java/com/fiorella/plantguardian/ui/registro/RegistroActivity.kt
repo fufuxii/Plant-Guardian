@@ -40,13 +40,14 @@ class RegistroActivity : AppCompatActivity() {
             val repiteContra = etRepiteContra.text.toString().trim()
 
             if (nombre.isEmpty() || correo.isEmpty() || ciudad.isEmpty() || contra.isEmpty()) {
-                Toast.makeText(this, "Por favor, rellena todos los campos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Por favor, rellena todos los campos.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             if (contra != repiteContra) {
-                Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Las contraseñas no coinciden.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+
             ejecutar_registro(nombre, correo, ciudad, contra)
         }
     }
@@ -60,13 +61,12 @@ class RegistroActivity : AppCompatActivity() {
                     password = contra,
                     ubicacion = ciudad
                 )
-
                 val response = RetrofitClient.instance.registro(request)
                 if (response.isSuccessful) {
                     Toast.makeText(this@RegistroActivity, "¡Cuenta creada con éxito!", Toast.LENGTH_LONG).show()
                     finish()
                 } else {
-                    Toast.makeText(this@RegistroActivity, "Error: El usuario ya existe", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@RegistroActivity, "Error al crear la cuenta.", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
                 Toast.makeText(this@RegistroActivity, "Error de red: ${e.message}", Toast.LENGTH_LONG).show()

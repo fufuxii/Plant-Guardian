@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Plant Guardian</string>
+    <string name="plant_guardian">Plant Guardian</string>
+    <string name="correo">Correo</string>
+    <string name="entrar">Entrar</string>
+    <string name="no_tienes_cuenta_crea_una">¿No tienes cuenta? Crea una</string>
+    <string name="contrase_a">Contraseña</string>
+    <string name="icono_plant_guardian">Icono Plant Guardian</string>
+    <string name="clima">Clima</string>
+    <string name="viento">Viento</string>
+    <string name="humedad">Humedad</string>
+    <string name="lluvia">Lluvia</string>
 </resources>
