@@ -12,17 +12,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
-            loadFragment(InicioFragment(), "Inicio")
+            cargarFragmento(HomeFragment(), "Inicio")
         }
 
-        val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottomNavigation)
+        val bottomNavigation = findViewById<BottomNavigationView>(R.id.navMenu)
         bottomNavigation.setOnItemSelectedListener { item ->
             val selectedFragment: Fragment = when (item.itemId) {
-                R.id.nav_home -> InicioFragment()
-                R.id.nav_add -> AnadirPlantaFragment()
+                R.id.nav_home -> HomeFragment()
+                R.id.nav_add -> AddPlantFragment()
                 R.id.nav_plants -> Fragment()
                 R.id.nav_profile -> Fragment()
-                else -> InicioFragment()
+                else -> HomeFragment()
             }
 
             val tag = when (item.itemId) {
@@ -33,12 +33,12 @@ class MainActivity : AppCompatActivity() {
                 else -> "Inicio"
             }
 
-            loadFragment(selectedFragment, tag)
+            cargarFragmento(selectedFragment, tag)
             true
         }
     }
 
-    private fun loadFragment(fragment: Fragment, tag: String) {
+    private fun cargarFragmento(fragment: Fragment, tag: String) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.contenedorPrincipal, fragment, tag)
             // .addToBackStack(null)

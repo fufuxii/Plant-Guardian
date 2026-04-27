@@ -15,13 +15,14 @@ import com.fiorella.plantguardian.R
 import com.fiorella.plantguardian.data.network.RetrofitClient
 import kotlinx.coroutines.launch
 
-class InicioFragment : Fragment() {
+@Suppress("DEPRECATION")
+class HomeFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_inicio, container, false)
+        return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -29,13 +30,13 @@ class InicioFragment : Fragment() {
         val prefs = requireContext().getSharedPreferences("PlantGuardianPrefs", MODE_PRIVATE)
         val userId = prefs.getString("user_id", null)
         if (userId != null) {
-            actualizar_fecha(view)
-            cargar_clima(userId, view)
+            actualizarFecha(view)
+            cargarClima(userId, view)
         }
     }
 
     @SuppressLint("SetTextI18n")
-    private fun cargar_clima(userId: String, view: View) {
+    private fun cargarClima(userId: String, view: View) {
         lifecycleScope.launch {
             try {
                 val response = RetrofitClient.instance.obtener_clima(userId)
@@ -54,7 +55,7 @@ class InicioFragment : Fragment() {
         }
     }
 
-    private fun actualizar_fecha(view: View) {
+    private fun actualizarFecha(view: View) {
         val tvDate = view.findViewById<TextView>(R.id.tvFecha)
         val sdf = java.text.SimpleDateFormat("EEEE, d MMMM", java.util.Locale("es", "ES"))
         tvDate.text = sdf.format(java.util.Date()).replaceFirstChar { it.uppercase() }

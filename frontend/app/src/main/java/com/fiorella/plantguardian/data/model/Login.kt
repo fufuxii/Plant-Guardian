@@ -7,5 +7,5 @@ data class LoginRequest(
 
 data class LoginResponse(
     val mensaje: String,
-    val usuario: UsuarioData?
+    val usuario: UserData?
 )

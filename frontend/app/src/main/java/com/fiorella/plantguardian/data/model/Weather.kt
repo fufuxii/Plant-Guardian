@@ -1,6 +1,6 @@
 package com.fiorella.plantguardian.data.model
 
-data class ClimaData(
+data class WeatherData(
     val temp: Double,
     val humedad: Int,
     val viento: Double,

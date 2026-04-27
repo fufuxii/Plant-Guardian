@@ -15,7 +15,7 @@
         android:theme="@style/Theme.PlantGuardian"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.registro.RegistroActivity"
+            android:name=".ui.registro.RegisterActivity"
             android:exported="false" />
         <activity
             android:name=".ui.login.LoginActivity"

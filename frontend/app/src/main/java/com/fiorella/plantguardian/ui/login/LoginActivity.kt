@@ -20,7 +20,7 @@ import com.fiorella.plantguardian.data.network.RetrofitClient
 import com.fiorella.plantguardian.ui.main.MainActivity
 import kotlinx.coroutines.launch
 import coil.load
-import com.fiorella.plantguardian.ui.registro.RegistroActivity
+import com.fiorella.plantguardian.ui.registro.RegisterActivity
 import androidx.core.content.edit
 
 class LoginActivity : AppCompatActivity() {
@@ -28,12 +28,12 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        configurar_app_logo()
-        configurar_registro_txt()
-        configurar_boton_entrar()
+        configurarAppLogo()
+        configurarRegistroTexto()
+        configurarRegistroBoton()
     }
 
-    private fun configurar_app_logo() {
+    private fun configurarAppLogo() {
         val ivLogo = findViewById<ImageView>(R.id.ivLogoApp)
         val urlLogo = "https://zzfvpteyfvghpvyfhekj.supabase.co/storage/v1/object/public/app/logo_plant_guardian.png"
         ivLogo.load(urlLogo) {
@@ -41,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun configurar_registro_txt() {
+    private fun configurarRegistroTexto() {
         val tvRegistro = findViewById<TextView>(R.id.tvRegistro)
         val registro_txt = "¿No tienes cuenta? Crea una"
         val spannable = SpannableString(registro_txt)
@@ -54,12 +54,12 @@ class LoginActivity : AppCompatActivity() {
 
         tvRegistro.text = spannable
         tvRegistro.setOnClickListener {
-            val intent = Intent(this, RegistroActivity::class.java)
+            val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
     }
 
-    private fun configurar_boton_entrar() {
+    private fun configurarRegistroBoton() {
         val etCorreo = findViewById<EditText>(R.id.etLoginCorreo)
         val etContra = findViewById<EditText>(R.id.etLoginContra)
         val btnEntrar = findViewById<Button>(R.id.btnEntrar)
@@ -68,13 +68,13 @@ class LoginActivity : AppCompatActivity() {
             val correo = etCorreo.text.toString().trim()
             val password = etContra.text.toString().trim()
 
-            if (validar_campos(correo, password)) {
-                ejecutar_login(correo, password)
+            if (validarCampos(correo, password)) {
+                ejecutarLogin(correo, password)
             }
         }
     }
 
-    private fun validar_campos(correo: String, password: String): Boolean {
+    private fun validarCampos(correo: String, password: String): Boolean {
         if (correo.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Por favor, completa los campos.", Toast.LENGTH_SHORT).show()
             return false
@@ -82,7 +82,7 @@ class LoginActivity : AppCompatActivity() {
         return true
     }
 
-    private fun ejecutar_login(correo: String, password: String) {
+    private fun ejecutarLogin(correo: String, password: String) {
         lifecycleScope.launch {
             try {
                 val response = RetrofitClient.instance.login(LoginRequest(correo, password))
