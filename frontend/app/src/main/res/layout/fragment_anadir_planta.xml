@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.main.AnadirPlantaFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/blanco"
+        android:padding="25dp">
+
+        <TextView
+            android:id="@+id/tvTitleAddPlant"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/a_ade_una_nueva_planta"
+            android:textColor="@color/verde_principal"
+            android:textSize="32sp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="50dp"/>
+
+        <TextView
+            android:id="@+id/tvSubtitleAddPlant"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="@string/al_a_adir_una_planta_se_realizar_un_diagn_stico_y_se_crear_una_rutina_personalizada"
+            android:textColor="@color/gris_texto"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/tvTitleAddPlant" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/btnStartAddProcess"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_marginTop="80dp"
+            app:cardCornerRadius="25dp"
+            app:cardBackgroundColor="@color/verde_elementos"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="20dp">
+
+                <ImageView
+                    android:id="@+id/ivLeafIcon"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/ic_add_plant"
+                    app:tint="@color/verde_seleccionado"
+                    app:layout_constraintBottom_toTopOf="@id/tvAddText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/tvAddText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/a_adir"
+                    android:textColor="@color/verde_seleccionado"
+                    android:textSize="18sp"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ivLeafIcon" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

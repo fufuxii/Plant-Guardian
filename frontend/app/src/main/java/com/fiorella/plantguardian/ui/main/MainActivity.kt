@@ -1,15 +1,9 @@
 package com.fiorella.plantguardian.ui.main
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
-import coil.load
+import androidx.fragment.app.Fragment
 import com.fiorella.plantguardian.R
-import com.fiorella.plantguardian.data.network.RetrofitClient
-import kotlinx.coroutines.launch
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 @Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
@@ -17,38 +11,37 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val prefs = getSharedPreferences("PlantGuardianPrefs", MODE_PRIVATE)
-        val userId = prefs.getString("user_id", null)
-        if (userId != null) {
-            actualizar_fecha()
-            cargar_clima(userId)
+        if (savedInstanceState == null) {
+            loadFragment(InicioFragment(), "Inicio")
         }
-    }
 
-    @SuppressLint("SetTextI18n")
-    private fun cargar_clima(userId: String) {
-        lifecycleScope.launch {
-            try {
-                val response = RetrofitClient.instance.obtener_clima(userId)
-                if (response.isSuccessful && response.body() != null) {
-                    val clima = response.body()!!
-                    findViewById<TextView>(R.id.tvTemperatura).text = "${clima.temp.toInt()}°C"
-                    findViewById<TextView>(R.id.tvVientoValor).text = "${clima.viento} m/s"
-                    findViewById<TextView>(R.id.tvHumedadValor).text = "${clima.humedad} %"
-                    findViewById<TextView>(R.id.tvLluviaValor).text = "${clima.lluvia} mm"
-                    findViewById<ImageView>(R.id.ivClima).load(clima.icono)
-                } else {
-                    Log.e("DEBUG_PLANT", "Error en la respuesta del clima: ${response.code()}")
-                }
-            } catch (e: Exception) {
-                Log.e("DEBUG_PLANT", "Error de red: ${e.message}")
+        val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottomNavigation)
+        bottomNavigation.setOnItemSelectedListener { item ->
+            val selectedFragment: Fragment = when (item.itemId) {
+                R.id.nav_home -> InicioFragment()
+                R.id.nav_add -> AnadirPlantaFragment()
+                R.id.nav_plants -> Fragment()
+                R.id.nav_profile -> Fragment()
+                else -> InicioFragment()
             }
+
+            val tag = when (item.itemId) {
+                R.id.nav_home -> "Inicio"
+                R.id.nav_add -> "Añadir"
+                R.id.nav_plants -> "Plantas"
+                R.id.nav_profile -> "Perfil"
+                else -> "Inicio"
+            }
+
+            loadFragment(selectedFragment, tag)
+            true
         }
     }
 
-    private fun actualizar_fecha() {
-        val tvDate = findViewById<TextView>(R.id.tvFecha)
-        val sdf = java.text.SimpleDateFormat("EEEE, d MMMM", java.util.Locale("es", "ES"))
-        tvDate.text = sdf.format(java.util.Date()).replaceFirstChar { it.uppercase() }
+    private fun loadFragment(fragment: Fragment, tag: String) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.contenedorPrincipal, fragment, tag)
+            // .addToBackStack(null)
+            .commit()
     }
 }

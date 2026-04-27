@@ -27,7 +27,7 @@
         android:text="Bienvenido/a"
         android:textColor="@color/verde_principal"
         android:textSize="32sp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnBack" />
 
@@ -35,7 +35,7 @@
         android:id="@+id/tvLabelRegistroNombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="50dp"
         android:text="Nombre"
         android:textColor="@color/gris_texto"
         android:textSize="16sp"
@@ -214,7 +214,7 @@
         android:id="@+id/btnRegistrar"
         android:layout_width="180dp"
         android:layout_height="50dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="50dp"
         android:text="Registrarse"
         android:textColor="@color/blanco"
         android:textSize="16sp"
