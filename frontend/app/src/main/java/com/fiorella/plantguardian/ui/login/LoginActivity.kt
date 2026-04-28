@@ -20,7 +20,7 @@ import com.fiorella.plantguardian.data.network.RetrofitClient
 import com.fiorella.plantguardian.ui.main.MainActivity
 import kotlinx.coroutines.launch
 import coil.load
-import com.fiorella.plantguardian.ui.registro.RegisterActivity
+import com.fiorella.plantguardian.ui.register.RegisterActivity
 import androidx.core.content.edit
 
 class LoginActivity : AppCompatActivity() {
@@ -43,14 +43,14 @@ class LoginActivity : AppCompatActivity() {
 
     private fun configurarRegistroTexto() {
         val tvRegistro = findViewById<TextView>(R.id.tvRegistro)
-        val registro_txt = "¿No tienes cuenta? Crea una"
-        val spannable = SpannableString(registro_txt)
-        val registro_txt_inicio = registro_txt.indexOf("Crea una")
-        val registro_txt_fin = registro_txt_inicio + "Crea una".length
-        val color_verde_principal = ContextCompat.getColor(this, R.color.verde_principal)
+        val registroTxt = "¿No tienes cuenta? Crea una"
+        val spannable = SpannableString(registroTxt)
+        val registroTxtInicio = registroTxt.indexOf("Crea una")
+        val registroTxtFin = registroTxtInicio + "Crea una".length
+        val colorVerdePrincipal = ContextCompat.getColor(this, R.color.verde_principal)
 
-        spannable.setSpan(UnderlineSpan(), registro_txt_inicio, registro_txt_fin, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        spannable.setSpan(ForegroundColorSpan(color_verde_principal), registro_txt_inicio, registro_txt_fin, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spannable.setSpan(UnderlineSpan(), registroTxtInicio, registroTxtFin, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spannable.setSpan(ForegroundColorSpan(colorVerdePrincipal), registroTxtInicio, registroTxtFin, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
         tvRegistro.text = spannable
         tvRegistro.setOnClickListener {

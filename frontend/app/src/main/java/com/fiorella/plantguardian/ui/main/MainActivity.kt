@@ -3,6 +3,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.fiorella.plantguardian.R
+import com.fiorella.plantguardian.ui.add_plant.AddPlantFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 @Suppress("DEPRECATION")
@@ -41,7 +42,6 @@ class MainActivity : AppCompatActivity() {
     private fun cargarFragmento(fragment: Fragment, tag: String) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.contenedorPrincipal, fragment, tag)
-            // .addToBackStack(null)
             .commit()
     }
 }
