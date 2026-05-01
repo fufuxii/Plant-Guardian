@@ -1,5 +1,4 @@
 package com.fiorella.plantguardian.ui.add_plant
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,10 +10,6 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.fiorella.plantguardian.R
 import androidx.core.net.toUri
-import com.fiorella.plantguardian.data.model.PlantResponse
-import com.fiorella.plantguardian.data.network.RetrofitClient
-import okhttp3.MultipartBody
-import java.io.File
 
 @Suppress("DEPRECATION")
 class AddPlantPt2Fragment : Fragment() {
@@ -42,9 +37,8 @@ class AddPlantPt2Fragment : Fragment() {
         val nombreComun = arguments?.getString("nombre_comun")
         val nombreCientifico = arguments?.getString("nombre_cientifico")
 
-        if (foto_uri != null) {
-            view.findViewById<ImageView>(R.id.ivImagenCapturada).setImageURI(Uri.parse(foto_uri))
-        }
+        if (foto_uri != null)
+            view.findViewById<ImageView>(R.id.ivImagenCapturada).setImageURI(foto_uri.toUri())
 
         view.findViewById<TextView>(R.id.tvNombrePlanta).text = nombreComun
         view.findViewById<TextView>(R.id.tvNombreCientifico).text = nombreCientifico

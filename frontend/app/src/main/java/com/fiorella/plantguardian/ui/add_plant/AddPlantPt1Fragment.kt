@@ -2,6 +2,7 @@ package com.fiorella.plantguardian.ui.add_plant
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,6 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.fiorella.plantguardian.R
 import com.fiorella.plantguardian.data.model.PlantResponse
-import com.fiorella.plantguardian.data.model.PlantData
 import com.fiorella.plantguardian.data.network.RetrofitClient
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -28,7 +28,7 @@ class AddPlantPt1Fragment : Fragment() {
 
     private val camaraLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { exito ->
         if (exito) {
-            view?.findViewById<ImageView>(R.id.btnCamara)?.setImageURI(imgCapturada)
+            Log.d("CAMARA", "Foto guardada en: $imgCapturada.")
         }
     }
 
@@ -62,10 +62,9 @@ class AddPlantPt1Fragment : Fragment() {
 
         view.findViewById<Button>(R.id.btnSiguientePaso1).setOnClickListener {
             if (imgCapturada != null) {
-                Toast.makeText(requireContext(), "Identificando planta...", Toast.LENGTH_SHORT).show()
                 enviarImagen(imgCapturada!!)
             } else {
-                Toast.makeText(requireContext(), "Es necesario una foto de la planta.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Es necesario una foto o imagen de la planta.", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -86,6 +85,9 @@ class AddPlantPt1Fragment : Fragment() {
     }
 
     private fun enviarImagen(uri: Uri) {
+        val layoutCarga = view?.findViewById<View>(R.id.layoutCargando)
+        layoutCarga?.visibility = View.VISIBLE
+
         val file = File(requireContext().cacheDir, "temp_plant.jpg")
         val inputStream = requireContext().contentResolver.openInputStream(uri)
         file.writeBytes(inputStream?.readBytes() ?: return)
@@ -95,34 +97,39 @@ class AddPlantPt1Fragment : Fragment() {
 
         RetrofitClient.instance.identificarPlanta(body).enqueue(object : retrofit2.Callback<PlantResponse> {
             override fun onResponse(call: retrofit2.Call<PlantResponse>, response: retrofit2.Response<PlantResponse>) {
-                val respuestaServidor = response.body()
-                val datosPlanta = respuestaServidor?.resultado
+                val respuesta = response.body()
+                val datosPlanta = respuesta?.resultado
 
                 if (response.isSuccessful && datosPlanta?.error == null && datosPlanta != null) {
-
-                    val bundle = Bundle().apply {
-                        putString("foto_uri", uri.toString())
-                        putString("nombre_comun", datosPlanta.nombre_comun ?: "Desconocido")
-                        putString("nombre_cientifico", datosPlanta.nombre_cientifico ?: "Desconocido")
-                        putString("temp_id", respuestaServidor.temp_id)
-                    }
-
-                    val paso2 = AddPlantPt2Fragment()
-                    paso2.arguments = bundle
-
-                    parentFragmentManager.beginTransaction()
-                        .replace(R.id.contenedorPrincipal, paso2)
-                        .addToBackStack(null)
-                        .commit()
+                    redireccionarAlSiguientePaso(uri, respuesta)
                 } else {
-                    val mensajeError = datosPlanta?.error ?: "No se pudo identificar la planta"
-                    Toast.makeText(requireContext(), mensajeError, Toast.LENGTH_LONG).show()
+                    layoutCarga?.visibility = View.GONE
+                    val errorMsg = datosPlanta?.error ?: "No se reconoció la planta."
+                    Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_LONG).show()
                 }
             }
 
             override fun onFailure(call: retrofit2.Call<PlantResponse>, t: Throwable) {
-                Toast.makeText(requireContext(), "Error de red: ${t.message}", Toast.LENGTH_SHORT).show()
+                layoutCarga?.visibility = View.GONE
+                Toast.makeText(requireContext(), "Error de conexión: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+    private fun redireccionarAlSiguientePaso(uri: Uri, respuesta: PlantResponse) {
+        val bundle = Bundle().apply {
+            putString("foto_uri", uri.toString())
+            putString("nombre_comun", respuesta.resultado?.nombre_comun)
+            putString("nombre_cientifico", respuesta.resultado?.nombre_cientifico)
+            putString("temp_id", respuesta.temp_id)
+        }
+
+        val paso2 = AddPlantPt2Fragment()
+        paso2.arguments = bundle
+
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.contenedorPrincipal, paso2)
+            .addToBackStack(null)
+            .commit()
     }
 }
