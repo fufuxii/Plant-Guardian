@@ -7,9 +7,10 @@ URL = "https://my-api.plantnet.org/v2/identify/all"
 
 async def plantnet_identificar_planta(imagen):
   params = {"api-key": API_KEY, "lang": "es"}
-  files = {'images': (imagen.filename, imagen.file, imagen.content_type)}
+  contenido = await imagen.read()
+  files = {'images': (imagen.filename, contenido, imagen.content_type)}
   
-  async with httpx.AsyncClient() as client:
+  async with httpx.AsyncClient(timeout=20.0) as client:
     try:
       resultado = await client.post(URL, params=params, files=files)
       

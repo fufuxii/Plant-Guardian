@@ -7,9 +7,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.fiorella.plantguardian.R
 import androidx.core.net.toUri
+import com.fiorella.plantguardian.data.model.PlantResponse
+import com.fiorella.plantguardian.data.network.RetrofitClient
+import okhttp3.MultipartBody
+import java.io.File
 
 @Suppress("DEPRECATION")
 class AddPlantPt2Fragment : Fragment() {
@@ -21,18 +26,31 @@ class AddPlantPt2Fragment : Fragment() {
         return inflater.inflate(R.layout.fragment_add_plant_pt2, container, false)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.findViewById<View>(R.id.navMenu)?.visibility = View.GONE
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.findViewById<View>(R.id.navMenu)?.visibility = View.GONE
 
-        val imgRecibida = arguments?.getString("foto_uri")
-        if (imgRecibida != null) {
-            val uri = imgRecibida.toUri()
-            val ivPlanta = view.findViewById<ImageView>(R.id.ivImagenCapturada)
-            ivPlanta.setImageURI(uri)
+        val foto_uri = arguments?.getString("foto_uri")
+        val nombreComun = arguments?.getString("nombre_comun")
+        val nombreCientifico = arguments?.getString("nombre_cientifico")
+
+        if (foto_uri != null) {
+            view.findViewById<ImageView>(R.id.ivImagenCapturada).setImageURI(Uri.parse(foto_uri))
         }
 
+        view.findViewById<TextView>(R.id.tvNombrePlanta).text = nombreComun
+        view.findViewById<TextView>(R.id.tvNombreCientifico).text = nombreCientifico
+
         view.findViewById<ImageButton>(R.id.btnCerrar).setOnClickListener {
+            activity?.findViewById<View>(R.id.navMenu)?.visibility = View.VISIBLE
             parentFragmentManager.beginTransaction()
                 .replace(R.id.contenedorPrincipal, AddPlantFragment())
                 .commit()
@@ -43,12 +61,7 @@ class AddPlantPt2Fragment : Fragment() {
         }
 
         view.findViewById<Button>(R.id.btnSiguientePaso2).setOnClickListener {
-            // PASO 3
+            //sig
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        //activity?.findViewById<View>(R.id.navMenu)?.visibility = View.VISIBLE
     }
 }

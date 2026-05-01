@@ -3,10 +3,10 @@ from database import supabase
 from fastapi import APIRouter, HTTPException
 from services.openweather import openweather_obtener_clima
 
-router = APIRouter(tags=["Clima"])
+router = APIRouter(prefix="/clima", tags=["Clima"])
 
 
-@router.get("/clima/usuario/{user_id}")
+@router.get("/usuario/{user_id}")
 async def obtener_clima(user_id: UUID):
   usuario_id = supabase.table("Usuario").select("ubicacion").eq("id", user_id).execute()
   if not usuario_id.data:
