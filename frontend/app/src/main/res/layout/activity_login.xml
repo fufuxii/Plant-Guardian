@@ -103,7 +103,7 @@
             android:textSize="12sp" />
     </androidx.cardview.widget.CardView>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnEntrar"
         android:layout_width="150dp"
         android:layout_height="50dp"

@@ -1,4 +1,13 @@
 <resources>
+    <string-array name="plantas_lugares">
+        <item>Salón</item>
+        <item>Cocina</item>
+        <item>Terraza</item>
+        <item>Habitación</item>
+        <item>Jardín</item>
+        <item>Baño</item>
+    </string-array>
+
     <string name="app_name">Plant Guardian</string>
     <string name="plant_guardian">Plant Guardian</string>
     <string name="correo">Correo</string>
@@ -17,4 +26,9 @@
     <string name="toma_una_foto_de_tu_planta_o_selecciona_una_imagen_de_tu_galer_a">Toma una foto de tu planta o selecciona una imagen de tu galería.</string>
     <string name="identifica_tu_planta">Identifica tu planta</string>
     <string name="confirma_tu_planta">Confirma tu planta</string>
+    <string name="d_nde_est_tu_planta">¿Dónde está tu planta?</string>
+    <string name="atr_s">Atrás</string>
+    <string name="siguiente">Siguiente</string>
+    <string name="analizando_planta">Analizando planta...</string>
+    <string name="selecciona_o_escribe_un_lugar">Selecciona o escribe un lugar.</string>
 </resources>

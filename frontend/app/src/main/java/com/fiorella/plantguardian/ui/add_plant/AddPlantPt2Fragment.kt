@@ -55,7 +55,24 @@ class AddPlantPt2Fragment : Fragment() {
         }
 
         view.findViewById<Button>(R.id.btnSiguientePaso2).setOnClickListener {
-            //sig
+            val fotoUri = arguments?.getString("foto_uri")
+            val nombreComun = arguments?.getString("nombre_comun")
+            val nombreCientifico = arguments?.getString("nombre_cientifico")
+            val tempId = arguments?.getString("temp_id")
+
+            val bundle = Bundle().apply {
+                putString("foto_uri", fotoUri)
+                putString("nombre_comun", nombreComun)
+                putString("nombre_cientifico", nombreCientifico)
+                putString("temp_id", tempId)
+            }
+
+            val paso3 = AddPlantPt3Fragment()
+            paso3.arguments = bundle
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.contenedorPrincipal, paso3)
+                .addToBackStack(null)
+                .commit()
         }
     }
 }
