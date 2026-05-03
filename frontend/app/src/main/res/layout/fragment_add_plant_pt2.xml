@@ -67,10 +67,17 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
+        android:id="@+id/botones"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginBottom="25dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:clipToPadding="false"
+        android:clipChildren="false"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.appcompat.widget.AppCompatButton

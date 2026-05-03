@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 
@@ -36,14 +37,26 @@ class AddPlantPt3Fragment : Fragment() {
         val adapter = ArrayAdapter(requireContext(), R.layout.item_dropdown_plant, opciones)
 
         autoCompleteTextView.setAdapter(adapter)
+
         autoCompleteTextView.setOnClickListener {
             autoCompleteTextView.showDropDown()
+        }
+
+        view.findViewById<ImageButton>(R.id.btnCerrar).setOnClickListener {
+            activity?.findViewById<View>(R.id.navMenu)?.visibility = View.VISIBLE
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.contenedorPrincipal, AddPlantFragment())
+                .commit()
+        }
+
+        view.findViewById<Button>(R.id.btnAtras).setOnClickListener {
+            parentFragmentManager.popBackStack()
         }
 
         view.findViewById<Button>(R.id.btnSiguientePaso3).setOnClickListener {
             val lugarSeleccionado = autoCompleteTextView.text.toString()
             if (lugarSeleccionado.isNotEmpty()) {
-                //avanzarAlUltimoPaso(lugarSeleccionado)
+                
             } else {
                 Toast.makeText(requireContext(), "Por favor, indica dónde está la planta", Toast.LENGTH_SHORT).show()
             }

@@ -6,6 +6,7 @@
         <item>Habitación</item>
         <item>Jardín</item>
         <item>Baño</item>
+        <item>Patio</item>
     </string-array>
 
     <string name="app_name">Plant Guardian</string>
@@ -30,5 +31,5 @@
     <string name="atr_s">Atrás</string>
     <string name="siguiente">Siguiente</string>
     <string name="analizando_planta">Analizando planta...</string>
-    <string name="selecciona_o_escribe_un_lugar">Selecciona o escribe un lugar.</string>
+    <string name="selecciona_un_lugar">Selecciona un lugar.</string>
 </resources>
