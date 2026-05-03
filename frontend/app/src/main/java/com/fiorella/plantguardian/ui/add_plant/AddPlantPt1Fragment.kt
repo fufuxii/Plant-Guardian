@@ -126,7 +126,6 @@ class AddPlantPt1Fragment : Fragment() {
 
         val paso2 = AddPlantPt2Fragment()
         paso2.arguments = bundle
-
         parentFragmentManager.beginTransaction()
             .replace(R.id.contenedorPrincipal, paso2)
             .addToBackStack(null)

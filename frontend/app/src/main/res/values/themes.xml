@@ -3,6 +3,7 @@
 
     <style name="Theme.PlantGuardian" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:fontFamily">@font/montserrat_regular</item>
+        <item name="colorControlActivated">@color/verde_principal</item>
     </style>
 
     <style name="MarcoBordes25dp" parent="">
