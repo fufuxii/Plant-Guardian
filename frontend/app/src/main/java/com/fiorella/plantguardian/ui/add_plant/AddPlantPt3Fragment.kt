@@ -30,18 +30,11 @@ class AddPlantPt3Fragment : Fragment() {
 
         val autoCompleteTextView = view.findViewById<AutoCompleteTextView>(R.id.actvPlantaLugar)
         val opciones = resources.getStringArray(R.array.plantas_lugares)
-        val adapter = ArrayAdapter(requireContext(), R.layout.item_dropdown_plant, opciones)
+        val adapter = NoFilterAdapter(requireContext(), R.layout.item_dropdown_plant, opciones)
 
         autoCompleteTextView.setAdapter(adapter)
-
-        val lugarAnterior = arguments?.getString("lugar")
-        if (!lugarAnterior.isNullOrEmpty()) {
-            autoCompleteTextView.setText(lugarAnterior, false)
-        }
-
+        autoCompleteTextView.setText("", false)
         autoCompleteTextView.setOnClickListener {
-            val textoActual = autoCompleteTextView.text.toString()
-            autoCompleteTextView.setText(textoActual, false)
             autoCompleteTextView.showDropDown()
         }
 
