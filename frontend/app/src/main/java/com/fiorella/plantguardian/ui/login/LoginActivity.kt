@@ -27,10 +27,28 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (sesionIniciada()) {
+            ejecutarMain()
+            return
+        }
+
         setContentView(R.layout.activity_login)
         configurarAppLogo()
         configurarRegistroTexto()
         configurarRegistroBoton()
+    }
+
+    private fun sesionIniciada(): Boolean {
+        val prefs = getSharedPreferences("PlantGuardianPrefs", MODE_PRIVATE)
+        val userId = prefs.getString("user_id", null)
+        return userId != null
+    }
+
+    private fun ejecutarMain() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun configurarAppLogo() {
@@ -95,9 +113,9 @@ class LoginActivity : AppCompatActivity() {
                         getSharedPreferences("PlantGuardianPrefs", MODE_PRIVATE)
                             .edit {
                                 putString("user_id", uuidUsuario)
+                                apply()
                             }
-                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                        finish()
+                        ejecutarMain()
                     }
                 } else {
                     Toast.makeText(this@LoginActivity, "Credenciales incorrectas.", Toast.LENGTH_SHORT).show()
