@@ -142,7 +142,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@string/analizando_planta"
+            android:text="@string/identificando_planta"
             android:textColor="@color/verde_principal"
             android:textSize="18sp"
             android:textStyle="bold" />

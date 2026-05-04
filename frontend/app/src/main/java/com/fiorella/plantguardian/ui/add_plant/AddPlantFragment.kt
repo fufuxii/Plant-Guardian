@@ -17,6 +17,11 @@ class AddPlantFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_add_plant, container, false)
     }
 
+    override fun onResume() {
+        super.onResume()
+        activity?.findViewById<View>(R.id.navMenu)?.visibility = View.VISIBLE
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val btnAdd = view.findViewById<CardView>(R.id.btnAnadirPlanta)

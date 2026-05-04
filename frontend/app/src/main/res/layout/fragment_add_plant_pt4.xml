@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blanco"
@@ -19,150 +20,165 @@
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/verde_principal" />
 
-    <TextView
-        android:id="@+id/tvTituloPaso3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/diagn_stico_obtenido"
-        android:textColor="@color/verde_principal"
-        android:textSize="28sp"
-        android:layout_marginTop="25dp"
-        app:layout_constraintTop_toBottomOf="@id/btnCerrar"
-        app:layout_constraintStart_toStartOf="parent" />
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/contenedorInfo"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/botones"
+        app:layout_constraintTop_toBottomOf="@id/btnCerrar">
 
-    <ImageView
-        android:id="@+id/ivIconEstado"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="25dp"
-        android:src="@drawable/ic_diagnosis"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTituloPaso3"
-        app:tint="@color/gris_texto" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tvLabelEstado"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Estado"
-        android:textColor="@color/gris_texto"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ivIconEstado"
-        app:layout_constraintTop_toTopOf="@id/ivIconEstado" />
+            <TextView
+                android:id="@+id/tvTituloPaso4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/diagn_stico_obtenido"
+                android:textColor="@color/verde_principal"
+                android:textSize="28sp"
+                android:layout_marginTop="25dp"
+                app:layout_constraintTop_toBottomOf="@id/btnCerrar"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="NotSibling" />
 
-    <TextView
-        android:id="@+id/tvValorEstado"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textColor="@color/gris_texto"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/tvLabelEstado"
-        app:layout_constraintTop_toBottomOf="@id/tvLabelEstado" />
+            <ImageView
+                android:id="@+id/ivIconEstado"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="25dp"
+                android:src="@drawable/ic_diagnosis"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTituloPaso4"
+                app:tint="@color/gris_texto" />
 
-    <ImageView
-        android:id="@+id/ivIconProblema"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="24dp"
-        android:src="@drawable/ic_problem"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvValorEstado"
-        app:tint="@color/gris_texto" />
+            <TextView
+                android:id="@+id/tvLabelEstado"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/estado"
+                android:textColor="@color/gris_texto"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ivIconEstado"
+                app:layout_constraintTop_toTopOf="@id/ivIconEstado" />
 
-    <TextView
-        android:id="@+id/tvLabelProblema"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Problema detectado"
-        android:textColor="@color/gris_texto"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ivIconProblema"
-        app:layout_constraintTop_toTopOf="@id/ivIconProblema" />
+            <TextView
+                android:id="@+id/tvValorEstado"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gris_texto"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tvLabelEstado"
+                app:layout_constraintTop_toBottomOf="@id/tvLabelEstado" />
 
-    <TextView
-        android:id="@+id/tvValorProblema"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textColor="@color/gris_texto"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/tvLabelProblema"
-        app:layout_constraintTop_toBottomOf="@id/tvLabelProblema" />
+            <ImageView
+                android:id="@+id/ivIconProblema"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="24dp"
+                android:src="@drawable/ic_problem"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvValorEstado"
+                app:tint="@color/gris_texto" />
 
-    <!-- SECCIÓN 3: DESCRIPCIÓN -->
-    <ImageView
-        android:id="@+id/ivIconDescripcion"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="24dp"
-        android:src="@drawable/ic_description"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvValorProblema"
-        app:tint="@color/gris_texto" />
+            <TextView
+                android:id="@+id/tvLabelProblema"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/problema_detectado"
+                android:textColor="@color/gris_texto"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ivIconProblema"
+                app:layout_constraintTop_toTopOf="@id/ivIconProblema" />
 
-    <TextView
-        android:id="@+id/tvLabelDescripcion"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Descripción"
-        android:textColor="@color/gris_texto"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ivIconDescripcion"
-        app:layout_constraintTop_toTopOf="@id/ivIconDescripcion" />
+            <TextView
+                android:id="@+id/tvValorProblema"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gris_texto"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tvLabelProblema"
+                app:layout_constraintTop_toBottomOf="@id/tvLabelProblema" />
 
-    <TextView
-        android:id="@+id/tvValorDescripcion"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textColor="@color/gris_texto"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/tvLabelDescripcion"
-        app:layout_constraintTop_toBottomOf="@id/tvLabelDescripcion" />
+            <ImageView
+                android:id="@+id/ivIconDescripcion"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="24dp"
+                android:src="@drawable/ic_description"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvValorProblema"
+                app:tint="@color/gris_texto" />
 
-    <!-- SECCIÓN 4: CONSEJOS -->
-    <ImageView
-        android:id="@+id/ivIconConsejos"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="24dp"
-        android:src="@drawable/ic_ballot"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvValorDescripcion"
-        app:tint="@color/gris_texto" />
+            <TextView
+                android:id="@+id/tvLabelDescripcion"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/descripci_n"
+                android:textColor="@color/gris_texto"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ivIconDescripcion"
+                app:layout_constraintTop_toTopOf="@id/ivIconDescripcion" />
 
-    <TextView
-        android:id="@+id/tvLabelConsejos"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Consejos"
-        android:textColor="#333333"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ivIconConsejos"
-        app:layout_constraintTop_toTopOf="@id/ivIconConsejos" />
+            <TextView
+                android:id="@+id/tvValorDescripcion"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gris_texto"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tvLabelDescripcion"
+                app:layout_constraintTop_toBottomOf="@id/tvLabelDescripcion" />
 
-    <TextView
-        android:id="@+id/tvValorConsejos"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textColor="@color/gris_texto"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/tvLabelConsejos"
-        app:layout_constraintTop_toBottomOf="@id/tvLabelConsejos" />
+            <ImageView
+                android:id="@+id/ivIconConsejos"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="24dp"
+                android:src="@drawable/ic_ballot"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvValorDescripcion"
+                app:tint="@color/gris_texto" />
+
+            <TextView
+                android:id="@+id/tvLabelConsejos"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/consejos"
+                android:textColor="#333333"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ivIconConsejos"
+                app:layout_constraintTop_toTopOf="@id/ivIconConsejos" />
+
+            <TextView
+                android:id="@+id/tvValorConsejos"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gris_texto"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tvLabelConsejos"
+                app:layout_constraintTop_toBottomOf="@id/tvLabelConsejos" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
         android:id="@+id/botones"
@@ -184,7 +200,7 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:layout_marginEnd="10dp"
-            android:text="Atrás"
+            android:text="@string/atr_s"
             android:textSize="16sp"
             android:textAllCaps="false"
             android:textColor="@color/blanco"
@@ -196,11 +212,37 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:layout_marginStart="50dp"
-            android:text="Siguiente"
+            android:text="@string/siguiente"
             android:textSize="16sp"
             android:textAllCaps="false"
             android:textColor="@color/blanco"
             android:background="@drawable/btn_next" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutCargando"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@color/verde_principal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/analizando_planta"
+            android:textColor="@color/verde_principal"
+            android:textSize="18sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

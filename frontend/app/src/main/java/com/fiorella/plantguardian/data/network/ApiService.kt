@@ -1,5 +1,6 @@
 package com.fiorella.plantguardian.data.network
 
+import com.fiorella.plantguardian.data.model.AnalisisResponse
 import com.fiorella.plantguardian.data.model.WeatherData
 import com.fiorella.plantguardian.data.model.LoginRequest
 import com.fiorella.plantguardian.data.model.LoginResponse
@@ -14,6 +15,7 @@ import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
     @POST("usuarios/auth/login")
@@ -28,4 +30,11 @@ interface ApiService {
     @Multipart
     @POST("plantas/identificar")
     fun identificarPlanta(@Part imagen: MultipartBody.Part): Call<PlantResponse>
+
+    @POST("plantas/analizar/{temp_id}")
+    suspend fun analizarPlanta(
+        @Path("temp_id") tempId: String,
+        @Query("lugar") lugar: String,
+        @Query("id_usuario") idUsuario: String
+    ): Response<AnalisisResponse>
 }

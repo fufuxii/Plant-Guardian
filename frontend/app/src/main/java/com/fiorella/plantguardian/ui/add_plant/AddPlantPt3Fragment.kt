@@ -20,10 +20,6 @@ class AddPlantPt3Fragment : Fragment() {
         return inflater.inflate(R.layout.fragment_add_plant_pt3, container, false)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
     override fun onResume() {
         super.onResume()
         activity?.findViewById<View>(R.id.navMenu)?.visibility = View.GONE
@@ -64,17 +60,16 @@ class AddPlantPt3Fragment : Fragment() {
             val lugarSeleccionado = autoCompleteTextView.text.toString()
 
             if (lugarSeleccionado.isNotEmpty()) {
-                val fotoUri = arguments?.getString("foto_uri")
-                val nombreComun = arguments?.getString("nombre_comun")
-                val nombreCientifico = arguments?.getString("nombre_cientifico")
-                val tempId = arguments?.getString("temp_id")
+                val prefs = requireContext().getSharedPreferences("PlantGuardianPrefs", android.content.Context.MODE_PRIVATE)
+                val userId = prefs.getString("user_id", "")
 
                 val bundle = Bundle().apply {
-                    putString("foto_uri", fotoUri)
-                    putString("nombre_comun", nombreComun)
-                    putString("nombre_cientifico", nombreCientifico)
-                    putString("temp_id", tempId)
+                    putString("foto_uri", arguments?.getString("foto_uri"))
+                    putString("nombre_comun", arguments?.getString("nombre_comun"))
+                    putString("nombre_cientifico", arguments?.getString("nombre_cientifico"))
+                    putString("temp_id", arguments?.getString("temp_id"))
                     putString("lugar", lugarSeleccionado)
+                    putString("id_usuario", userId)
                 }
 
                 val paso4 = AddPlantPt4Fragment()

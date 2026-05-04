@@ -33,4 +33,9 @@
     <string name="analizando_planta">Analizando planta...</string>
     <string name="selecciona_un_lugar">Selecciona un lugar.</string>
     <string name="diagn_stico_obtenido">Diagnóstico obtenido</string>
+    <string name="estado">Estado</string>
+    <string name="descripci_n">Descripción</string>
+    <string name="problema_detectado">Problema detectado</string>
+    <string name="consejos">Consejos</string>
+    <string name="identificando_planta">Identificando planta...</string>
 </resources>

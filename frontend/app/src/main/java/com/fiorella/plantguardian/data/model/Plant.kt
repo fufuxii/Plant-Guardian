@@ -10,3 +10,17 @@ data class PlantData(
     val nombre_comun: String?,
     val error: String?
 )
+
+data class AnalisisResponse(
+    val estado: String,
+    val problema: String,
+    val descripcion: String,
+    val consejos: List<String>,
+    val tareas: List<TareaResponse>
+)
+
+data class TareaResponse(
+    val tarea: String,
+    val frecuencia: String,
+    val experiencia: Int
+)

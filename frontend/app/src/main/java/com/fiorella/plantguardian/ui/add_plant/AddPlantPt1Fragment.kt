@@ -36,10 +36,6 @@ class AddPlantPt1Fragment : Fragment() {
         return inflater.inflate(R.layout.fragment_add_plant_pt1, container, false)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.findViewById<View>(R.id.navMenu)?.visibility = View.GONE

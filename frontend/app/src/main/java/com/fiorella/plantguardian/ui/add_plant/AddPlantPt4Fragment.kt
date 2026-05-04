@@ -1,13 +1,18 @@
 package com.fiorella.plantguardian.ui.add_plant
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.fiorella.plantguardian.R
+import com.fiorella.plantguardian.data.network.RetrofitClient
+import kotlinx.coroutines.launch
 
 class AddPlantPt4Fragment : Fragment() {
 
@@ -18,10 +23,6 @@ class AddPlantPt4Fragment : Fragment() {
         return inflater.inflate(R.layout.fragment_add_plant_pt4, container, false)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
     override fun onResume() {
         super.onResume()
         activity?.findViewById<View>(R.id.navMenu)?.visibility = View.GONE
@@ -30,17 +31,40 @@ class AddPlantPt4Fragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val tempId = arguments?.getString("temp_id")
-        val lugar = arguments?.getString("lugar_planta")
-        val estado = arguments?.getString("estado_salud") ?: "Saludable"
-        val problema = arguments?.getString("problema_detectado") ?: "Ninguno"
-        val descripcion = arguments?.getString("descripcion_diagnostico") ?: "Tu planta se encuentra en óptimas condiciones."
-        val consejos = arguments?.getString("consejos_cuidado") ?: "Sigue con el riego habitual."
+        val tempId = arguments?.getString("temp_id") ?: ""
+        val lugar = arguments?.getString("lugar") ?: ""
+        val idUsuario = arguments?.getString("id_usuario") ?: ""
 
-        view.findViewById<TextView>(R.id.tvValorEstado).text = estado
-        view.findViewById<TextView>(R.id.tvValorProblema).text = problema
-        view.findViewById<TextView>(R.id.tvValorDescripcion).text = descripcion
-        view.findViewById<TextView>(R.id.tvValorConsejos).text = consejos
+        val loadingView = view.findViewById<View>(R.id.layoutCargando)
+        val contentView = view.findViewById<View>(R.id.contenedorInfo)
+
+        loadingView.visibility = View.VISIBLE
+        contentView.visibility = View.GONE
+
+        lifecycleScope.launch {
+            try {
+                val response = RetrofitClient.instance.analizarPlanta(tempId, lugar, idUsuario)
+
+                if (response.isSuccessful && response.body() != null) {
+                    val analisis = response.body()!!
+
+                    view.findViewById<TextView>(R.id.tvValorEstado).text = analisis.estado
+                    view.findViewById<TextView>(R.id.tvValorProblema).text = analisis.problema
+                    view.findViewById<TextView>(R.id.tvValorDescripcion).text = analisis.descripcion
+
+                    val consejosFormateados = analisis.consejos.joinToString(separator = "\n\n") { "• $it" }
+                    view.findViewById<TextView>(R.id.tvValorConsejos).text = consejosFormateados
+
+                    loadingView.visibility = View.GONE
+                    contentView.visibility = View.VISIBLE
+                } else {
+                    finalizarConError("No se ha podido procesar el análisis")
+                }
+            } catch (e: Exception) {
+                Log.e("DEBUG_PLANT", "Fallo análisis: ${e.localizedMessage}")
+                finalizarConError("No se ha podido procesar el análisis")
+            }
+        }
 
         view.findViewById<ImageButton>(R.id.btnCerrar).setOnClickListener {
             activity?.findViewById<View>(R.id.navMenu)?.visibility = View.VISIBLE
@@ -54,10 +78,18 @@ class AddPlantPt4Fragment : Fragment() {
         }
 
         view.findViewById<Button>(R.id.btnSiguientePaso4).setOnClickListener {
-            guardarPlantaFinal(tempId, lugar)
+            guardarPlanta(tempId, lugar)
         }
     }
 
-    private fun guardarPlantaFinal(tempId: String?, lugar: String?) {
+    private fun finalizarConError(mensaje: String) {
+        if (isAdded) {
+            Toast.makeText(requireContext(), mensaje, Toast.LENGTH_SHORT).show()
+            parentFragmentManager.popBackStack()
+        }
+    }
+
+    private fun guardarPlanta(tempId: String?, lugar: String?) {
+        // pt5
     }
 }
