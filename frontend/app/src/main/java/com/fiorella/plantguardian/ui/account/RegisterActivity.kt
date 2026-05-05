@@ -1,6 +1,10 @@
-package com.fiorella.plantguardian.ui.register
+package com.fiorella.plantguardian.ui.account
+
 import android.os.Bundle
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.fiorella.plantguardian.R

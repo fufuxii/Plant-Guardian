@@ -1,27 +1,28 @@
-package com.fiorella.plantguardian.ui.login
+package com.fiorella.plantguardian.ui.account
+
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.EditText
-import android.widget.TextView
-import android.text.Spanned
-import android.widget.Toast
 import android.text.SpannableString
-import android.text.style.UnderlineSpan
+import android.text.Spanned
 import android.text.style.ForegroundColorSpan
+import android.text.style.UnderlineSpan
 import android.util.Log
-import androidx.core.content.ContextCompat
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
+import coil.load
 import com.fiorella.plantguardian.R
 import com.fiorella.plantguardian.data.model.LoginRequest
 import com.fiorella.plantguardian.data.network.RetrofitClient
 import com.fiorella.plantguardian.ui.main.MainActivity
+import com.fiorella.plantguardian.ui.account.RegisterActivity
 import kotlinx.coroutines.launch
-import coil.load
-import com.fiorella.plantguardian.ui.register.RegisterActivity
-import androidx.core.content.edit
 
 class LoginActivity : AppCompatActivity() {
 

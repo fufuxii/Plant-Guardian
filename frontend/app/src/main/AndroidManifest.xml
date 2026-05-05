@@ -17,10 +17,10 @@
         android:theme="@style/Theme.PlantGuardian"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.register.RegisterActivity"
+            android:name=".ui.account.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.login.LoginActivity"
+            android:name=".ui.account.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
