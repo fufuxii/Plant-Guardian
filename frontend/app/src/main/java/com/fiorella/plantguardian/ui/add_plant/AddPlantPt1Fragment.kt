@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import coil.load
 import com.fiorella.plantguardian.R
 import com.fiorella.plantguardian.data.model.PlantResponse
 import com.fiorella.plantguardian.data.network.RetrofitClient
@@ -28,7 +29,18 @@ class AddPlantPt1Fragment : Fragment() {
 
     private val camaraLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { exito ->
         if (exito) {
-            Log.d("CAMARA", "Foto guardada en: $imgCapturada.")
+            val ivPreview = view?.findViewById<ImageView>(R.id.ivImagenCapturada)
+            ivPreview?.visibility = View.VISIBLE
+            ivPreview?.load(imgCapturada)
+        }
+    }
+
+    private val galeriaLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        if (uri != null) {
+            imgCapturada = uri
+            val ivPreview = view?.findViewById<ImageView>(R.id.ivImagenCapturada)
+            ivPreview?.visibility = View.VISIBLE
+            ivPreview?.load(uri)
         }
     }
 
@@ -45,6 +57,10 @@ class AddPlantPt1Fragment : Fragment() {
             parentFragmentManager.beginTransaction()
                 .replace(R.id.contenedorPrincipal, AddPlantFragment())
                 .commit()
+        }
+
+        view.findViewById<ImageView>(R.id.btnGaleria).setOnClickListener {
+            galeriaLauncher.launch("image/*")
         }
 
         view.findViewById<ImageView>(R.id.btnCamara).setOnClickListener {

@@ -40,4 +40,5 @@
     <string name="identificando_planta">Identificando planta...</string>
     <string name="finalizar">Finalizar</string>
     <string name="rutina_personalizada">Rutina personalizada</string>
+    <string name="guardando_planta">Guardando planta...</string>
 </resources>

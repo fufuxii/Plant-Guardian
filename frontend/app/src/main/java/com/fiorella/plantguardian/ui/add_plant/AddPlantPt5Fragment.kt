@@ -21,6 +21,8 @@ import com.fiorella.plantguardian.data.network.RetrofitClient
 import kotlinx.coroutines.launch
 
 class AddPlantPt5Fragment : Fragment() {
+    private var layoutCargando: View? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,6 +33,7 @@ class AddPlantPt5Fragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        layoutCargando = view.findViewById(R.id.layoutCargando)
         val contenedor = view.findViewById<LinearLayout>(R.id.llContenedorTareas)
         val listaTareas = arguments?.let { bundle ->
             BundleCompat.getSerializable(bundle, "tareas", ArrayList::class.java)
@@ -63,7 +66,7 @@ class AddPlantPt5Fragment : Fragment() {
         val tempId = arguments?.getString("temp_id") ?: ""
         val idUsuario = arguments?.getString("id_usuario") ?: ""
 
-        Toast.makeText(requireContext(), "Guardando tu planta...", Toast.LENGTH_SHORT).show()
+        layoutCargando?.visibility = View.VISIBLE
 
         lifecycleScope.launch {
             try {
@@ -73,13 +76,15 @@ class AddPlantPt5Fragment : Fragment() {
                 )
 
                 if (response.isSuccessful) {
-                    Toast.makeText(requireContext(), "¡Planta añadida con éxito! 🌱", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "Planta añadida con éxito.", Toast.LENGTH_LONG).show()
                     activity?.findViewById<View>(R.id.navMenu)?.visibility = View.VISIBLE
                     parentFragmentManager.popBackStack(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
                 } else {
+                    layoutCargando?.visibility = View.GONE
                     Toast.makeText(requireContext(), "Error al guardar la planta", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
+                layoutCargando?.visibility = View.GONE
                 Log.e("DEBUG_PLANT", "Error final: ${e.message}")
                 Toast.makeText(requireContext(), "Error de conexión al guardar", Toast.LENGTH_SHORT).show()
             }
