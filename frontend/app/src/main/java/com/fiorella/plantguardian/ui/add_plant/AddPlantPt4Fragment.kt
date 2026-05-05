@@ -1,5 +1,6 @@
 package com.fiorella.plantguardian.ui.add_plant
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,10 +12,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.fiorella.plantguardian.R
+import com.fiorella.plantguardian.data.model.TareaResponse
 import com.fiorella.plantguardian.data.network.RetrofitClient
 import kotlinx.coroutines.launch
 
 class AddPlantPt4Fragment : Fragment() {
+    private var tareasObtenidas: List<TareaResponse>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +50,7 @@ class AddPlantPt4Fragment : Fragment() {
 
                 if (response.isSuccessful && response.body() != null) {
                     val analisis = response.body()!!
+                    tareasObtenidas = analisis.tareas
 
                     view.findViewById<TextView>(R.id.tvValorEstado).text = analisis.estado
                     view.findViewById<TextView>(R.id.tvValorProblema).text = analisis.problema
@@ -78,7 +82,7 @@ class AddPlantPt4Fragment : Fragment() {
         }
 
         view.findViewById<Button>(R.id.btnSiguientePaso4).setOnClickListener {
-            guardarPlanta(tempId, lugar)
+            guardarPlanta(tempId, lugar, idUsuario)
         }
     }
 
@@ -89,7 +93,25 @@ class AddPlantPt4Fragment : Fragment() {
         }
     }
 
-    private fun guardarPlanta(tempId: String?, lugar: String?) {
-        // pt5
+    private fun guardarPlanta(tempId: String?, lugar: String?, idUsuario : String?) {
+        if (tareasObtenidas == null) {
+            Toast.makeText(requireContext(), "Espera a que termine el análisis", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val bundle = Bundle().apply {
+            putString("temp_id", tempId)
+            putString("lugar", lugar)
+            putString("id_usuario", idUsuario)
+            putSerializable("tareas", ArrayList(tareasObtenidas!!))
+        }
+
+        val paso5 = AddPlantPt5Fragment()
+        paso5.arguments = bundle
+
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.contenedorPrincipal, paso5)
+            .addToBackStack(null)
+            .commit()
     }
 }

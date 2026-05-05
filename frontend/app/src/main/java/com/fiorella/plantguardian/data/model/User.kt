@@ -6,6 +6,10 @@ data class UserData(
     val ubicacion: String
 )
 
+data class UsuarioRequest(
+    val id_usuario: String
+)
+
 data class RegisterRequest(
     val nombre: String,
     val correo: String,

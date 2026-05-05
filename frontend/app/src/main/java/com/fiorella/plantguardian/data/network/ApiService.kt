@@ -1,11 +1,13 @@
 package com.fiorella.plantguardian.data.network
 
 import com.fiorella.plantguardian.data.model.AnalisisResponse
+import com.fiorella.plantguardian.data.model.GenericResponse
 import com.fiorella.plantguardian.data.model.WeatherData
 import com.fiorella.plantguardian.data.model.LoginRequest
 import com.fiorella.plantguardian.data.model.LoginResponse
 import com.fiorella.plantguardian.data.model.PlantResponse
 import com.fiorella.plantguardian.data.model.RegisterRequest
+import com.fiorella.plantguardian.data.model.UsuarioRequest
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Response
@@ -37,4 +39,10 @@ interface ApiService {
         @Query("lugar") lugar: String,
         @Query("id_usuario") idUsuario: String
     ): Response<AnalisisResponse>
+
+    @POST("plantas/guardar/{temp_id}")
+    suspend fun guardarPlanta(
+        @Path("temp_id") tempId: String,
+        @Body usuario: UsuarioRequest
+    ): Response<GenericResponse>
 }

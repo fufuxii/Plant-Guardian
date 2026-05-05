@@ -38,4 +38,6 @@
     <string name="problema_detectado">Problema detectado</string>
     <string name="consejos">Consejos</string>
     <string name="identificando_planta">Identificando planta...</string>
+    <string name="finalizar">Finalizar</string>
+    <string name="rutina_personalizada">Rutina personalizada</string>
 </resources>

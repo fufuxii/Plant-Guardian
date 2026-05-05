@@ -20,30 +20,31 @@
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/verde_principal" />
 
+    <TextView
+        android:id="@+id/tvTituloPaso4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/diagn_stico_obtenido"
+        android:textColor="@color/verde_principal"
+        android:textSize="28sp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintTop_toBottomOf="@id/btnCerrar"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="NotSibling" />
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/contenedorInfo"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="25dp"
+        android:layout_marginTop="25dp"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/botones"
-        app:layout_constraintTop_toBottomOf="@id/btnCerrar">
+        app:layout_constraintTop_toBottomOf="@id/tvTituloPaso4">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/tvTituloPaso4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/diagn_stico_obtenido"
-                android:textColor="@color/verde_principal"
-                android:textSize="28sp"
-                android:layout_marginTop="25dp"
-                app:layout_constraintTop_toBottomOf="@id/btnCerrar"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="NotSibling" />
 
             <ImageView
                 android:id="@+id/ivIconEstado"
@@ -52,8 +53,8 @@
                 android:layout_marginTop="25dp"
                 android:src="@drawable/ic_diagnosis"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvTituloPaso4"
-                app:tint="@color/gris_texto" />
+                app:tint="@color/gris_texto"
+                tools:ignore="MissingConstraints" />
 
             <TextView
                 android:id="@+id/tvLabelEstado"

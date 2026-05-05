@@ -1,0 +1,88 @@
+package com.fiorella.plantguardian.ui.add_plant
+import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.Toast
+import androidx.core.os.BundleCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import com.fiorella.plantguardian.R
+import kotlin.collections.arrayListOf
+import kotlin.collections.forEach
+import com.fiorella.plantguardian.data.model.TareaResponse
+import com.fiorella.plantguardian.data.model.UsuarioRequest
+import com.fiorella.plantguardian.data.network.RetrofitClient
+import kotlinx.coroutines.launch
+
+class AddPlantPt5Fragment : Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_add_plant_pt5, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val contenedor = view.findViewById<LinearLayout>(R.id.llContenedorTareas)
+        val listaTareas = arguments?.let { bundle ->
+            BundleCompat.getSerializable(bundle, "tareas", ArrayList::class.java)
+        } as? ArrayList<TareaResponse> ?: arrayListOf()
+
+        listaTareas.forEach { tarea ->
+            val itemView = layoutInflater.inflate(R.layout.item_list_tasks, contenedor, false)
+            itemView.findViewById<TextView>(R.id.tvNombreTarea).text = tarea.tarea
+            itemView.findViewById<TextView>(R.id.tvFrecuenciaTarea).text = tarea.frecuencia
+            contenedor.addView(itemView)
+        }
+
+        view.findViewById<ImageButton>(R.id.btnCerrar).setOnClickListener {
+            activity?.findViewById<View>(R.id.navMenu)?.visibility = View.VISIBLE
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.contenedorPrincipal, AddPlantFragment())
+                .commit()
+        }
+
+        view.findViewById<Button>(R.id.btnAtras).setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
+
+        view.findViewById<Button>(R.id.btnFinalizar).setOnClickListener {
+            guardarPlanta()
+        }
+    }
+
+    private fun guardarPlanta() {
+        val tempId = arguments?.getString("temp_id") ?: ""
+        val idUsuario = arguments?.getString("id_usuario") ?: ""
+
+        Toast.makeText(requireContext(), "Guardando tu planta...", Toast.LENGTH_SHORT).show()
+
+        lifecycleScope.launch {
+            try {
+                val response = RetrofitClient.instance.guardarPlanta(
+                    tempId,
+                    UsuarioRequest(idUsuario)
+                )
+
+                if (response.isSuccessful) {
+                    Toast.makeText(requireContext(), "¡Planta añadida con éxito! 🌱", Toast.LENGTH_LONG).show()
+                    activity?.findViewById<View>(R.id.navMenu)?.visibility = View.VISIBLE
+                    parentFragmentManager.popBackStack(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                } else {
+                    Toast.makeText(requireContext(), "Error al guardar la planta", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Log.e("DEBUG_PLANT", "Error final: ${e.message}")
+                Toast.makeText(requireContext(), "Error de conexión al guardar", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+}
