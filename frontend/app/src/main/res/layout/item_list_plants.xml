@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/verde_elementos"
+    app:cardCornerRadius="15dp"
+    app:cardElevation="0dp"
+    android:layout_marginTop="25dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivPlanta"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/MarcoBordes15dp" />
+
+        <ProgressBar
+            android:id="@+id/pbCargandoImagen"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:indeterminateTint="@color/gris_texto_hint"
+            android:visibility="visible"
+            app:layout_constraintTop_toTopOf="@id/ivPlanta"
+            app:layout_constraintBottom_toBottomOf="@id/ivPlanta"
+            app:layout_constraintStart_toStartOf="@id/ivPlanta"
+            app:layout_constraintEnd_toEndOf="@id/ivPlanta" />
+
+        <TextView
+            android:id="@+id/tvNombrePlanta"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textColor="@color/gris_texto"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivPlanta"
+            app:layout_constraintTop_toTopOf="@id/ivPlanta" />
+
+        <TextView
+            android:id="@+id/tvLugarPlanta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gris_texto"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/tvNombrePlanta"
+            app:layout_constraintTop_toBottomOf="@id/tvNombrePlanta" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/bg_task_icons"
+            android:padding="1dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="@id/tvNombrePlanta"
+            app:layout_constraintTop_toBottomOf="@id/tvLugarPlanta">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="5dp"
+                app:tint="@color/verde_seleccionado"
+                android:src="@drawable/ic_assignment" />
+
+            <ImageView
+                android:id="@+id/ivTareaEstado"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/ic_check"
+                app:tint="@color/verde_casillas"/>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

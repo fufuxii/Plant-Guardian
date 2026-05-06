@@ -82,6 +82,35 @@ async def crear_planta_tareas(id_usuario_planta: str, tareas: list):
   return res.data
 
 
+async def obtener_plantas_usuario(id_usuario: str):
+  datos_plantas = supabase.table("Usuario_Planta") \
+    .select("""id, lugar, estado, imagen, tareas, 
+      consejos, problema, descripcion, id_planta,
+      Planta (nombre_comun, nombre_cientifico, descripcion)""") \
+    .eq("id_usuario", id_usuario) \
+    .execute()
+
+  plantas = []
+
+  for item in datos_plantas.data:
+    plantas.append({
+      "id_usuario_planta": item["id"],
+      "id_planta": item["id_planta"],
+      "nombre_comun": item["Planta"]["nombre_comun"],
+      "nombre_cientifico": item["Planta"]["nombre_cientifico"],
+      "lugar": item["lugar"],
+      "estado": item["estado"],
+      "imagen_url": item["imagen"],
+      "tareas": item["tareas"],
+      "consejos": item["consejos"],
+      "problema": item["problema"],
+      "descripcion_usuario": item["descripcion"],
+      "descripcion_general": item["Planta"]["descripcion"] 
+    })
+
+  return plantas
+
+
 async def eliminar_planta_usuario(id_usuario_planta: str):
   try:
     planta_bd = supabase.table("Usuario_Planta").select("imagen").eq("id", id_usuario_planta).execute()

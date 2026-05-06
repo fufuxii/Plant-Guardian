@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.fiorella.plantguardian.R
 import com.fiorella.plantguardian.ui.add_plant.AddPlantFragment
+import com.fiorella.plantguardian.ui.my_plants.MyPlantsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 @Suppress("DEPRECATION")
@@ -21,7 +22,7 @@ class MainActivity : AppCompatActivity() {
             val selectedFragment: Fragment = when (item.itemId) {
                 R.id.nav_home -> HomeFragment()
                 R.id.nav_add -> AddPlantFragment()
-                R.id.nav_plants -> Fragment()
+                R.id.nav_plants -> MyPlantsFragment()
                 R.id.nav_profile -> Fragment()
                 else -> HomeFragment()
             }

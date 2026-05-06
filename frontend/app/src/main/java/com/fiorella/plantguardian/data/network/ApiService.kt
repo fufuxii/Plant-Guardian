@@ -5,6 +5,7 @@ import com.fiorella.plantguardian.data.model.GenericResponse
 import com.fiorella.plantguardian.data.model.WeatherData
 import com.fiorella.plantguardian.data.model.LoginRequest
 import com.fiorella.plantguardian.data.model.LoginResponse
+import com.fiorella.plantguardian.data.model.PlantData
 import com.fiorella.plantguardian.data.model.PlantResponse
 import com.fiorella.plantguardian.data.model.RegisterRequest
 import com.fiorella.plantguardian.data.model.UsuarioRequest
@@ -45,4 +46,9 @@ interface ApiService {
         @Path("temp_id") tempId: String,
         @Body usuario: UsuarioRequest
     ): Response<GenericResponse>
+
+    @GET("plantas/obtener/{id_usuario}")
+    suspend fun obtenerPlantasUsuario(
+        @Path("id_usuario") idUsuario: String
+    ): Response<List<PlantData>>
 }

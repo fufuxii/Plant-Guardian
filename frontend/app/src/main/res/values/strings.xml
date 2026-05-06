@@ -41,4 +41,7 @@
     <string name="finalizar">Finalizar</string>
     <string name="rutina_personalizada">Rutina personalizada</string>
     <string name="guardando_planta">Guardando planta...</string>
+    <string name="mis_plantas">Mis plantas</string>
+    <string name="plantas">Plantas</string>
+    <string name="lugares">Lugares</string>
 </resources>

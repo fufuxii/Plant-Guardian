@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.fiorella.plantguardian.ui.adapters.NoFilterAdapter
 
 class AddPlantPt3Fragment : Fragment() {
 
@@ -74,24 +74,6 @@ class AddPlantPt3Fragment : Fragment() {
 
             } else {
                 Toast.makeText(requireContext(), "Por favor, indica dónde está la planta.", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    class NoFilterAdapter(context: android.content.Context, layout: Int, val items: Array<String>) :
-        ArrayAdapter<String>(context, layout, items) {
-
-        override fun getFilter(): android.widget.Filter {
-            return object : android.widget.Filter() {
-                override fun performFiltering(constraint: CharSequence?): FilterResults {
-                    val results = FilterResults()
-                    results.values = items
-                    results.count = items.size
-                    return results
-                }
-                override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                    notifyDataSetChanged()
-                }
             }
         }
     }

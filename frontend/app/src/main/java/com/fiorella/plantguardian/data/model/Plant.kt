@@ -1,17 +1,31 @@
 package com.fiorella.plantguardian.data.model
-
 import java.io.Serializable
 
 data class PlantResponse(
     val temp_id: String?,
-    val resultado: PlantData?
+    val resultado: PlantNameData?
 )
 
-data class PlantData(
+data class PlantNameData(
     val nombre_cientifico: String?,
     val nombre_comun: String?,
     val error: String?
 )
+
+data class PlantData(
+    val id_usuario_planta: String,
+    val id_planta: String,
+    val nombre_comun: String,
+    val nombre_cientifico: String,
+    val lugar: String,
+    val estado: String?,
+    val imagen_url: String,
+    val tareas: List<TareaResponse>?,
+    val consejos: List<String>?,
+    val problema: String?,
+    val descripcion_usuario: String?,
+    val descripcion_general: String?
+) : Serializable
 
 data class AnalisisResponse(
     val estado: String,
@@ -26,8 +40,3 @@ data class TareaResponse(
     val frecuencia: String,
     val experiencia: Int
 ) : Serializable
-
-data class GenericResponse(
-    val mensaje: String,
-    val data: Any? = null
-)

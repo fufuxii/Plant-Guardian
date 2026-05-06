@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.my_plants.MyPlantsFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/blanco">
+
+        <TextView
+            android:id="@+id/tvTituloMisPlantas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="75dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:text="@string/mis_plantas"
+            android:textColor="@color/verde_principal"
+            android:textSize="32sp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="25dp" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:background="@color/blanco"
+            app:layout_constraintTop_toBottomOf="@id/tvTituloMisPlantas"
+            app:tabSelectedTextColor="@color/verde_seleccionado"
+            app:tabTextColor="@color/verde_principal"
+            app:tabTextAppearance="@style/TabTextAppearance"
+            app:tabIconTint="@color/tab_icon_selector"
+            app:tabIndicatorColor="@color/verde_seleccionado"
+            app:tabIndicatorFullWidth="true"
+            app:tabIndicatorHeight="2dp">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/plantas"
+                android:icon="@drawable/ic_my_plants"/>
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lugares"
+                android:icon="@drawable/ic_my_places"/>
+        </com.google.android.material.tabs.TabLayout>
+
+        <View
+            android:id="@+id/lineaDivisoria"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:background="@color/verde_lineas"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPlantas"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:paddingBottom="25dp"
+            android:clipToPadding="false"
+            app:layout_constraintTop_toBottomOf="@id/lineaDivisoria"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAddPlant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="25dp"
+            android:src="@drawable/ic_add"
+            app:backgroundTint="@color/verde_boton_anadir"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/blanco" />
+
+        <LinearLayout
+            android:id="@+id/pbCargandoLista"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/blanco"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@id/lineaDivisoria"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminateTint="@color/verde_principal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Buscando tus plantas..."
+                android:textColor="@color/verde_principal"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,7 +11,6 @@
     <color name="verde_boton_normal">#85B473</color>
     <color name="rojo_boton">#BE5E5E</color>
     <color name="amarillo_tareas">#F0C54D</color>
-    <color name="azul_tareas">#73C5FF</color>
     <color name="gris_texto">#333333</color>
     <color name="gris_texto_hint">#66333333</color>
 </resources>

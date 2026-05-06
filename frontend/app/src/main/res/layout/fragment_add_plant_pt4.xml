@@ -242,8 +242,7 @@
             android:layout_marginTop="16dp"
             android:text="@string/analizando_planta"
             android:textColor="@color/verde_principal"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textSize="18sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

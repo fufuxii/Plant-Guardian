@@ -1,6 +1,6 @@
 import uuid
 from fastapi import APIRouter, HTTPException, UploadFile, File
-from logic.plantas_logic import obtener_planta_id, registrar_planta_usuario, eliminar_planta_usuario
+from logic.plantas_logic import obtener_planta_id, registrar_planta_usuario, eliminar_planta_usuario, obtener_plantas_usuario
 from logic.usuarios_logic import obtener_usuario_ubicacion
 from services.plantnet import plantnet_identificar_planta
 from services.gemini import gemini_analizar_planta
@@ -70,7 +70,18 @@ async def guardar_planta(temp_id: str, usuario: Usuario):
     raise HTTPException(status_code=500, detail="Error interno al procesar el guardado.")
   
 
-@router.delete("/{id_usuario_planta}")
+@router.get("/obtener/{id_usuario}")
+async def obtener_plantas(id_usuario: str):
+  try:
+    plantas = await obtener_plantas_usuario(id_usuario)
+    if not plantas: return []
+    return plantas
+  except Exception as e:
+    print(f"Error al listar plantas: {e}")
+    raise HTTPException(status_code=500, detail="Error al obtener la lista de plantas.")
+
+
+@router.delete("/eliminar/{id_usuario_planta}")
 async def eliminar_planta(id_usuario_planta: str):
   resultado = await eliminar_planta_usuario(id_usuario_planta)
   if "error" in resultado:
