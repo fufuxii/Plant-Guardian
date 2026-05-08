@@ -11,8 +11,8 @@
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="MarcoBordes25dp" parent="">
-        <item name="cornerSize">25dp</item>
+    <style name="MarcoBordes8dp" parent="">
+        <item name="cornerSize">8dp</item>
     </style>
     <style name="MarcoBordes15dp" parent="">
         <item name="cornerSize">15dp</item>

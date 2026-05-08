@@ -139,10 +139,20 @@ class AddPlantPt1Fragment : Fragment() {
 
     private fun mostrarImagenConFade(uri: Uri?) {
         val ivPreview = view?.findViewById<ImageView>(R.id.ivImagenCapturada) ?: return
+        val llBotones = view?.findViewById<View>(R.id.llContenedorBotones) ?: return
+
         ivPreview.alpha = 0f
+        ivPreview.visibility = View.VISIBLE
+
         ivPreview.load(uri) {
             listener(
                 onSuccess = { _, _ ->
+                    val params = llBotones.layoutParams as androidx.constraintlayout.widget.ConstraintLayout.LayoutParams
+                    params.topToBottom = R.id.ivImagenCapturada
+                    params.bottomToTop = R.id.botones
+                    params.verticalBias = 0f
+                    params.topMargin = (25 * resources.displayMetrics.density).toInt()
+                    llBotones.layoutParams = params
                     ivPreview.animate()
                         .alpha(1f)
                         .setDuration(400)

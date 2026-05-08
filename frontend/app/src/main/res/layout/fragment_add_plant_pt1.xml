@@ -32,28 +32,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnCerrar" />
 
-    <TextView
-        android:id="@+id/tvDescripcionPaso1"
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivImagenCapturada"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="350dp"
         android:layout_marginTop="25dp"
-        android:text="@string/toma_una_foto_de_tu_planta_o_selecciona_una_imagen_de_tu_galer_a"
-        android:textColor="@color/gris_texto"
-        android:textSize="16sp"
+        android:layout_marginBottom="25dp"
+        android:padding="5dp"
+        android:scaleType="centerCrop"
+        android:alpha="0"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTituloPaso1" />
+        app:layout_constraintTop_toBottomOf="@id/tvTituloPaso1"
+        app:shapeAppearanceOverlay="@style/MarcoBordes8dp"
+        app:strokeColor="@color/verde_principal"
+        app:strokeWidth="2dp" />
 
     <LinearLayout
         android:id="@+id/llContenedorBotones"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvDescripcionPaso1">
+        app:layout_constraintTop_toBottomOf="@id/tvTituloPaso1"
+        app:layout_constraintBottom_toTopOf="@id/botones">
 
         <ImageView
             android:id="@+id/btnCamara"
@@ -81,23 +86,6 @@
             android:src="@drawable/ic_image"
             app:tint="@color/verde_seleccionado" />
     </LinearLayout>
-
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/ivImagenCapturada"
-        android:layout_width="0dp"
-        android:layout_height="350dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="25dp"
-        android:padding="5dp"
-        android:scaleType="centerCrop"
-        android:alpha="0"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llContenedorBotones"
-        app:shapeAppearanceOverlay="@style/MarcoBordes25dp"
-        app:strokeColor="@color/verde_principal"
-        app:strokeWidth="4dp" />
 
     <LinearLayout
         android:id="@+id/botones"
