@@ -72,7 +72,6 @@ class AddPlantPt5Fragment : Fragment() {
                     tempId,
                     UserRequest(idUsuario)
                 )
-
                 if (response.isSuccessful) {
                     Toast.makeText(requireContext(), "Planta añadida con éxito.", Toast.LENGTH_LONG).show()
                     activity?.findViewById<View>(R.id.navMenu)?.visibility = View.VISIBLE

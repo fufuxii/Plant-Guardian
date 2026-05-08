@@ -42,6 +42,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun cargarFragmento(fragment: Fragment, tag: String) {
         supportFragmentManager.beginTransaction()
+            .setCustomAnimations(
+                R.anim.fade_in,
+                R.anim.fade_out
+            )
             .replace(R.id.contenedorPrincipal, fragment, tag)
             .commit()
     }

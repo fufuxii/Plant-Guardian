@@ -34,7 +34,13 @@ class ViewPlantTasksFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        activity?.findViewById<View>(R.id.navMenu)?.visibility = View.VISIBLE
+        val navMenu = activity?.findViewById<View>(R.id.navMenu)
+        navMenu?.visibility = View.VISIBLE
+        navMenu?.animate()
+            ?.alpha(1f)
+            ?.setStartDelay(150)
+            ?.setDuration(100)
+            ?.start()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -43,6 +49,13 @@ class ViewPlantTasksFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val navMenu = activity?.findViewById<View>(R.id.navMenu)
+        navMenu?.animate()
+            ?.alpha(0f)
+            ?.setDuration(300)
+            ?.withEndAction { navMenu.visibility = View.INVISIBLE }
+            ?.start()
 
         val ivFoto = view.findViewById<ImageView>(R.id.ivDetallePlanta)
         val tvNombre = view.findViewById<TextView>(R.id.tvNombreDetalle)
@@ -53,16 +66,28 @@ class ViewPlantTasksFragment : Fragment() {
 
         planta?.let { p ->
             tvNombre?.text = p.nombre_comun
+            ivFoto?.alpha = 0f
             ivFoto?.load(p.imagen_url) {
-                crossfade(true)
-                crossfade(400)
+                crossfade(false)
                 error(R.drawable.ic_plant)
+                listener(
+                    onSuccess = { _, _ ->
+                        ivFoto.animate()
+                            .alpha(1f)
+                            .setDuration(400)
+                            .start()
+                    },
+                    onError = { _, _ ->
+                        ivFoto.animate()
+                            .alpha(1f)
+                            .setDuration(400)
+                            .start()
+                    }
+                )
             }
             cargarTareasDesdeBackend(p.id_usuario_planta, rvHoy, rvProximas, containerInfo)
         }
-
         btnBack.setOnClickListener { parentFragmentManager.popBackStack() }
-        activity?.findViewById<View>(R.id.navMenu)?.visibility = View.GONE
     }
     private fun cargarTareasDesdeBackend(
         idPlanta: String,
@@ -81,11 +106,9 @@ class ViewPlantTasksFragment : Fragment() {
 
                 if (response.isSuccessful && response.body() != null) {
                     val tareasList = response.body()!!
-
                     val tareasLimpias = tareasList.map { tarea ->
                         tarea.copy(fecha_proxima = tarea.fecha_proxima.substringBefore("T"))
                     }
-
                     val tareasHoy = tareasLimpias.filter { it.fecha_proxima <= hoyIso }
                     val tareasProximas = tareasLimpias.filter { it.fecha_proxima > hoyIso }
 
@@ -114,6 +137,8 @@ class ViewPlantTasksFragment : Fragment() {
             } finally {
                 containerInfo?.animate()
                     ?.alpha(1f)
+                    ?.translationY(0f)
+                    ?.setStartDelay(200)
                     ?.setDuration(400)
                     ?.start()
             }

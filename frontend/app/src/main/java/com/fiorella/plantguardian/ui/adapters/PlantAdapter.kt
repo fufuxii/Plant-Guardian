@@ -22,6 +22,8 @@ class PlantAdapter(
         val cargador: ProgressBar = view.findViewById(R.id.pbCargandoImagen)
     }
 
+    override fun getItemCount(): Int = listaPlantas.size
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlantViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_list_plants, parent, false)
@@ -38,24 +40,22 @@ class PlantAdapter(
             crossfade(true)
             error(R.drawable.ic_my_plants)
             listener(
-                onStart = {
-                    holder.cargador.visibility = View.VISIBLE
-                },
-                onSuccess = { _, _ ->
-                    holder.cargador.visibility = View.GONE
-                },
-                onError = { _, _ ->
-                    holder.cargador.visibility = View.GONE
-                }
+                onStart = { holder.cargador.visibility = View.VISIBLE },
+                onSuccess = { _, _ -> holder.cargador.visibility = View.GONE },
+                onError = { _, _ -> holder.cargador.visibility = View.GONE }
             )
         }
 
-        holder.itemView.setOnClickListener {
-            onPlantClick(planta)
-        }
+        holder.itemView.setOnClickListener { onPlantClick(planta) }
+        holder.itemView.alpha = 0f
+        holder.itemView.translationY = 40f
+        holder.itemView.animate()
+            .alpha(1f)
+            .translationY(0f)
+            .setDuration(350)
+            .setStartDelay(position * 80L)
+            .start()
     }
-
-    override fun getItemCount(): Int = listaPlantas.size
 
     fun actualizarLista(nuevaLista: List<PlantData>) {
         this.listaPlantas = nuevaLista

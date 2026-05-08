@@ -45,7 +45,13 @@ class AddPlantPt1Fragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.findViewById<View>(R.id.navMenu)?.visibility = View.GONE
+
+        val navMenu = activity?.findViewById<View>(R.id.navMenu)
+        navMenu?.animate()
+            ?.alpha(0f)
+            ?.setDuration(100)
+            ?.withEndAction { navMenu.visibility = View.GONE }
+            ?.start()
 
         view.findViewById<ImageButton>(R.id.btnCerrar).setOnClickListener {
             activity?.findViewById<View>(R.id.navMenu)?.visibility = View.VISIBLE
@@ -77,6 +83,7 @@ class AddPlantPt1Fragment : Fragment() {
     private fun crearArchivoConFoto(): Uri {
         val nombre = "PLANT_${System.currentTimeMillis()}_"
         val directorio = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+
         if (directorio?.exists() == false) {
             directorio.mkdirs()
         }

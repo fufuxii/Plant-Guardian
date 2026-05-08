@@ -14,6 +14,7 @@ import com.fiorella.plantguardian.data.model.PlantData
 import com.fiorella.plantguardian.ui.adapters.PlantAdapter
 import com.fiorella.plantguardian.ui.add_plant.AddPlantFragment
 import com.fiorella.plantguardian.ui.extensions.navigateTo
+import com.fiorella.plantguardian.ui.extensions.navigateWithFade
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MyPlantsFragment : Fragment() {
@@ -28,7 +29,16 @@ class MyPlantsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        activity?.findViewById<View>(R.id.navMenu)?.visibility = View.VISIBLE
+        val navMenu = activity?.findViewById<View>(R.id.navMenu)
+        if (navMenu?.visibility == View.INVISIBLE) {
+            navMenu.visibility = View.VISIBLE
+            navMenu.alpha = 0f
+            navMenu.animate()
+                .alpha(1f)
+                .setStartDelay(150)
+                .setDuration(100)
+                .start()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,17 +69,15 @@ class MyPlantsFragment : Fragment() {
         view.findViewById<FloatingActionButton>(R.id.fabAddPlant).setOnClickListener {
             val bottomNav = activity?.findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.navMenu)
             bottomNav?.selectedItemId = R.id.nav_add
-            parentFragmentManager.navigateTo(AddPlantFragment(), R.id.contenedorPrincipal, addToBackStack = false)
+            parentFragmentManager.navigateWithFade(AddPlantFragment(), R.id.contenedorPrincipal, addToBackStack = false)
         }
     }
 
     private fun abrirDetallePlanta(planta: PlantData) {
         val detalleFragment = ViewPlantTasksFragment()
-
         val bundle = Bundle()
         bundle.putSerializable("planta", planta)
         detalleFragment.arguments = bundle
-
         parentFragmentManager.navigateTo(detalleFragment, R.id.contenedorPrincipal)
     }
 }

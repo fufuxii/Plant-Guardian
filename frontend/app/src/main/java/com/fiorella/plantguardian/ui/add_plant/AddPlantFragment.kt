@@ -1,5 +1,4 @@
 package com.fiorella.plantguardian.ui.add_plant
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +16,14 @@ class AddPlantFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        activity?.findViewById<View>(R.id.navMenu)?.visibility = View.VISIBLE
+        val navMenu = activity?.findViewById<View>(R.id.navMenu)
+        if (navMenu?.alpha == 0f) {
+            navMenu.animate()
+                .alpha(1f)
+                .setStartDelay(150)
+                .setDuration(100)
+                .start()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -49,6 +49,7 @@
         <LinearLayout
             android:id="@+id/containerInfo"
             android:alpha="0"
+            android:translationY="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/blanco"
