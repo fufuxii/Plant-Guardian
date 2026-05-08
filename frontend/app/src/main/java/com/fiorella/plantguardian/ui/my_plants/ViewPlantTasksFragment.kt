@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -45,31 +44,31 @@ class ViewPlantTasksFragment : Fragment() {
         val rvHoy = view.findViewById<RecyclerView>(R.id.rvTareasActuales)
         val rvProximas = view.findViewById<RecyclerView>(R.id.rvTareasProximas)
         val btnBack = view.findViewById<ImageButton>(R.id.btnBack)
-        val layoutCargando = view.findViewById<View>(R.id.llCargando)
         val containerInfo = view.findViewById<View>(R.id.containerInfo)
 
         planta?.let { p ->
             tvNombre?.text = p.nombre_comun
             ivFoto?.load(p.imagen_url) {
                 crossfade(true)
-                crossfade(500)
+                crossfade(400)
                 error(R.drawable.ic_plant)
             }
-            cargarTareasDesdeBackend(p.id_usuario_planta, rvHoy, rvProximas, layoutCargando, containerInfo)
+            cargarTareasDesdeBackend(p.id_usuario_planta, rvHoy, rvProximas, containerInfo)
         }
 
         btnBack.setOnClickListener { parentFragmentManager.popBackStack() }
         activity?.findViewById<View>(R.id.navMenu)?.visibility = View.GONE
     }
-
-    private fun cargarTareasDesdeBackend(idPlanta: String, rvHoy: RecyclerView, rvFuturo: RecyclerView, pb: View?, info: View?) {
+    private fun cargarTareasDesdeBackend(
+        idPlanta: String,
+        rvHoy: RecyclerView,
+        rvFuturo: RecyclerView,
+        containerInfo: View?
+    ) {
         val sdfIso = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val hoyIso = sdfIso.format(Date())
         val tvAvisoHoy = view?.findViewById<TextView>(R.id.tvAvisoSinTareasHoy)
         val tvAvisoProximas = view?.findViewById<TextView>(R.id.tvAvisoSinTareasProximas)
-
-        pb?.visibility = View.VISIBLE
-        info?.visibility = View.GONE
 
         viewLifecycleOwner.lifecycleScope.launch {
             try {
@@ -104,13 +103,14 @@ class ViewPlantTasksFragment : Fragment() {
                         rvFuturo.layoutManager = LinearLayoutManager(requireContext())
                         rvFuturo.adapter = TaskAdapter(tareasProximas, esHoy = false)
                     }
-
                 }
             } catch (e: Exception) {
                 Log.e("ViewPlantTasks", "Error: ${e.message}")
             } finally {
-                pb?.visibility = View.GONE
-                info?.visibility = View.VISIBLE
+                containerInfo?.animate()
+                    ?.alpha(1f)
+                    ?.setDuration(400)
+                    ?.start()
             }
         }
     }

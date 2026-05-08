@@ -2,7 +2,6 @@ package com.fiorella.plantguardian.ui.add_plant
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,19 +27,13 @@ class AddPlantPt1Fragment : Fragment() {
     private var imgCapturada: Uri? = null
 
     private val camaraLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { exito ->
-        if (exito) {
-            val ivPreview = view?.findViewById<ImageView>(R.id.ivImagenCapturada)
-            ivPreview?.visibility = View.VISIBLE
-            ivPreview?.load(imgCapturada)
-        }
+        if (exito) { mostrarImagenConFade(imgCapturada) }
     }
 
     private val galeriaLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         if (uri != null) {
             imgCapturada = uri
-            val ivPreview = view?.findViewById<ImageView>(R.id.ivImagenCapturada)
-            ivPreview?.visibility = View.VISIBLE
-            ivPreview?.load(uri)
+            mostrarImagenConFade(uri)
         }
     }
 
@@ -142,5 +135,20 @@ class AddPlantPt1Fragment : Fragment() {
             .replace(R.id.contenedorPrincipal, paso2)
             .addToBackStack(null)
             .commit()
+    }
+
+    private fun mostrarImagenConFade(uri: Uri?) {
+        val ivPreview = view?.findViewById<ImageView>(R.id.ivImagenCapturada) ?: return
+        ivPreview.alpha = 0f
+        ivPreview.load(uri) {
+            listener(
+                onSuccess = { _, _ ->
+                    ivPreview.animate()
+                        .alpha(1f)
+                        .setDuration(400)
+                        .start()
+                }
+            )
+        }
     }
 }

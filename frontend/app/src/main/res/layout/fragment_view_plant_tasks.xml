@@ -48,6 +48,7 @@
 
         <LinearLayout
             android:id="@+id/containerInfo"
+            android:alpha="0"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/blanco"
@@ -106,15 +107,18 @@
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:text="Hoy"
-                android:textColor="@color/gris_texto"
+                android:textColor="@color/verde_principal"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tvAvisoSinTareasHoy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/gris_texto"
+                android:textSize="16sp"
                 android:layout_marginHorizontal="25dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="25dp"
                 android:text="@string/no_tienes_tareas_pendientes_para_hoy"
                 android:visibility="gone" />
 
@@ -129,19 +133,21 @@
                 android:id="@+id/tvTareasProximas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:text="Próximamente"
-                android:textColor="@color/gris_texto"
+                android:textColor="@color/verde_principal"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tvAvisoSinTareasProximas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/gris_texto"
+                android:textSize="16sp"
                 android:layout_marginHorizontal="25dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="25dp"
                 android:text="@string/no_hay_tareas_programadas_para_el_futuro"
                 android:visibility="gone" />
 
@@ -153,24 +159,5 @@
                 android:nestedScrollingEnabled="false" />
 
         </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/llCargando"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@color/blanco"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivDetallePlanta">
-
-            <ProgressBar
-                android:id="@+id/pbCargando"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:indeterminateTint="@color/verde_principal" />
-        </LinearLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.fiorella.plantguardian.R
 import androidx.core.net.toUri
+import coil.load
 
 @Suppress("DEPRECATION")
 class AddPlantPt2Fragment : Fragment() {
@@ -29,12 +30,24 @@ class AddPlantPt2Fragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val foto_uri = arguments?.getString("foto_uri")
+        val fotoUri1 = arguments?.getString("foto_uri")
         val nombreComun = arguments?.getString("nombre_comun")
         val nombreCientifico = arguments?.getString("nombre_cientifico")
 
-        if (foto_uri != null)
-            view.findViewById<ImageView>(R.id.ivImagenCapturada).setImageURI(foto_uri.toUri())
+        if (fotoUri1 != null) {
+            val ivFoto = view.findViewById<ImageView>(R.id.ivImagenCapturada)
+            ivFoto.alpha = 0f
+            ivFoto.load(fotoUri1.toUri()) {
+                listener(
+                    onSuccess = { _, _ ->
+                        ivFoto.animate()
+                            .alpha(1f)
+                            .setDuration(400)
+                            .start()
+                    }
+                )
+            }
+        }
 
         view.findViewById<TextView>(R.id.tvNombrePlanta).text = nombreComun
         view.findViewById<TextView>(R.id.tvNombreCientifico).text = nombreCientifico
