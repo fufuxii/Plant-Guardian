@@ -16,6 +16,8 @@ import coil.load
 import com.fiorella.plantguardian.R
 import com.fiorella.plantguardian.data.model.PlantResponse
 import com.fiorella.plantguardian.data.network.RetrofitClient
+import com.fiorella.plantguardian.ui.extensions.navigateClose
+import com.fiorella.plantguardian.ui.extensions.navigateTo
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -47,9 +49,7 @@ class AddPlantPt1Fragment : Fragment() {
 
         view.findViewById<ImageButton>(R.id.btnCerrar).setOnClickListener {
             activity?.findViewById<View>(R.id.navMenu)?.visibility = View.VISIBLE
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.contenedorPrincipal, AddPlantFragment())
-                .commit()
+            parentFragmentManager.navigateClose(AddPlantFragment(), R.id.contenedorPrincipal)
         }
 
         view.findViewById<ImageView>(R.id.btnGaleria).setOnClickListener {
@@ -131,10 +131,7 @@ class AddPlantPt1Fragment : Fragment() {
 
         val paso2 = AddPlantPt2Fragment()
         paso2.arguments = bundle
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.contenedorPrincipal, paso2)
-            .addToBackStack(null)
-            .commit()
+        parentFragmentManager.navigateTo(paso2, R.id.contenedorPrincipal)
     }
 
     private fun mostrarImagenConFade(uri: Uri?) {

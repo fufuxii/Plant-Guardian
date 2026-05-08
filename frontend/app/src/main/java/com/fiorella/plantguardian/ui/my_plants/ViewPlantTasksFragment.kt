@@ -32,6 +32,11 @@ class ViewPlantTasksFragment : Fragment() {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        activity?.findViewById<View>(R.id.navMenu)?.visibility = View.VISIBLE
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_view_plant_tasks, container, false)
     }
@@ -113,10 +118,5 @@ class ViewPlantTasksFragment : Fragment() {
                     ?.start()
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        activity?.findViewById<View>(R.id.navMenu)?.visibility = View.VISIBLE
     }
 }

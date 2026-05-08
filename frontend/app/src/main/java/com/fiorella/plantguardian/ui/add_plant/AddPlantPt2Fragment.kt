@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment
 import com.fiorella.plantguardian.R
 import androidx.core.net.toUri
 import coil.load
+import com.fiorella.plantguardian.ui.extensions.navigateClose
+import com.fiorella.plantguardian.ui.extensions.navigateTo
 
 @Suppress("DEPRECATION")
 class AddPlantPt2Fragment : Fragment() {
@@ -54,9 +56,7 @@ class AddPlantPt2Fragment : Fragment() {
 
         view.findViewById<ImageButton>(R.id.btnCerrar).setOnClickListener {
             activity?.findViewById<View>(R.id.navMenu)?.visibility = View.VISIBLE
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.contenedorPrincipal, AddPlantFragment())
-                .commit()
+            parentFragmentManager.navigateClose(AddPlantFragment(), R.id.contenedorPrincipal)
         }
 
         view.findViewById<Button>(R.id.btnAtras).setOnClickListener {
@@ -78,10 +78,7 @@ class AddPlantPt2Fragment : Fragment() {
 
             val paso3 = AddPlantPt3Fragment()
             paso3.arguments = bundle
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.contenedorPrincipal, paso3)
-                .addToBackStack(null)
-                .commit()
+            parentFragmentManager.navigateTo(paso3, R.id.contenedorPrincipal)
         }
     }
 }

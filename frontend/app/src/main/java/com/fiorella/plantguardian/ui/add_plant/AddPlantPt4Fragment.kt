@@ -13,6 +13,8 @@ import androidx.lifecycle.lifecycleScope
 import com.fiorella.plantguardian.R
 import com.fiorella.plantguardian.data.model.TaskResponse
 import com.fiorella.plantguardian.data.network.RetrofitClient
+import com.fiorella.plantguardian.ui.extensions.navigateClose
+import com.fiorella.plantguardian.ui.extensions.navigateTo
 import kotlinx.coroutines.launch
 
 class AddPlantPt4Fragment : Fragment() {
@@ -71,9 +73,7 @@ class AddPlantPt4Fragment : Fragment() {
 
         view.findViewById<ImageButton>(R.id.btnCerrar).setOnClickListener {
             activity?.findViewById<View>(R.id.navMenu)?.visibility = View.VISIBLE
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.contenedorPrincipal, AddPlantFragment())
-                .commit()
+            parentFragmentManager.navigateClose(AddPlantFragment(), R.id.contenedorPrincipal)
         }
 
         view.findViewById<Button>(R.id.btnAtras).setOnClickListener {
@@ -107,10 +107,6 @@ class AddPlantPt4Fragment : Fragment() {
 
         val paso5 = AddPlantPt5Fragment()
         paso5.arguments = bundle
-
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.contenedorPrincipal, paso5)
-            .addToBackStack(null)
-            .commit()
+        parentFragmentManager.navigateTo(paso5, R.id.contenedorPrincipal)
     }
 }

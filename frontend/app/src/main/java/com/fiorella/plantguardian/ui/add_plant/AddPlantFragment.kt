@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.fiorella.plantguardian.R
+import com.fiorella.plantguardian.ui.extensions.navigateTo
 
 class AddPlantFragment : Fragment() {
 
@@ -23,10 +24,7 @@ class AddPlantFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val btnAdd = view.findViewById<CardView>(R.id.btnAnadirPlanta)
         btnAdd.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.contenedorPrincipal, AddPlantPt1Fragment())
-                .addToBackStack(null)
-                .commit()
+            parentFragmentManager.navigateTo(AddPlantPt1Fragment(), R.id.contenedorPrincipal)
         }
     }
 }

@@ -13,6 +13,7 @@ import com.fiorella.plantguardian.R
 import com.fiorella.plantguardian.data.model.PlantData
 import com.fiorella.plantguardian.ui.adapters.PlantAdapter
 import com.fiorella.plantguardian.ui.add_plant.AddPlantFragment
+import com.fiorella.plantguardian.ui.extensions.navigateTo
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MyPlantsFragment : Fragment() {
@@ -58,10 +59,7 @@ class MyPlantsFragment : Fragment() {
         view.findViewById<FloatingActionButton>(R.id.fabAddPlant).setOnClickListener {
             val bottomNav = activity?.findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.navMenu)
             bottomNav?.selectedItemId = R.id.nav_add
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.contenedorPrincipal, AddPlantFragment())
-                .addToBackStack(null)
-                .commit()
+            parentFragmentManager.navigateTo(AddPlantFragment(), R.id.contenedorPrincipal, addToBackStack = false)
         }
     }
 
@@ -72,9 +70,6 @@ class MyPlantsFragment : Fragment() {
         bundle.putSerializable("planta", planta)
         detalleFragment.arguments = bundle
 
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.contenedorPrincipal, detalleFragment)
-            .addToBackStack(null)
-            .commit()
+        parentFragmentManager.navigateTo(detalleFragment, R.id.contenedorPrincipal)
     }
 }

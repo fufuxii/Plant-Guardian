@@ -18,6 +18,7 @@ import kotlin.collections.forEach
 import com.fiorella.plantguardian.data.model.TaskResponse
 import com.fiorella.plantguardian.data.model.UserRequest
 import com.fiorella.plantguardian.data.network.RetrofitClient
+import com.fiorella.plantguardian.ui.extensions.navigateClose
 import kotlinx.coroutines.launch
 
 class AddPlantPt5Fragment : Fragment() {
@@ -48,9 +49,7 @@ class AddPlantPt5Fragment : Fragment() {
 
         view.findViewById<ImageButton>(R.id.btnCerrar).setOnClickListener {
             activity?.findViewById<View>(R.id.navMenu)?.visibility = View.VISIBLE
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.contenedorPrincipal, AddPlantFragment())
-                .commit()
+            parentFragmentManager.navigateClose(AddPlantFragment(), R.id.contenedorPrincipal)
         }
 
         view.findViewById<Button>(R.id.btnAtras).setOnClickListener {
@@ -65,7 +64,6 @@ class AddPlantPt5Fragment : Fragment() {
     private fun guardarPlanta() {
         val tempId = arguments?.getString("temp_id") ?: ""
         val idUsuario = arguments?.getString("id_usuario") ?: ""
-
         layoutCargando?.visibility = View.VISIBLE
 
         lifecycleScope.launch {

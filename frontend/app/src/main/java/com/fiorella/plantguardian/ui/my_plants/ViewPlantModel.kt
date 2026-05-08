@@ -27,7 +27,6 @@ class ViewPlantModel : ViewModel() {
                     yaCargado = true
                 }
             } catch (e: Exception) {
-                // Si falla, dejamos yaCargado en false para reintentar luego
             } finally {
                 _estaCargando.value = false
             }

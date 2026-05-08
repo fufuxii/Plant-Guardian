@@ -10,6 +10,8 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.fiorella.plantguardian.ui.adapters.NoFilterAdapter
+import com.fiorella.plantguardian.ui.extensions.navigateClose
+import com.fiorella.plantguardian.ui.extensions.navigateTo
 
 class AddPlantPt3Fragment : Fragment() {
 
@@ -40,9 +42,7 @@ class AddPlantPt3Fragment : Fragment() {
 
         view.findViewById<ImageButton>(R.id.btnCerrar).setOnClickListener {
             activity?.findViewById<View>(R.id.navMenu)?.visibility = View.VISIBLE
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.contenedorPrincipal, AddPlantFragment())
-                .commit()
+            parentFragmentManager.navigateClose(AddPlantFragment(), R.id.contenedorPrincipal)
         }
 
         view.findViewById<Button>(R.id.btnAtras).setOnClickListener {
@@ -67,11 +67,7 @@ class AddPlantPt3Fragment : Fragment() {
 
                 val paso4 = AddPlantPt4Fragment()
                 paso4.arguments = bundle
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.contenedorPrincipal, paso4)
-                    .addToBackStack(null)
-                    .commit()
-
+                parentFragmentManager.navigateTo(paso4, R.id.contenedorPrincipal)
             } else {
                 Toast.makeText(requireContext(), "Por favor, indica dónde está la planta.", Toast.LENGTH_SHORT).show()
             }
