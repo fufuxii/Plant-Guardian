@@ -5,19 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blanco"
-    android:padding="25dp">
+    android:padding="25dp"
+    android:clipToPadding="false"
+    android:clipChildren="false">
 
     <ImageButton
         android:id="@+id/btnCerrar"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginTop="25dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:scaleType="fitCenter"
+        android:background="@drawable/bg_button_close"
+        android:elevation="4dp"
         android:src="@drawable/ic_close"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/verde_principal" />
+        app:tint="@color/blanco" />
 
     <TextView
         android:id="@+id/tvTituloPaso1"

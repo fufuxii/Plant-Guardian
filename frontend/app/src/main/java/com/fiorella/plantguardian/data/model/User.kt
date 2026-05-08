@@ -6,7 +6,7 @@ data class UserData(
     val ubicacion: String
 )
 
-data class UsuarioRequest(
+data class UserRequest(
     val id_usuario: String
 )
 

@@ -1,6 +1,5 @@
 package com.fiorella.plantguardian.ui.add_plant
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,12 +11,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.fiorella.plantguardian.R
-import com.fiorella.plantguardian.data.model.TareaResponse
+import com.fiorella.plantguardian.data.model.TaskResponse
 import com.fiorella.plantguardian.data.network.RetrofitClient
 import kotlinx.coroutines.launch
 
 class AddPlantPt4Fragment : Fragment() {
-    private var tareasObtenidas: List<TareaResponse>? = null
+    private var tareasObtenidas: List<TaskResponse>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

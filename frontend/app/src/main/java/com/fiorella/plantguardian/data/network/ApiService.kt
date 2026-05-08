@@ -8,7 +8,8 @@ import com.fiorella.plantguardian.data.model.LoginResponse
 import com.fiorella.plantguardian.data.model.PlantData
 import com.fiorella.plantguardian.data.model.PlantResponse
 import com.fiorella.plantguardian.data.model.RegisterRequest
-import com.fiorella.plantguardian.data.model.UsuarioRequest
+import com.fiorella.plantguardian.data.model.TaskData
+import com.fiorella.plantguardian.data.model.UserRequest
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Response
@@ -44,11 +45,16 @@ interface ApiService {
     @POST("plantas/guardar/{temp_id}")
     suspend fun guardarPlanta(
         @Path("temp_id") tempId: String,
-        @Body usuario: UsuarioRequest
+        @Body usuario: UserRequest
     ): Response<GenericResponse>
 
     @GET("plantas/obtener/{id_usuario}")
     suspend fun obtenerPlantasUsuario(
         @Path("id_usuario") idUsuario: String
     ): Response<List<PlantData>>
+
+    @GET("tareas/planta/{id_usuario_planta}")
+    suspend fun obtenerTareasPlanta(
+        @Path("id_usuario_planta") idUsuarioPlanta: String
+    ): Response<List<TaskData>>
 }

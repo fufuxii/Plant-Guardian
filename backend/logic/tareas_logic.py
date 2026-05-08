@@ -70,5 +70,9 @@ async def obtener_tareas(id_usuario_planta: str):
     .lte("fecha_proxima", fecha_actual) \
     .eq("hecho", True) \
     .execute()
-  res = supabase.table("Tarea").eq("id_usuario_planta", id_usuario_planta).execute()
+  res = supabase.table("Tarea") \
+    .select("id, titulo, hecho, fecha_proxima, frecuencia_numerica, frecuencia_textual") \
+    .eq("id_usuario_planta", id_usuario_planta) \
+    .order("fecha_proxima") \
+    .execute()
   return res.data

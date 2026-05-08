@@ -15,8 +15,8 @@ import androidx.lifecycle.lifecycleScope
 import com.fiorella.plantguardian.R
 import kotlin.collections.arrayListOf
 import kotlin.collections.forEach
-import com.fiorella.plantguardian.data.model.TareaResponse
-import com.fiorella.plantguardian.data.model.UsuarioRequest
+import com.fiorella.plantguardian.data.model.TaskResponse
+import com.fiorella.plantguardian.data.model.UserRequest
 import com.fiorella.plantguardian.data.network.RetrofitClient
 import kotlinx.coroutines.launch
 
@@ -37,7 +37,7 @@ class AddPlantPt5Fragment : Fragment() {
         val contenedor = view.findViewById<LinearLayout>(R.id.llContenedorTareas)
         val listaTareas = arguments?.let { bundle ->
             BundleCompat.getSerializable(bundle, "tareas", ArrayList::class.java)
-        } as? ArrayList<TareaResponse> ?: arrayListOf()
+        } as? ArrayList<TaskResponse> ?: arrayListOf()
 
         listaTareas.forEach { tarea ->
             val itemView = layoutInflater.inflate(R.layout.item_list_tasks, contenedor, false)
@@ -72,7 +72,7 @@ class AddPlantPt5Fragment : Fragment() {
             try {
                 val response = RetrofitClient.instance.guardarPlanta(
                     tempId,
-                    UsuarioRequest(idUsuario)
+                    UserRequest(idUsuario)
                 )
 
                 if (response.isSuccessful) {

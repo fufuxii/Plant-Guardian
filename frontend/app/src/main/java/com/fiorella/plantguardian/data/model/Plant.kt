@@ -20,7 +20,7 @@ data class PlantData(
     val lugar: String,
     val estado: String?,
     val imagen_url: String,
-    val tareas: List<TareaResponse>?,
+    val tareas: List<TaskData>?,
     val consejos: List<String>?,
     val problema: String?,
     val descripcion_usuario: String?,
@@ -32,11 +32,5 @@ data class AnalisisResponse(
     val problema: String,
     val descripcion: String,
     val consejos: List<String>,
-    val tareas: List<TareaResponse>
+    val tareas: List<TaskResponse>
 )
-
-data class TareaResponse(
-    val tarea: String,
-    val frecuencia: String,
-    val experiencia: Int
-) : Serializable

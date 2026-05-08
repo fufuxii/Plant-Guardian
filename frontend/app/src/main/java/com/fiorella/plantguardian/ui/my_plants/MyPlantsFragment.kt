@@ -17,7 +17,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MyPlantsFragment : Fragment() {
 
-    private val viewModel: PlantViewModel by activityViewModels()
+    private val viewModel: ViewPlantModel by activityViewModels()
     private lateinit var adapter: PlantAdapter
     private var idUsuario: String? = null
 
@@ -56,6 +56,8 @@ class MyPlantsFragment : Fragment() {
         } ?: Log.e("MyPlantsFragment", "Error: User ID is null")
 
         view.findViewById<FloatingActionButton>(R.id.fabAddPlant).setOnClickListener {
+            val bottomNav = activity?.findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.navMenu)
+            bottomNav?.selectedItemId = R.id.nav_add
             parentFragmentManager.beginTransaction()
                 .replace(R.id.contenedorPrincipal, AddPlantFragment())
                 .addToBackStack(null)
@@ -64,6 +66,15 @@ class MyPlantsFragment : Fragment() {
     }
 
     private fun abrirDetallePlanta(planta: PlantData) {
+        val detalleFragment = ViewPlantTasksFragment()
 
+        val bundle = Bundle()
+        bundle.putSerializable("planta", planta)
+        detalleFragment.arguments = bundle
+
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.contenedorPrincipal, detalleFragment)
+            .addToBackStack(null)
+            .commit()
     }
 }
