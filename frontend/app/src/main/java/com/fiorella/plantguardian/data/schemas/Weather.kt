@@ -1,4 +1,4 @@
-package com.fiorella.plantguardian.data.model
+package com.fiorella.plantguardian.data.schemas
 
 data class WeatherData(
     val temp: Double,

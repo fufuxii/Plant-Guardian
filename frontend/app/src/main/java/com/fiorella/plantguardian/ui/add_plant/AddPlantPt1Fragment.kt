@@ -1,4 +1,5 @@
 package com.fiorella.plantguardian.ui.add_plant
+
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -14,7 +15,7 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import coil.load
 import com.fiorella.plantguardian.R
-import com.fiorella.plantguardian.data.model.PlantResponse
+import com.fiorella.plantguardian.data.schemas.PlantResponse
 import com.fiorella.plantguardian.data.network.RetrofitClient
 import com.fiorella.plantguardian.ui.extensions.navigateClose
 import com.fiorella.plantguardian.ui.extensions.navigateTo
@@ -30,13 +31,13 @@ class AddPlantPt1Fragment : Fragment() {
     private var imgCapturada: Uri? = null
 
     private val camaraLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { exito ->
-        if (exito) { mostrarImagenConFade(imgCapturada) }
+        if (exito) { mostrarImagen(imgCapturada) }
     }
 
     private val galeriaLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         if (uri != null) {
             imgCapturada = uri
-            mostrarImagenConFade(uri)
+            mostrarImagen(uri)
         }
     }
 
@@ -60,7 +61,7 @@ class AddPlantPt1Fragment : Fragment() {
 
         view.findViewById<ImageView>(R.id.btnCamara).setOnClickListener {
             try {
-                imgCapturada = crearArchivoConFoto()
+                imgCapturada = crearArchivoFoto()
                 camaraLauncher.launch(imgCapturada)
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_LONG).show()
@@ -76,7 +77,7 @@ class AddPlantPt1Fragment : Fragment() {
         }
     }
 
-    private fun crearArchivoConFoto(): Uri {
+    private fun crearArchivoFoto(): Uri {
         val nombre = "PLANT_${System.currentTimeMillis()}_"
         val directorio = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
 
@@ -109,7 +110,7 @@ class AddPlantPt1Fragment : Fragment() {
                 val datosPlanta = respuesta?.resultado
 
                 if (response.isSuccessful && datosPlanta?.error == null && datosPlanta != null) {
-                    redireccionarAlSiguientePaso(uri, respuesta)
+                    redireccionarSiguientePaso(uri, respuesta)
                 } else {
                     layoutCarga?.visibility = View.GONE
                     val errorMsg = datosPlanta?.error ?: "No se reconoció la planta."
@@ -124,7 +125,7 @@ class AddPlantPt1Fragment : Fragment() {
         })
     }
 
-    private fun redireccionarAlSiguientePaso(uri: Uri, respuesta: PlantResponse) {
+    private fun redireccionarSiguientePaso(uri: Uri, respuesta: PlantResponse) {
         val bundle = Bundle().apply {
             putString("foto_uri", uri.toString())
             putString("nombre_comun", respuesta.resultado?.nombre_comun)
@@ -137,7 +138,7 @@ class AddPlantPt1Fragment : Fragment() {
         parentFragmentManager.navigateTo(paso2, R.id.contenedorPrincipal)
     }
 
-    private fun mostrarImagenConFade(uri: Uri?) {
+    private fun mostrarImagen(uri: Uri?) {
         val ivPreview = view?.findViewById<ImageView>(R.id.ivImagenCapturada) ?: return
         val llBotones = view?.findViewById<View>(R.id.llContenedorBotones) ?: return
 

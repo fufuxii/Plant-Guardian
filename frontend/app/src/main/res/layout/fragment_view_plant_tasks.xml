@@ -31,7 +31,7 @@
             android:layout_marginBottom="25dp"
             android:text="@string/no_tienes_tareas_pendientes_para_hoy"
             android:textColor="@color/gris_texto"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -60,7 +60,7 @@
             android:layout_marginBottom="25dp"
             android:text="@string/no_hay_tareas_programadas_para_el_futuro"
             android:textColor="@color/gris_texto"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView

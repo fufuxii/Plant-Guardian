@@ -1,11 +1,14 @@
-package com.fiorella.plantguardian.ui.adapters
-import android.widget.ArrayAdapter
+package com.fiorella.plantguardian.ui.tools.adapters
 
-class NoFilterAdapter(context: android.content.Context, layout: Int, val items: Array<String>) :
+import android.content.Context
+import android.widget.ArrayAdapter
+import android.widget.Filter
+
+class NoFilterAdapter(context: Context, layout: Int, val items: Array<String>) :
     ArrayAdapter<String>(context, layout, items) {
 
-    override fun getFilter(): android.widget.Filter {
-        return object : android.widget.Filter() {
+    override fun getFilter(): Filter {
+        return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val results = FilterResults()
                 results.values = items

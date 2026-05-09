@@ -1,4 +1,5 @@
-package com.fiorella.plantguardian.ui.my_plants
+package com.fiorella.plantguardian.ui.my_plants.sections
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +8,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
 import com.fiorella.plantguardian.R
-import com.fiorella.plantguardian.data.model.PlantData
+import com.fiorella.plantguardian.data.schemas.PlantData
 
 @Suppress("DEPRECATION")
 class ViewPlantDiagnosisFragment : Fragment() {

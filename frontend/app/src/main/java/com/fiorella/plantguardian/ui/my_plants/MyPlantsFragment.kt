@@ -1,4 +1,5 @@
 package com.fiorella.plantguardian.ui.my_plants
+
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
@@ -13,16 +14,17 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fiorella.plantguardian.R
-import com.fiorella.plantguardian.data.model.PlantData
-import com.fiorella.plantguardian.ui.adapters.PlantAdapter
+import com.fiorella.plantguardian.data.schemas.PlantData
+import com.fiorella.plantguardian.ui.tools.adapters.PlantAdapter
 import com.fiorella.plantguardian.ui.add_plant.AddPlantFragment
 import com.fiorella.plantguardian.ui.extensions.navigateTo
 import com.fiorella.plantguardian.ui.main.MainActivity
+import com.fiorella.plantguardian.ui.tools.models.MyPlantsModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MyPlantsFragment : Fragment() {
 
-    private val viewModel: GetPlantsModel by activityViewModels()
+    private val viewModel: MyPlantsModel by activityViewModels()
     private lateinit var adapter: PlantAdapter
     private var idUsuario: String? = null
     private var listaCompleta: List<PlantData> = emptyList()
@@ -97,7 +99,7 @@ class MyPlantsFragment : Fragment() {
     }
 
     private fun abrirDetallePlanta(planta: PlantData) {
-        val detalleFragment = ViewMyPlantFragment().apply {
+        val detalleFragment = ViewPlantFragment().apply {
             arguments = Bundle().apply {
                 putSerializable("planta", planta)
             }

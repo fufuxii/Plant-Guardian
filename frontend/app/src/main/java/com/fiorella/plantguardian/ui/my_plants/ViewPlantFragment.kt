@@ -1,4 +1,5 @@
 package com.fiorella.plantguardian.ui.my_plants
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,14 +11,15 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import coil.load
 import com.fiorella.plantguardian.R
-import com.fiorella.plantguardian.data.model.PlantData
-import com.fiorella.plantguardian.ui.adapters.ViewPlantAdapter
+import com.fiorella.plantguardian.data.schemas.PlantData
+import com.fiorella.plantguardian.ui.tools.adapters.ViewPlantAdapter
 import com.fiorella.plantguardian.ui.main.MainActivity
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 @Suppress("DEPRECATION")
-class ViewMyPlantFragment : Fragment() {
+class ViewPlantFragment : Fragment() {
+
     private var planta: PlantData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,8 +30,7 @@ class ViewMyPlantFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_view_plant, container, false)
@@ -40,29 +41,38 @@ class ViewMyPlantFragment : Fragment() {
 
         (activity as? MainActivity)?.ocultarNav()
 
+        planta?.let { p ->
+            configurarEncabezado(view, p)
+        }
+
+        configurarViewPager(view)
+        configurarBotones(view)
+    }
+
+    private fun configurarEncabezado(view: View, p: PlantData) {
         val ivFoto = view.findViewById<ImageView>(R.id.ivDetallePlanta)
         val tvNombre = view.findViewById<TextView>(R.id.tvNombreDetalle)
-        val btnBack = view.findViewById<ImageButton>(R.id.btnBack)
-        val btnDelete = view.findViewById<ImageButton>(R.id.btnDelete)
+
+        tvNombre.text = p.nombre_comun
+
+        ivFoto.alpha = 0f
+        ivFoto.load(p.imagen_url) {
+            crossfade(false)
+            error(R.drawable.ic_plant)
+            listener(
+                onSuccess = { _, _ ->
+                    ivFoto.animate().alpha(1f).setDuration(400).start()
+                },
+                onError = { _, _ ->
+                    ivFoto.animate().alpha(1f).setDuration(400).start()
+                }
+            )
+        }
+    }
+
+    private fun configurarViewPager(view: View) {
         val tabLayout = view.findViewById<TabLayout>(R.id.tabLayoutDetalle)
         val viewPager = view.findViewById<ViewPager2>(R.id.vpDetalle)
-
-        planta?.let { p ->
-            tvNombre.text = p.nombre_comun
-            ivFoto.alpha = 0f
-            ivFoto.load(p.imagen_url) {
-                crossfade(false)
-                error(R.drawable.ic_plant)
-                listener(
-                    onSuccess = { _, _ ->
-                        ivFoto.animate().alpha(1f).setDuration(400).start()
-                    },
-                    onError = { _, _ ->
-                        ivFoto.animate().alpha(1f).setDuration(400).start()
-                    }
-                )
-            }
-        }
 
         val adapter = ViewPlantAdapter(this, planta)
         viewPager.adapter = adapter
@@ -75,6 +85,11 @@ class ViewMyPlantFragment : Fragment() {
                 else -> ""
             }
         }.attach()
+    }
+
+    private fun configurarBotones(view: View) {
+        val btnBack = view.findViewById<ImageButton>(R.id.btnBack)
+        val btnDelete = view.findViewById<ImageButton>(R.id.btnDelete)
 
         btnBack.setOnClickListener {
             (activity as? MainActivity)?.mostrarNav()
@@ -82,7 +97,11 @@ class ViewMyPlantFragment : Fragment() {
         }
 
         btnDelete.setOnClickListener {
-            // borrar planta
+            ejecutarBorradoPlanta()
         }
+    }
+
+    private fun ejecutarBorradoPlanta() {
+        // falta cargar
     }
 }

@@ -11,7 +11,7 @@ import com.fiorella.plantguardian.ui.add_plant.AddPlantPt3Fragment
 import com.fiorella.plantguardian.ui.add_plant.AddPlantPt4Fragment
 import com.fiorella.plantguardian.ui.add_plant.AddPlantPt5Fragment
 import com.fiorella.plantguardian.ui.my_plants.MyPlantsFragment
-import com.fiorella.plantguardian.ui.my_plants.ViewMyPlantFragment
+import com.fiorella.plantguardian.ui.my_plants.ViewPlantFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         AddPlantPt3Fragment::class.java,
         AddPlantPt4Fragment::class.java,
         AddPlantPt5Fragment::class.java,
-        ViewMyPlantFragment::class.java
+        ViewPlantFragment::class.java
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity() {
             cargarFragmento(HomeFragment(), "Inicio")
         }
 
-        // Cubre el caso del botón atrás del sistema
         supportFragmentManager.addOnBackStackChangedListener {
             actualizarNavMenu()
         }
@@ -59,7 +58,6 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
-    // Llama esto desde cualquier fragment al navegar hacia una pantalla sin nav
     fun ocultarNav() {
         val nav = findViewById<View>(R.id.navMenu)
         if (nav.visibility == View.VISIBLE) {
@@ -71,7 +69,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Llama esto desde cualquier fragment al volver a una pantalla con nav
     fun mostrarNav() {
         val nav = findViewById<View>(R.id.navMenu)
         if (nav.visibility == View.INVISIBLE) {

@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.fiorella.plantguardian.R
-import com.fiorella.plantguardian.data.model.RegisterRequest
+import com.fiorella.plantguardian.data.schemas.RegisterRequest
 import com.fiorella.plantguardian.data.network.RetrofitClient
 import kotlinx.coroutines.launch
 

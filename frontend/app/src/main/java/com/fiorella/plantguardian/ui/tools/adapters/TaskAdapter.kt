@@ -1,4 +1,5 @@
-package com.fiorella.plantguardian.ui.adapters
+package com.fiorella.plantguardian.ui.tools.adapters
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -6,7 +7,7 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.fiorella.plantguardian.R
-import com.fiorella.plantguardian.data.model.TaskData
+import com.fiorella.plantguardian.data.schemas.TaskData
 
 class TaskAdapter(
     private val listaTareas: List<TaskData>,

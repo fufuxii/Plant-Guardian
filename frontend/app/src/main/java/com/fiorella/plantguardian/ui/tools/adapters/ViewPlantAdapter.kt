@@ -1,10 +1,11 @@
-package com.fiorella.plantguardian.ui.adapters
+package com.fiorella.plantguardian.ui.tools.adapters
+
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.fiorella.plantguardian.data.model.PlantData
-import com.fiorella.plantguardian.ui.my_plants.ViewPlantDiagnosisFragment
-import com.fiorella.plantguardian.ui.my_plants.ViewPlantInfoFragment
-import com.fiorella.plantguardian.ui.my_plants.ViewPlantTasksFragment
+import com.fiorella.plantguardian.data.schemas.PlantData
+import com.fiorella.plantguardian.ui.my_plants.sections.ViewPlantDiagnosisFragment
+import com.fiorella.plantguardian.ui.my_plants.sections.ViewPlantInfoFragment
+import com.fiorella.plantguardian.ui.my_plants.sections.ViewPlantTasksFragment
 
 class ViewPlantAdapter(
     fragment: Fragment,

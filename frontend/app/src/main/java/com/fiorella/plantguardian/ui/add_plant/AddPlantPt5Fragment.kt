@@ -1,4 +1,5 @@
 package com.fiorella.plantguardian.ui.add_plant
+
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,15 +14,16 @@ import androidx.core.os.BundleCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.fiorella.plantguardian.R
-import kotlin.collections.arrayListOf
-import kotlin.collections.forEach
-import com.fiorella.plantguardian.data.model.TaskResponse
-import com.fiorella.plantguardian.data.model.UserRequest
+import com.fiorella.plantguardian.data.schemas.TaskResponse
+import com.fiorella.plantguardian.data.schemas.UserRequest
 import com.fiorella.plantguardian.data.network.RetrofitClient
 import com.fiorella.plantguardian.ui.extensions.navigateClose
+import com.fiorella.plantguardian.ui.main.MainActivity
 import kotlinx.coroutines.launch
+import java.util.ArrayList
 
 class AddPlantPt5Fragment : Fragment() {
+
     private var layoutCargando: View? = null
 
     override fun onCreateView(
@@ -33,13 +35,18 @@ class AddPlantPt5Fragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         layoutCargando = view.findViewById(R.id.layoutCargando)
+        configurarListaTareas(view)
+        configurarBotones(view)
+    }
+
+    private fun configurarListaTareas(view: View) {
         val contenedor = view.findViewById<LinearLayout>(R.id.llContenedorTareas)
 
         val listaRaw = arguments?.let { bundle ->
             BundleCompat.getSerializable(bundle, "tareas", ArrayList::class.java)
         } ?: arrayListOf<Any>()
+
         val listaTareas = ArrayList(listaRaw.filterIsInstance<TaskResponse>())
 
         listaTareas.forEach { tarea ->
@@ -48,9 +55,11 @@ class AddPlantPt5Fragment : Fragment() {
             itemView.findViewById<TextView>(R.id.tvFrecuenciaTarea).text = tarea.frecuencia
             contenedor.addView(itemView)
         }
+    }
 
+    private fun configurarBotones(view: View) {
         view.findViewById<ImageButton>(R.id.btnCerrar).setOnClickListener {
-            parentFragmentManager.navigateClose(AddPlantFragment(), R.id.contenedorPrincipal)
+            cerrarFlujo()
         }
 
         view.findViewById<Button>(R.id.btnAtras).setOnClickListener {
@@ -65,24 +74,43 @@ class AddPlantPt5Fragment : Fragment() {
     private fun guardarPlanta() {
         val tempId = arguments?.getString("temp_id") ?: ""
         val idUsuario = arguments?.getString("id_usuario") ?: ""
+
         layoutCargando?.visibility = View.VISIBLE
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             try {
                 val response = RetrofitClient.instance.guardarPlanta(
                     tempId,
                     UserRequest(idUsuario)
                 )
                 if (response.isSuccessful) {
-                    Toast.makeText(requireContext(), "Planta añadida con éxito.", Toast.LENGTH_LONG).show()
-                    parentFragmentManager.popBackStack(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                    gestionarGuardado()
                 } else {
-                    Toast.makeText(requireContext(), "Error al guardar la planta", Toast.LENGTH_SHORT).show()
+                    mostrarError("Error al guardar la planta")
                 }
             } catch (e: Exception) {
                 Log.e("DEBUG_PLANT", "Error final: ${e.message}")
-                Toast.makeText(requireContext(), "Error de conexión al guardar", Toast.LENGTH_SHORT).show()
+                mostrarError("Error de conexión al guardar")
+            } finally {
+                layoutCargando?.visibility = View.GONE
             }
         }
+    }
+
+    private fun gestionarGuardado() {
+        Toast.makeText(requireContext(), "Planta añadida con éxito.", Toast.LENGTH_LONG).show()
+        parentFragmentManager.popBackStack(
+            null,
+            androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
+        )
+    }
+
+    private fun mostrarError(mensaje: String) {
+        Toast.makeText(requireContext(), mensaje, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun cerrarFlujo() {
+        (activity as? MainActivity)?.mostrarNav()
+        parentFragmentManager.navigateClose(AddPlantFragment(), R.id.contenedorPrincipal)
     }
 }

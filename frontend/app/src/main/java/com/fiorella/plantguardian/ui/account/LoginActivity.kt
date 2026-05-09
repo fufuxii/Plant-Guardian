@@ -18,10 +18,9 @@ import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.fiorella.plantguardian.R
-import com.fiorella.plantguardian.data.model.LoginRequest
+import com.fiorella.plantguardian.data.schemas.LoginRequest
 import com.fiorella.plantguardian.data.network.RetrofitClient
 import com.fiorella.plantguardian.ui.main.MainActivity
-import com.fiorella.plantguardian.ui.account.RegisterActivity
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {

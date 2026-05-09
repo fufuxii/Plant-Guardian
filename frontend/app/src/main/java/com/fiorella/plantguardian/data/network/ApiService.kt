@@ -1,15 +1,15 @@
 package com.fiorella.plantguardian.data.network
 
-import com.fiorella.plantguardian.data.model.AnalisisResponse
-import com.fiorella.plantguardian.data.model.GenericResponse
-import com.fiorella.plantguardian.data.model.WeatherData
-import com.fiorella.plantguardian.data.model.LoginRequest
-import com.fiorella.plantguardian.data.model.LoginResponse
-import com.fiorella.plantguardian.data.model.PlantData
-import com.fiorella.plantguardian.data.model.PlantResponse
-import com.fiorella.plantguardian.data.model.RegisterRequest
-import com.fiorella.plantguardian.data.model.TaskData
-import com.fiorella.plantguardian.data.model.UserRequest
+import com.fiorella.plantguardian.data.schemas.AnalisisResponse
+import com.fiorella.plantguardian.data.schemas.GenericResponse
+import com.fiorella.plantguardian.data.schemas.WeatherData
+import com.fiorella.plantguardian.data.schemas.LoginRequest
+import com.fiorella.plantguardian.data.schemas.LoginResponse
+import com.fiorella.plantguardian.data.schemas.PlantData
+import com.fiorella.plantguardian.data.schemas.PlantResponse
+import com.fiorella.plantguardian.data.schemas.RegisterRequest
+import com.fiorella.plantguardian.data.schemas.TaskData
+import com.fiorella.plantguardian.data.schemas.UserRequest
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Response

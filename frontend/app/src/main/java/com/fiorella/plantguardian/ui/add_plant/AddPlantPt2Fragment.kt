@@ -1,4 +1,5 @@
 package com.fiorella.plantguardian.ui.add_plant
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,11 +9,12 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.fiorella.plantguardian.R
 import androidx.core.net.toUri
 import coil.load
+import com.fiorella.plantguardian.R
 import com.fiorella.plantguardian.ui.extensions.navigateClose
 import com.fiorella.plantguardian.ui.extensions.navigateTo
+import com.fiorella.plantguardian.ui.main.MainActivity
 
 @Suppress("DEPRECATION")
 class AddPlantPt2Fragment : Fragment() {
@@ -27,14 +29,25 @@ class AddPlantPt2Fragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val fotoUri1 = arguments?.getString("foto_uri")
+        val fotoUri = arguments?.getString("foto_uri")
         val nombreComun = arguments?.getString("nombre_comun")
         val nombreCientifico = arguments?.getString("nombre_cientifico")
 
-        if (fotoUri1 != null) {
+        configurarTextos(view, nombreComun, nombreCientifico)
+        mostrarImagen(view, fotoUri)
+        configurarBotones(view)
+    }
+
+    private fun configurarTextos(view: View, nombreComun: String?, nombreCientifico: String?) {
+        view.findViewById<TextView>(R.id.tvNombrePlanta).text = nombreComun ?: "-"
+        view.findViewById<TextView>(R.id.tvNombreCientifico).text = nombreCientifico ?: "-"
+    }
+
+    private fun mostrarImagen(view: View, fotoUri: String?) {
+        fotoUri?.let { uriString ->
             val ivFoto = view.findViewById<ImageView>(R.id.ivImagenCapturada)
             ivFoto.alpha = 0f
-            ivFoto.load(fotoUri1.toUri()) {
+            ivFoto.load(uriString.toUri()) {
                 listener(
                     onSuccess = { _, _ ->
                         ivFoto.animate()
@@ -45,13 +58,11 @@ class AddPlantPt2Fragment : Fragment() {
                 )
             }
         }
+    }
 
-        view.findViewById<TextView>(R.id.tvNombrePlanta).text = nombreComun
-        view.findViewById<TextView>(R.id.tvNombreCientifico).text = nombreCientifico
-
+    private fun configurarBotones(view: View) {
         view.findViewById<ImageButton>(R.id.btnCerrar).setOnClickListener {
-            activity?.findViewById<View>(R.id.navMenu)?.visibility = View.VISIBLE
-            parentFragmentManager.navigateClose(AddPlantFragment(), R.id.contenedorPrincipal)
+            cerrarFlujo()
         }
 
         view.findViewById<Button>(R.id.btnAtras).setOnClickListener {
@@ -59,21 +70,26 @@ class AddPlantPt2Fragment : Fragment() {
         }
 
         view.findViewById<Button>(R.id.btnSiguientePaso2).setOnClickListener {
-            val fotoUri = arguments?.getString("foto_uri")
-            val nombreComun = arguments?.getString("nombre_comun")
-            val nombreCientifico = arguments?.getString("nombre_cientifico")
-            val tempId = arguments?.getString("temp_id")
-
-            val bundle = Bundle().apply {
-                putString("foto_uri", fotoUri)
-                putString("nombre_comun", nombreComun)
-                putString("nombre_cientifico", nombreCientifico)
-                putString("temp_id", tempId)
-            }
-
-            val paso3 = AddPlantPt3Fragment()
-            paso3.arguments = bundle
-            parentFragmentManager.navigateTo(paso3, R.id.contenedorPrincipal)
+            redireccionarSiguientePaso()
         }
+    }
+
+    private fun cerrarFlujo() {
+        (activity as? MainActivity)?.mostrarNav()
+        parentFragmentManager.navigateClose(AddPlantFragment(), R.id.contenedorPrincipal)
+    }
+
+    private fun redireccionarSiguientePaso() {
+        val bundle = Bundle().apply {
+            putString("foto_uri", arguments?.getString("foto_uri"))
+            putString("nombre_comun", arguments?.getString("nombre_comun"))
+            putString("nombre_cientifico", arguments?.getString("nombre_cientifico"))
+            putString("temp_id", arguments?.getString("temp_id"))
+        }
+
+        val paso3 = AddPlantPt3Fragment().apply {
+            arguments = bundle
+        }
+        parentFragmentManager.navigateTo(paso3, R.id.contenedorPrincipal)
     }
 }

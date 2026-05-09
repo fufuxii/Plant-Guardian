@@ -1,4 +1,5 @@
 package com.fiorella.plantguardian.ui.add_plant
+
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,13 +12,16 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.fiorella.plantguardian.R
-import com.fiorella.plantguardian.data.model.TaskResponse
+import com.fiorella.plantguardian.data.schemas.TaskResponse
 import com.fiorella.plantguardian.data.network.RetrofitClient
+import com.fiorella.plantguardian.data.schemas.AnalisisResponse
 import com.fiorella.plantguardian.ui.extensions.navigateClose
 import com.fiorella.plantguardian.ui.extensions.navigateTo
+import com.fiorella.plantguardian.ui.main.MainActivity
 import kotlinx.coroutines.launch
 
 class AddPlantPt4Fragment : Fragment() {
+
     private var tareasObtenidas: List<TaskResponse>? = null
 
     override fun onCreateView(
@@ -29,31 +33,26 @@ class AddPlantPt4Fragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val tempId = arguments?.getString("temp_id") ?: ""
         val lugar = arguments?.getString("lugar") ?: ""
         val idUsuario = arguments?.getString("id_usuario") ?: ""
+        configurarBotones(view, tempId, lugar, idUsuario)
+        ejecutarAnalisis(view, tempId, lugar, idUsuario)
+    }
 
+    private fun ejecutarAnalisis(view: View, tempId: String, lugar: String, idUsuario: String) {
         val loadingView = view.findViewById<View>(R.id.layoutCargando)
         val contentView = view.findViewById<View>(R.id.contenedorInfo)
 
         loadingView.visibility = View.VISIBLE
         contentView.visibility = View.GONE
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             try {
                 val response = RetrofitClient.instance.analizarPlanta(tempId, lugar, idUsuario)
 
                 if (response.isSuccessful && response.body() != null) {
-                    val analisis = response.body()!!
-                    tareasObtenidas = analisis.tareas
-
-                    view.findViewById<TextView>(R.id.tvValorEstado).text = analisis.estado
-                    view.findViewById<TextView>(R.id.tvValorProblema).text = analisis.problema
-                    view.findViewById<TextView>(R.id.tvValorDescripcion).text = analisis.descripcion
-
-                    val consejosFormateados = analisis.consejos.joinToString(separator = "\n\n") { "• $it" }
-                    view.findViewById<TextView>(R.id.tvValorConsejos).text = consejosFormateados
+                    mostrarResultadoAnalisis(view, response.body()!!)
 
                     loadingView.visibility = View.GONE
                     contentView.visibility = View.VISIBLE
@@ -65,10 +64,22 @@ class AddPlantPt4Fragment : Fragment() {
                 finalizarConError("No se ha podido procesar el análisis")
             }
         }
+    }
 
+    private fun mostrarResultadoAnalisis(view: View, analisis: AnalisisResponse) {
+        tareasObtenidas = analisis.tareas
+
+        view.findViewById<TextView>(R.id.tvValorEstado).text = analisis.estado
+        view.findViewById<TextView>(R.id.tvValorProblema).text = analisis.problema
+        view.findViewById<TextView>(R.id.tvValorDescripcion).text = analisis.descripcion
+
+        val consejosFormateados = analisis.consejos.joinToString(separator = "\n\n") { "• $it" }
+        view.findViewById<TextView>(R.id.tvValorConsejos).text = consejosFormateados
+    }
+
+    private fun configurarBotones(view: View, tempId: String, lugar: String, idUsuario: String) {
         view.findViewById<ImageButton>(R.id.btnCerrar).setOnClickListener {
-            activity?.findViewById<View>(R.id.navMenu)?.visibility = View.VISIBLE
-            parentFragmentManager.navigateClose(AddPlantFragment(), R.id.contenedorPrincipal)
+            cerrarFlujo()
         }
 
         view.findViewById<Button>(R.id.btnAtras).setOnClickListener {
@@ -76,18 +87,11 @@ class AddPlantPt4Fragment : Fragment() {
         }
 
         view.findViewById<Button>(R.id.btnSiguientePaso4).setOnClickListener {
-            guardarPlanta(tempId, lugar, idUsuario)
+            redireccionarSiguientePaso(tempId, lugar, idUsuario)
         }
     }
 
-    private fun finalizarConError(mensaje: String) {
-        if (isAdded) {
-            Toast.makeText(requireContext(), mensaje, Toast.LENGTH_SHORT).show()
-            parentFragmentManager.popBackStack()
-        }
-    }
-
-    private fun guardarPlanta(tempId: String?, lugar: String?, idUsuario : String?) {
+    private fun redireccionarSiguientePaso(tempId: String, lugar: String, idUsuario: String) {
         if (tareasObtenidas == null) {
             Toast.makeText(requireContext(), "Espera a que termine el análisis", Toast.LENGTH_SHORT).show()
             return
@@ -100,8 +104,20 @@ class AddPlantPt4Fragment : Fragment() {
             putSerializable("tareas", ArrayList(tareasObtenidas!!))
         }
 
-        val paso5 = AddPlantPt5Fragment()
-        paso5.arguments = bundle
+        val paso5 = AddPlantPt5Fragment().apply { arguments = bundle }
         parentFragmentManager.navigateTo(paso5, R.id.contenedorPrincipal)
+    }
+
+    @Suppress("SameParameterValue")
+    private fun finalizarConError(mensaje: String) {
+        if (isAdded) {
+            Toast.makeText(requireContext(), mensaje, Toast.LENGTH_SHORT).show()
+            parentFragmentManager.popBackStack()
+        }
+    }
+
+    private fun cerrarFlujo() {
+        (activity as? MainActivity)?.mostrarNav()
+        parentFragmentManager.navigateClose(AddPlantFragment(), R.id.contenedorPrincipal)
     }
 }
