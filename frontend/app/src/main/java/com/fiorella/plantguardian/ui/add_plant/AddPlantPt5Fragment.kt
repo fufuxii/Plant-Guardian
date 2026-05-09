@@ -36,9 +36,11 @@ class AddPlantPt5Fragment : Fragment() {
 
         layoutCargando = view.findViewById(R.id.layoutCargando)
         val contenedor = view.findViewById<LinearLayout>(R.id.llContenedorTareas)
-        val listaTareas = arguments?.let { bundle ->
+
+        val listaRaw = arguments?.let { bundle ->
             BundleCompat.getSerializable(bundle, "tareas", ArrayList::class.java)
-        } as? ArrayList<TaskResponse> ?: arrayListOf()
+        } ?: arrayListOf<Any>()
+        val listaTareas = ArrayList(listaRaw.filterIsInstance<TaskResponse>())
 
         listaTareas.forEach { tarea ->
             val itemView = layoutInflater.inflate(R.layout.item_list_tasks, contenedor, false)
@@ -48,7 +50,6 @@ class AddPlantPt5Fragment : Fragment() {
         }
 
         view.findViewById<ImageButton>(R.id.btnCerrar).setOnClickListener {
-            activity?.findViewById<View>(R.id.navMenu)?.visibility = View.VISIBLE
             parentFragmentManager.navigateClose(AddPlantFragment(), R.id.contenedorPrincipal)
         }
 
@@ -74,14 +75,11 @@ class AddPlantPt5Fragment : Fragment() {
                 )
                 if (response.isSuccessful) {
                     Toast.makeText(requireContext(), "Planta añadida con éxito.", Toast.LENGTH_LONG).show()
-                    activity?.findViewById<View>(R.id.navMenu)?.visibility = View.VISIBLE
                     parentFragmentManager.popBackStack(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
                 } else {
-                    layoutCargando?.visibility = View.GONE
                     Toast.makeText(requireContext(), "Error al guardar la planta", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
-                layoutCargando?.visibility = View.GONE
                 Log.e("DEBUG_PLANT", "Error final: ${e.message}")
                 Toast.makeText(requireContext(), "Error de conexión al guardar", Toast.LENGTH_SHORT).show()
             }

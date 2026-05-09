@@ -50,4 +50,5 @@
     <string name="diagn_stico">Diagnóstico</string>
     <string name="no_tienes_tareas_pendientes_para_hoy">No tienes tareas pendientes para hoy.</string>
     <string name="no_hay_tareas_programadas_para_el_futuro">No hay tareas programadas para el futuro.</string>
+    <string name="buscar_planta">Buscar planta...</string>
 </resources>

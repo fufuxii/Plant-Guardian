@@ -18,6 +18,7 @@ import com.fiorella.plantguardian.data.model.PlantResponse
 import com.fiorella.plantguardian.data.network.RetrofitClient
 import com.fiorella.plantguardian.ui.extensions.navigateClose
 import com.fiorella.plantguardian.ui.extensions.navigateTo
+import com.fiorella.plantguardian.ui.main.MainActivity
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -46,15 +47,10 @@ class AddPlantPt1Fragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val navMenu = activity?.findViewById<View>(R.id.navMenu)
-        navMenu?.animate()
-            ?.alpha(0f)
-            ?.setDuration(100)
-            ?.withEndAction { navMenu.visibility = View.GONE }
-            ?.start()
+        (activity as? MainActivity)?.ocultarNav()
 
         view.findViewById<ImageButton>(R.id.btnCerrar).setOnClickListener {
-            activity?.findViewById<View>(R.id.navMenu)?.visibility = View.VISIBLE
+            (activity as? MainActivity)?.mostrarNav()
             parentFragmentManager.navigateClose(AddPlantFragment(), R.id.contenedorPrincipal)
         }
 

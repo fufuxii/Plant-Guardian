@@ -12,6 +12,7 @@ import coil.load
 import com.fiorella.plantguardian.R
 import com.fiorella.plantguardian.data.model.PlantData
 import com.fiorella.plantguardian.ui.adapters.ViewPlantAdapter
+import com.fiorella.plantguardian.ui.main.MainActivity
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -26,17 +27,6 @@ class ViewMyPlantFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        val navMenu = activity?.findViewById<View>(R.id.navMenu)
-        navMenu?.visibility = View.VISIBLE
-        navMenu?.animate()
-            ?.alpha(1f)
-            ?.setStartDelay(150)
-            ?.setDuration(100)
-            ?.start()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -48,12 +38,7 @@ class ViewMyPlantFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val navMenu = activity?.findViewById<View>(R.id.navMenu)
-        navMenu?.animate()
-            ?.alpha(0f)
-            ?.setDuration(300)
-            ?.withEndAction { navMenu.visibility = View.INVISIBLE }
-            ?.start()
+        (activity as? MainActivity)?.ocultarNav()
 
         val ivFoto = view.findViewById<ImageView>(R.id.ivDetallePlanta)
         val tvNombre = view.findViewById<TextView>(R.id.tvNombreDetalle)
@@ -91,7 +76,10 @@ class ViewMyPlantFragment : Fragment() {
             }
         }.attach()
 
-        btnBack.setOnClickListener { parentFragmentManager.popBackStack() }
+        btnBack.setOnClickListener {
+            (activity as? MainActivity)?.mostrarNav()
+            parentFragmentManager.popBackStack()
+        }
 
         btnDelete.setOnClickListener {
             // borrar planta

@@ -44,7 +44,7 @@
         app:boxCornerRadiusBottomStart="12dp"
         app:boxCornerRadiusBottomEnd="12dp"
         app:boxStrokeColor="@color/dropdown_stroke_selector"
-        app:boxStrokeWidth="1.5dp"
+        app:boxStrokeWidth="2dp"
         app:boxStrokeWidthFocused="2dp"
         app:boxBackgroundColor="@color/blanco"
         app:endIconTint="@color/verde_principal"

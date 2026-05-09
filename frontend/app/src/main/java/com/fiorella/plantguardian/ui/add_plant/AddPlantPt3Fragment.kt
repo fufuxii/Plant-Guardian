@@ -22,11 +22,6 @@ class AddPlantPt3Fragment : Fragment() {
         return inflater.inflate(R.layout.fragment_add_plant_pt3, container, false)
     }
 
-    override fun onResume() {
-        super.onResume()
-        activity?.findViewById<View>(R.id.navMenu)?.visibility = View.GONE
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
