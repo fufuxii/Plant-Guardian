@@ -8,5 +8,5 @@
     android:paddingTop="12dp"
     android:paddingBottom="12dp"
     android:textColor="@color/gris_texto"
-    android:textSize="15sp"
+    android:textSize="14sp"
     android:background="@drawable/bg_dropdown_item" />

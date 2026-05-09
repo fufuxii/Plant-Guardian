@@ -28,7 +28,7 @@
         android:layout_marginTop="25dp"
         android:text="@string/identifica_tu_planta"
         android:textColor="@color/verde_principal"
-        android:textSize="28sp"
+        android:textSize="32sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnCerrar" />
 
@@ -45,9 +45,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTituloPaso1"
-        app:shapeAppearanceOverlay="@style/MarcoBordes8dp"
-        app:strokeColor="@color/verde_principal"
-        app:strokeWidth="2dp" />
+        app:shapeAppearanceOverlay="@style/MarcoBordes8dp" />
 
     <LinearLayout
         android:id="@+id/llContenedorBotones"

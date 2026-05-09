@@ -86,18 +86,20 @@ async def obtener_plantas_usuario(id_usuario: str):
   datos_plantas = supabase.table("Usuario_Planta") \
     .select("""id, lugar, estado, imagen, tareas, 
       consejos, problema, descripcion, id_planta,
-      Planta (nombre_comun, nombre_cientifico, descripcion)""") \
+      Planta (nombre_comun, nombre_cientifico, descripcion, nombre_otros)""") \
     .eq("id_usuario", id_usuario) \
     .execute()
 
   plantas = []
 
   for item in datos_plantas.data:
+    info_planta = item.get("Planta", {})
     plantas.append({
       "id_usuario_planta": item["id"],
       "id_planta": item["id_planta"],
-      "nombre_comun": item["Planta"]["nombre_comun"],
-      "nombre_cientifico": item["Planta"]["nombre_cientifico"],
+      "nombre_comun": info_planta.get("nombre_comun"),
+      "nombre_cientifico": info_planta.get("nombre_cientifico"),
+      "nombre_otros": info_planta.get("nombre_otros"), 
       "lugar": item["lugar"],
       "estado": item["estado"],
       "imagen_url": item["imagen"],
@@ -105,7 +107,7 @@ async def obtener_plantas_usuario(id_usuario: str):
       "consejos": item["consejos"],
       "problema": item["problema"],
       "descripcion_usuario": item["descripcion"],
-      "descripcion_general": item["Planta"]["descripcion"] 
+      "descripcion_general": info_planta.get("descripcion")
     })
 
   return plantas

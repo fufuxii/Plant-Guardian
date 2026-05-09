@@ -16,7 +16,7 @@ class ViewPlantAdapter(
     override fun createFragment(position: Int): Fragment = when (position) {
         0 -> ViewPlantTasksFragment.newInstance(planta)
         1 -> ViewPlantDiagnosisFragment.newInstance(planta)
-        2 -> ViewPlantInfoFragment()
+        2 -> ViewPlantInfoFragment.newInstance(planta)
         else -> throw IllegalStateException("Posición inválida")
     }
 }

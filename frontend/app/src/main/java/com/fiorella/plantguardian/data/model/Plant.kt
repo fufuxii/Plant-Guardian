@@ -17,6 +17,7 @@ data class PlantData(
     val id_planta: String,
     val nombre_comun: String,
     val nombre_cientifico: String,
+    val nombre_otros: String?,
     val lugar: String,
     val estado: String?,
     val imagen_url: String,

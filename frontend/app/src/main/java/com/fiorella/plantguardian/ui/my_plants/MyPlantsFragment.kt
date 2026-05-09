@@ -57,11 +57,7 @@ class MyPlantsFragment : Fragment() {
         viewModel.plantas.observe(viewLifecycleOwner) { listaDePlantas ->
             adapter.actualizarLista(listaDePlantas)
         }
-
-        viewModel.estaCargando.observe(viewLifecycleOwner) { cargando ->
-            view.findViewById<View>(R.id.pbCargandoLista)?.visibility = if (cargando) View.VISIBLE else View.GONE
-        }
-
+        
         idUsuario?.let {
             viewModel.obtenerPlantas(it)
         } ?: Log.e("MyPlantsFragment", "Error: User ID is null")
