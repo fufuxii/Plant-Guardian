@@ -4,14 +4,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.fiorella.plantguardian.R
 import com.fiorella.plantguardian.data.model.PlantData
 import com.fiorella.plantguardian.data.network.RetrofitClient
@@ -25,6 +22,16 @@ class ViewPlantTasksFragment : Fragment() {
 
     private var planta: PlantData? = null
 
+    companion object {
+        fun newInstance(planta: PlantData?): ViewPlantTasksFragment {
+            val fragment = ViewPlantTasksFragment()
+            val args = Bundle()
+            args.putSerializable("planta", planta)
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -32,68 +39,42 @@ class ViewPlantTasksFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        val navMenu = activity?.findViewById<View>(R.id.navMenu)
-        navMenu?.visibility = View.VISIBLE
-        navMenu?.animate()
-            ?.alpha(1f)
-            ?.setStartDelay(150)
-            ?.setDuration(100)
-            ?.start()
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_view_plant_tasks, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val navMenu = activity?.findViewById<View>(R.id.navMenu)
-        navMenu?.animate()
-            ?.alpha(0f)
-            ?.setDuration(300)
-            ?.withEndAction { navMenu.visibility = View.INVISIBLE }
-            ?.start()
-
-        val ivFoto = view.findViewById<ImageView>(R.id.ivDetallePlanta)
-        val tvNombre = view.findViewById<TextView>(R.id.tvNombreDetalle)
         val rvHoy = view.findViewById<RecyclerView>(R.id.rvTareasActuales)
         val rvProximas = view.findViewById<RecyclerView>(R.id.rvTareasProximas)
-        val btnBack = view.findViewById<ImageButton>(R.id.btnBack)
-        val containerInfo = view.findViewById<View>(R.id.containerInfo)
+        val tvHoy = view.findViewById<TextView>(R.id.tvTareasActuales)
+        val tvProximas = view.findViewById<TextView>(R.id.tvTareasProximas)
 
-        planta?.let { p ->
-            tvNombre?.text = p.nombre_comun
-            ivFoto?.alpha = 0f
-            ivFoto?.load(p.imagen_url) {
-                crossfade(false)
-                error(R.drawable.ic_plant)
-                listener(
-                    onSuccess = { _, _ ->
-                        ivFoto.animate()
-                            .alpha(1f)
-                            .setDuration(400)
-                            .start()
-                    },
-                    onError = { _, _ ->
-                        ivFoto.animate()
-                            .alpha(1f)
-                            .setDuration(400)
-                            .start()
-                    }
-                )
-            }
-            cargarTareasDesdeBackend(p.id_usuario_planta, rvHoy, rvProximas, containerInfo)
+        rvHoy.alpha = 0f
+        rvHoy.translationY = 30f
+        rvProximas.alpha = 0f
+        rvProximas.translationY = 30f
+        tvHoy.alpha = 0f
+        tvHoy.translationY = 30f
+        tvProximas.alpha = 0f
+        tvProximas.translationY = 30f
+
+        planta?.let {
+            cargarTareasDesdeBackend(it.id_usuario_planta, rvHoy, rvProximas, tvHoy, tvProximas)
         }
-        btnBack.setOnClickListener { parentFragmentManager.popBackStack() }
     }
+
     private fun cargarTareasDesdeBackend(
         idPlanta: String,
         rvHoy: RecyclerView,
         rvFuturo: RecyclerView,
-        containerInfo: View?
+        tvHoy: TextView,
+        tvProximas: TextView
     ) {
         val sdfIso = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val hoyIso = sdfIso.format(Date())
@@ -131,16 +112,37 @@ class ViewPlantTasksFragment : Fragment() {
                         rvFuturo.layoutManager = LinearLayoutManager(requireContext())
                         rvFuturo.adapter = TaskAdapter(tareasProximas, esHoy = false)
                     }
+
+                    tvHoy.animate()
+                        .alpha(1f)
+                        .translationY(0f)
+                        .setStartDelay(80)
+                        .setDuration(300)
+                        .start()
+
+                    rvHoy.animate()
+                        .alpha(1f)
+                        .translationY(0f)
+                        .setStartDelay(160)
+                        .setDuration(350)
+                        .start()
+
+                    tvProximas.animate()
+                        .alpha(1f)
+                        .translationY(0f)
+                        .setStartDelay(260)
+                        .setDuration(300)
+                        .start()
+
+                    rvFuturo.animate()
+                        .alpha(1f)
+                        .translationY(0f)
+                        .setStartDelay(340)
+                        .setDuration(350)
+                        .start()
                 }
             } catch (e: Exception) {
                 Log.e("ViewPlantTasks", "Error: ${e.message}")
-            } finally {
-                containerInfo?.animate()
-                    ?.alpha(1f)
-                    ?.translationY(0f)
-                    ?.setStartDelay(200)
-                    ?.setDuration(400)
-                    ?.start()
             }
         }
     }

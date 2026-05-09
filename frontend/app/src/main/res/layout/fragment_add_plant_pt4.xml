@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blanco"
     android:padding="25dp"
-    android:clipToPadding="false"
-    android:clipChildren="false">
+    android:clipToPadding="true"
+    android:clipChildren="true">
 
     <ImageButton
         android:id="@+id/btnCerrar"
@@ -38,9 +37,13 @@
         android:id="@+id/contenedorInfo"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="25dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
         android:visibility="gone"
+        android:clipToPadding="true"
+        android:clipChildren="true"
+        android:requiresFadingEdge="vertical"
+        android:fadingEdgeLength="40dp"
         app:layout_constraintBottom_toTopOf="@id/botones"
         app:layout_constraintTop_toBottomOf="@id/tvTituloPaso4">
 
@@ -52,11 +55,11 @@
                 android:id="@+id/ivIconEstado"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="16dp"
                 android:src="@drawable/ic_diagnosis"
-                app:layout_constraintStart_toStartOf="parent"
                 app:tint="@color/gris_texto"
-                tools:ignore="MissingConstraints" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvLabelEstado"
@@ -79,7 +82,8 @@
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/tvLabelEstado"
-                app:layout_constraintTop_toBottomOf="@id/tvLabelEstado" />
+                app:layout_constraintTop_toBottomOf="@id/tvLabelEstado"
+                app:layout_constraintBottom_toTopOf="@id/ivIconProblema" />
 
             <ImageView
                 android:id="@+id/ivIconProblema"
@@ -174,6 +178,7 @@
                 android:id="@+id/tvValorConsejos"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:textColor="@color/gris_texto"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -19,7 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MyPlantsFragment : Fragment() {
 
-    private val viewModel: ViewPlantModel by activityViewModels()
+    private val viewModel: GetPlantsModel by activityViewModels()
     private lateinit var adapter: PlantAdapter
     private var idUsuario: String? = null
 
@@ -74,7 +74,7 @@ class MyPlantsFragment : Fragment() {
     }
 
     private fun abrirDetallePlanta(planta: PlantData) {
-        val detalleFragment = ViewPlantTasksFragment()
+        val detalleFragment = ViewMyPlantFragment()
         val bundle = Bundle()
         bundle.putSerializable("planta", planta)
         detalleFragment.arguments = bundle

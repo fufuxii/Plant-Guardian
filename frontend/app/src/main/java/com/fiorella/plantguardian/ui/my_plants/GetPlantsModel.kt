@@ -7,7 +7,7 @@ import com.fiorella.plantguardian.data.model.PlantData
 import com.fiorella.plantguardian.data.network.RetrofitClient
 import kotlinx.coroutines.launch
 
-class ViewPlantModel : ViewModel() {
+class GetPlantsModel : ViewModel() {
 
     private val _plantas = MutableLiveData<List<PlantData>>()
     private val _estaCargando = MutableLiveData<Boolean>()
