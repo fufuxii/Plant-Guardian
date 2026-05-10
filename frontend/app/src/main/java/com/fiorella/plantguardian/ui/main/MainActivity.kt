@@ -58,15 +58,26 @@ class MainActivity : AppCompatActivity() {
 
     fun cargarFragmento(fragment: Fragment, tag: String, addStack: Boolean = false) {
         if (fragmentsSinNav.contains(fragment::class.java)) ocultarNav() else mostrarNav()
-
         val transaction = supportFragmentManager.beginTransaction()
-            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-            .replace(R.id.contenedorPrincipal, fragment, tag)
 
-        if (addStack) {
-            transaction.addToBackStack(tag)
+        if (fragmentsSinNav.contains(fragment::class.java)) {
+            transaction.setCustomAnimations(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left,
+                R.anim.slide_in_left,
+                R.anim.slide_out_right
+            )
+        } else {
+            transaction.setCustomAnimations(
+                R.anim.fade_in,
+                R.anim.fade_out,
+                R.anim.fade_in,
+                R.anim.fade_out
+            )
         }
 
+        transaction.replace(R.id.contenedorPrincipal, fragment, tag)
+        if (addStack) { transaction.addToBackStack(tag) }
         transaction.commit()
     }
 

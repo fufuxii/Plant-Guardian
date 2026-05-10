@@ -19,6 +19,8 @@ class IconAdapter(
 
     private var selectedPosition = -1
 
+    override fun getItemCount() = iconos.size
+
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val ivIcono: ShapeableImageView = view.findViewById(R.id.ivIconoItem)
     }
@@ -34,8 +36,6 @@ class IconAdapter(
 
         holder.ivIcono.load(url) {
             crossfade(true)
-            placeholder(R.drawable.ic_user)
-            error(R.drawable.ic_user)
             transformations(CircleCropTransformation())
         }
 
@@ -50,6 +50,4 @@ class IconAdapter(
             onIconSelected(url)
         }
     }
-
-    override fun getItemCount() = iconos.size
 }

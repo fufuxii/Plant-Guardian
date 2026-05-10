@@ -52,9 +52,11 @@ class UserSettingsFragment : Fragment() {
         val etCiudad = view.findViewById<TextView>(R.id.etCiudad)
 
         viewModel.usuario.observe(viewLifecycleOwner) { user ->
-            etNombre.text = user.nombre
-            etCorreo.text = user.correo
-            etCiudad.text = user.ubicacion
+            user?.let {
+                etNombre.text = it.nombre
+                etCorreo.text = it.correo
+                etCiudad.text = it.ubicacion
+            }
         }
     }
 

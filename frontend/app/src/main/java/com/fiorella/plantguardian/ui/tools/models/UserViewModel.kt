@@ -11,13 +11,13 @@ import com.fiorella.plantguardian.data.schemas.UserProgressData
 import kotlinx.coroutines.launch
 
 class UserViewModel : ViewModel() {
-    private val _usuario = MutableLiveData<UserProgressData>()
+    private val _usuario = MutableLiveData<UserProgressData?>()
+    private val _logros = MutableLiveData<List<AchievementData>?>()
     private val _cargando = MutableLiveData<Boolean>()
-    private val _logros = MutableLiveData<List<AchievementData>>()
 
-    val usuario: LiveData<UserProgressData> = _usuario
+    val usuario: LiveData<UserProgressData?> = _usuario
+    val logros: LiveData<List<AchievementData>?> = _logros
     val cargando: LiveData<Boolean> = _cargando
-    val logros: LiveData<List<AchievementData>> = _logros
 
     fun cargarDatosUsuario(idUsuario: String) {
         if (_usuario.value != null) return

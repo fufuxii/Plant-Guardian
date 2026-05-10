@@ -2,6 +2,7 @@ package com.fiorella.plantguardian.ui.user
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -77,11 +78,14 @@ class UserIconsFragment : Fragment() {
                 val res = RetrofitClient.instance.actualizarIcono(userId, mapOf("url" to url))
                 if (res.isSuccessful) {
                     viewModel.refrescarDatos(userId)
-                    Toast.makeText(context, "¡Icono actualizado!", Toast.LENGTH_SHORT).show()
-                    parentFragmentManager.popBackStack()
+                    Toast.makeText(requireContext(), "¡Icono actualizado!", Toast.LENGTH_SHORT).show()
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                } else {
+                    Toast.makeText(requireContext(), "Error del servidor", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
-                Toast.makeText(context, "Error al guardar icono", Toast.LENGTH_SHORT).show()
+                Log.e("DEBUG_ICONOS", "Crash al guardar: ${e.message}")
+                Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
             }
         }
     }

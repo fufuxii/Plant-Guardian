@@ -62,18 +62,22 @@ class UserFragment : Fragment() {
         rvLogros.layoutManager = GridLayoutManager(requireContext(), 3)
 
         viewModel.usuario.observe(viewLifecycleOwner) { user ->
-            tvNombre.text = user.nombre
-            tvNivel.text = "Nivel ${user.nivel}"
-            pNivel.setProgress(user.progreso_porcentaje, true)
+            user?.let {
+                tvNombre.text = it.nombre
+                tvNivel.text = "Nivel ${it.nivel}"
+                pNivel.setProgress(it.progreso_porcentaje, true)
 
-            ivAvatar.load(user.icono) {
-                crossfade(true)
-                transformations(CircleCropTransformation())
+                ivAvatar.load(it.icono) {
+                    crossfade(true)
+                    transformations(CircleCropTransformation())
+                }
             }
         }
 
         viewModel.logros.observe(viewLifecycleOwner) { listaLogros ->
-            rvLogros.adapter = AchievementAdapter(listaLogros)
+            listaLogros?.let {
+                rvLogros.adapter = AchievementAdapter(it)
+            }
         }
 
         viewModel.cargando.observe(viewLifecycleOwner) { estaCargando ->
