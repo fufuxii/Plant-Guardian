@@ -17,14 +17,13 @@ import com.fiorella.plantguardian.R
 import com.fiorella.plantguardian.data.schemas.PlantData
 import com.fiorella.plantguardian.ui.tools.adapters.PlantAdapter
 import com.fiorella.plantguardian.ui.add_plant.AddPlantFragment
-import com.fiorella.plantguardian.ui.extensions.navigateTo
 import com.fiorella.plantguardian.ui.main.MainActivity
-import com.fiorella.plantguardian.ui.tools.models.MyPlantsModel
+import com.fiorella.plantguardian.ui.tools.models.MyPlantsViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MyPlantsFragment : Fragment() {
 
-    private val viewModel: MyPlantsModel by activityViewModels()
+    private val viewModel: MyPlantsViewModel by activityViewModels()
     private lateinit var adapter: PlantAdapter
     private var idUsuario: String? = null
     private var listaCompleta: List<PlantData> = emptyList()
@@ -78,13 +77,18 @@ class MyPlantsFragment : Fragment() {
     }
 
     private fun observarViewModel() {
+        (activity as? MainActivity)?.mostrarNav()
+
         viewModel.plantas.observe(viewLifecycleOwner) { lista ->
-            listaCompleta = lista
-            adapter.actualizarLista(lista)
+            if (lista != null) {
+                listaCompleta = lista
+                adapter.actualizarLista(lista)
+            }
         }
 
-        idUsuario?.let { viewModel.obtenerPlantas(it) }
-            ?: Log.e("PlantsFragment", "Error: User ID is null")
+        idUsuario?.let {
+            viewModel.obtenerPlantas(it)
+        } ?: Log.e("PlantsFragment", "Error: User ID is null")
     }
 
     private fun filtrarPlantas(query: String) {
@@ -104,9 +108,6 @@ class MyPlantsFragment : Fragment() {
                 putSerializable("planta", planta)
             }
         }
-        requireActivity().supportFragmentManager.navigateTo(
-            detalleFragment,
-            R.id.contenedorPrincipal
-        )
+        (activity as? MainActivity)?.cargarFragmento(detalleFragment, "DetallePlanta", true)
     }
 }

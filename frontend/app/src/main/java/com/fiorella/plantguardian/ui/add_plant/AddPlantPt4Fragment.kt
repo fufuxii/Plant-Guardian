@@ -10,6 +10,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.fiorella.plantguardian.R
 import com.fiorella.plantguardian.data.schemas.TaskResponse
@@ -18,11 +19,14 @@ import com.fiorella.plantguardian.data.schemas.AnalisisResponse
 import com.fiorella.plantguardian.ui.extensions.navigateClose
 import com.fiorella.plantguardian.ui.extensions.navigateTo
 import com.fiorella.plantguardian.ui.main.MainActivity
+import com.fiorella.plantguardian.ui.tools.models.AddPlantViewModel
 import kotlinx.coroutines.launch
 
 class AddPlantPt4Fragment : Fragment() {
 
     private var tareasObtenidas: List<TaskResponse>? = null
+
+    private val addPlantViewModel: AddPlantViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,8 +40,20 @@ class AddPlantPt4Fragment : Fragment() {
         val tempId = arguments?.getString("temp_id") ?: ""
         val lugar = arguments?.getString("lugar") ?: ""
         val idUsuario = arguments?.getString("id_usuario") ?: ""
+
         configurarBotones(view, tempId, lugar, idUsuario)
-        ejecutarAnalisis(view, tempId, lugar, idUsuario)
+
+        val esMismoLugar = addPlantViewModel.ultimoLugarAnalizado == lugar
+        val esMismaImagen = addPlantViewModel.ultimoTempIdAnalizado == tempId
+        val tieneResultado = addPlantViewModel.resultadoAnalisis.value != null
+
+        if (tieneResultado && esMismoLugar && esMismaImagen) {
+            mostrarResultadoAnalisis(view, addPlantViewModel.resultadoAnalisis.value!!)
+            view.findViewById<View>(R.id.layoutCargando).visibility = View.GONE
+            view.findViewById<View>(R.id.contenedorInfo).visibility = View.VISIBLE
+        } else {
+            ejecutarAnalisis(view, tempId, lugar, idUsuario)
+        }
     }
 
     private fun ejecutarAnalisis(view: View, tempId: String, lugar: String, idUsuario: String) {
@@ -52,6 +68,12 @@ class AddPlantPt4Fragment : Fragment() {
                 val response = RetrofitClient.instance.analizarPlanta(tempId, lugar, idUsuario)
 
                 if (response.isSuccessful && response.body() != null) {
+                    val analisis = response.body()!!
+
+                    addPlantViewModel.resultadoAnalisis.value = analisis
+                    addPlantViewModel.ultimoLugarAnalizado = lugar
+                    addPlantViewModel.ultimoTempIdAnalizado = tempId
+
                     mostrarResultadoAnalisis(view, response.body()!!)
 
                     loadingView.visibility = View.GONE
@@ -117,6 +139,9 @@ class AddPlantPt4Fragment : Fragment() {
     }
 
     private fun cerrarFlujo() {
+        val addViewModel: AddPlantViewModel by activityViewModels()
+        addViewModel.resultadoAnalisis.value = null
+
         (activity as? MainActivity)?.mostrarNav()
         parentFragmentManager.navigateClose(AddPlantFragment(), R.id.contenedorPrincipal)
     }

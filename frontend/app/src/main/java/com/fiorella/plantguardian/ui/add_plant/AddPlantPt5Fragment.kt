@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.os.BundleCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.fiorella.plantguardian.R
 import com.fiorella.plantguardian.data.schemas.TaskResponse
@@ -19,12 +20,17 @@ import com.fiorella.plantguardian.data.schemas.UserRequest
 import com.fiorella.plantguardian.data.network.RetrofitClient
 import com.fiorella.plantguardian.ui.extensions.navigateClose
 import com.fiorella.plantguardian.ui.main.MainActivity
+import com.fiorella.plantguardian.ui.my_plants.MyPlantsFragment
+import com.fiorella.plantguardian.ui.tools.models.AddPlantViewModel
+import com.fiorella.plantguardian.ui.tools.models.MyPlantsViewModel
 import kotlinx.coroutines.launch
 import java.util.ArrayList
 
 class AddPlantPt5Fragment : Fragment() {
 
     private var layoutCargando: View? = null
+
+    private val viewModel: MyPlantsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -84,7 +90,7 @@ class AddPlantPt5Fragment : Fragment() {
                     UserRequest(idUsuario)
                 )
                 if (response.isSuccessful) {
-                    gestionarGuardado()
+                    gestionarGuardado(idUsuario)
                 } else {
                     mostrarError("Error al guardar la planta")
                 }
@@ -97,12 +103,19 @@ class AddPlantPt5Fragment : Fragment() {
         }
     }
 
-    private fun gestionarGuardado() {
-        Toast.makeText(requireContext(), "Planta añadida con éxito.", Toast.LENGTH_LONG).show()
-        parentFragmentManager.popBackStack(
-            null,
-            androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
-        )
+    private fun gestionarGuardado(idUsuario: String) {
+        val addViewModel: AddPlantViewModel by activityViewModels()
+        addViewModel.resultadoAnalisis.value = null
+
+        viewModel.obtenerPlantas(idUsuario, forzarRecarga = true)
+        parentFragmentManager.popBackStack(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
+
+        (activity as? MainActivity)?.let { main ->
+            main.mostrarNav()
+            main.cargarFragmento(MyPlantsFragment(), "Plantas")
+        }
+
+        Toast.makeText(requireContext(), "¡Planta guardada!", Toast.LENGTH_SHORT).show()
     }
 
     private fun mostrarError(mensaje: String) {
@@ -110,6 +123,11 @@ class AddPlantPt5Fragment : Fragment() {
     }
 
     private fun cerrarFlujo() {
+        val addPlantViewModel: AddPlantViewModel by activityViewModels()
+        addPlantViewModel.resultadoAnalisis.value = null
+        addPlantViewModel.ultimoLugarAnalizado = null
+        addPlantViewModel.ultimoTempIdAnalizado = null
+
         (activity as? MainActivity)?.mostrarNav()
         parentFragmentManager.navigateClose(AddPlantFragment(), R.id.contenedorPrincipal)
     }

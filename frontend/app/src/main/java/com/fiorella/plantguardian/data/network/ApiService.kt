@@ -18,6 +18,7 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.PATCH
@@ -52,11 +53,22 @@ interface ApiService {
         @Path("id") id: String
     ): Response<List<IconData>>
 
+    @PATCH("usuarios/actualizar/{id}")
+    suspend fun actualizarPerfil(
+        @Path("id") id: String,
+        @Body datos: Map<String, String>
+    ): Response<ResponseBody>
+
     @PATCH("usuarios/{id}/icono")
     suspend fun actualizarIcono(
         @Path("id") id: String,
         @Body datos: Map<String, String>
     ): Response<UserProgressData>
+
+    @DELETE("plantas/eliminar/{id}")
+    suspend fun eliminarPlanta(
+        @Path("id") id: String
+    ): Response<ResponseBody>
 
     @Multipart
     @POST("plantas/identificar")
@@ -84,10 +96,4 @@ interface ApiService {
     suspend fun obtenerTareasPlanta(
         @Path("id_usuario_planta") idUsuarioPlanta: String
     ): Response<List<TaskData>>
-
-    @PATCH("usuarios/actualizar/{id}")
-    suspend fun actualizarPerfil(
-        @Path("id") id: String,
-        @Body datos: Map<String, String>
-    ): Response<ResponseBody>
 }

@@ -1,5 +1,7 @@
 package com.fiorella.plantguardian.ui.my_plants
 
+import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,13 +9,16 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
 import coil.load
 import com.fiorella.plantguardian.R
 import com.fiorella.plantguardian.data.schemas.PlantData
 import com.fiorella.plantguardian.ui.tools.adapters.ViewPlantAdapter
 import com.fiorella.plantguardian.ui.main.MainActivity
+import com.fiorella.plantguardian.ui.tools.models.MyPlantsViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -21,6 +26,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 class ViewPlantFragment : Fragment() {
 
     private var planta: PlantData? = null
+    private val myPlantsModel: MyPlantsViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,16 +97,38 @@ class ViewPlantFragment : Fragment() {
         val btnDelete = view.findViewById<ImageButton>(R.id.btnDelete)
 
         btnBack.setOnClickListener {
-            (activity as? MainActivity)?.mostrarNav()
             parentFragmentManager.popBackStack()
         }
 
         btnDelete.setOnClickListener {
-            ejecutarBorradoPlanta()
+            planta?.id_usuario_planta?.let { id ->
+                mostrarDialogoConfirmacion(id)
+            }
         }
     }
 
-    private fun ejecutarBorradoPlanta() {
-        // falta cargar
+    private fun mostrarDialogoConfirmacion(id: String) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Eliminar planta")
+            .setMessage("¿Estás seguro de que quieres eliminar a ${planta?.nombre_comun}? Esta acción no se puede deshacer.")
+            .setPositiveButton("Eliminar") { _, _ ->
+                ejecutarBorradoPlanta(id)
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
+    }
+
+    private fun ejecutarBorradoPlanta(idPlanta: String) {
+        val prefs = requireContext().getSharedPreferences("PlantGuardianPrefs", Context.MODE_PRIVATE)
+        val idUsuario = prefs.getString("user_id", "") ?: ""
+
+        myPlantsModel.eliminarPlanta(idPlanta, idUsuario) { exito ->
+            if (exito) {
+                Toast.makeText(context, "Planta eliminada con éxito", Toast.LENGTH_SHORT).show()
+                parentFragmentManager.popBackStack()
+            } else {
+                Toast.makeText(context, "Error al eliminar la planta", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
