@@ -1,5 +1,6 @@
 package com.fiorella.plantguardian.data.network
 
+import com.fiorella.plantguardian.data.schemas.AchievementData
 import com.fiorella.plantguardian.data.schemas.AnalisisResponse
 import com.fiorella.plantguardian.data.schemas.GenericResponse
 import com.fiorella.plantguardian.data.schemas.WeatherData
@@ -9,6 +10,7 @@ import com.fiorella.plantguardian.data.schemas.PlantData
 import com.fiorella.plantguardian.data.schemas.PlantResponse
 import com.fiorella.plantguardian.data.schemas.RegisterRequest
 import com.fiorella.plantguardian.data.schemas.TaskData
+import com.fiorella.plantguardian.data.schemas.UserProgressData
 import com.fiorella.plantguardian.data.schemas.UserRequest
 import okhttp3.MultipartBody
 import retrofit2.Call
@@ -22,14 +24,25 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
+
+    @GET("clima/usuario/{user_id}")
+    suspend fun obtenerClima(@Path("user_id") userId: String): Response<WeatherData>
+
     @POST("usuarios/auth/login")
     suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
 
     @POST("usuarios/auth/registro")
     suspend fun registro(@Body request: RegisterRequest): Response<Any>
 
-    @GET("clima/usuario/{user_id}")
-    suspend fun obtener_clima(@Path("user_id") userId: String): Response<WeatherData>
+    @GET("usuarios/{id}/info")
+    suspend fun obtenerUsuarioInfo(
+        @Path("id") idUsuario: String
+    ): Response<UserProgressData>
+
+    @GET("usuarios/{id}/logros")
+    suspend fun obtenerLogrosUsuario(
+        @Path("id") idUsuario: String
+    ): Response<List<AchievementData>>
 
     @Multipart
     @POST("plantas/identificar")

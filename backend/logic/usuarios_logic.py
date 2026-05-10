@@ -115,3 +115,16 @@ async def cambiar_usuario_icono(id_usuario: str, url_seleccionada: str):
   
   usuario_bd = supabase.table("Usuario").update({"icono": url_seleccionada}).eq("id", id_usuario).execute()
   return usuario_bd.data[0]
+
+
+async def obtener_usuario_info(id_usuario: str):
+  usuario_info = supabase.table("Usuario").select("*").eq("id", id_usuario).execute()
+  if not usuario_info.data: return {"error": "Usuario no encontrado"}
+
+  usuario = usuario_info.data[0]
+  usuario.pop("password", None)
+  exp_actual = usuario.get("experiencia_actual", 0)
+  exp_nivel = usuario.get("experiencia_nivel", 1)
+  usuario["progreso_porcentaje"] = int((exp_actual / exp_nivel) * 100)
+
+  return usuario

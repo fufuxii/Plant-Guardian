@@ -12,6 +12,7 @@ import com.fiorella.plantguardian.ui.add_plant.AddPlantPt4Fragment
 import com.fiorella.plantguardian.ui.add_plant.AddPlantPt5Fragment
 import com.fiorella.plantguardian.ui.my_plants.MyPlantsFragment
 import com.fiorella.plantguardian.ui.my_plants.ViewPlantFragment
+import com.fiorella.plantguardian.ui.user.UserFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -40,10 +41,11 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigation = findViewById<BottomNavigationView>(R.id.navMenu)
         bottomNavigation.setOnItemSelectedListener { item ->
             val (fragment, tag) = when (item.itemId) {
-                R.id.nav_home   -> HomeFragment()     to "Inicio"
-                R.id.nav_add    -> AddPlantFragment() to "Añadir"
+                R.id.nav_home -> HomeFragment() to "Inicio"
+                R.id.nav_add -> AddPlantFragment() to "Añadir"
                 R.id.nav_plants -> MyPlantsFragment() to "Plantas"
-                else            -> HomeFragment()     to "Inicio"
+                R.id.nav_profile -> UserFragment() to "Perfil"
+                else -> HomeFragment() to "Inicio"
             }
             cargarFragmento(fragment, tag)
             true

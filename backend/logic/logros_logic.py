@@ -35,3 +35,21 @@ async def gestionar_usuario_logros(id_usuario: str, tipo_logro: str, valor_actua
   if not pendientes: return []
   nuevos = await registrar_logros_nuevos(id_usuario, pendientes)
   return nuevos
+
+
+async def obtener_usuario_logros(id_usuario: str):
+  logros_datos = supabase.table("Usuario_Logro")\
+    .select("fecha_obtencion, Logro(id, titulo, descripcion, icono, tipo, requisito)")\
+    .eq("id_usuario", id_usuario)\
+    .execute()
+  
+  if not logros_datos.data: return []
+
+  logros_formateados = []
+  for item in logros_datos.data:
+    info_logro = item.get("Logro")
+    if info_logro:
+      info_logro["fecha_obtencion"] = item.get("fecha_obtencion")
+      logros_formateados.append(info_logro)
+    
+  return logros_formateados

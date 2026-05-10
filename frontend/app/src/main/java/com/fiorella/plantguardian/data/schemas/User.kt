@@ -6,6 +6,19 @@ data class UserData(
     val ubicacion: String
 )
 
+data class UserProgressData(
+    val id: String,
+    val nombre: String,
+    val correo: String,
+    val icono: String,
+    val ubicacion: String,
+    val nivel: Int,
+    val experiencia_actual: Int,
+    val experiencia_nivel: Int,
+    val tareas_completadas: Int,
+    val progreso_porcentaje: Int
+)
+
 data class UserRequest(
     val id_usuario: String
 )
@@ -25,4 +38,12 @@ data class LoginRequest(
 data class LoginResponse(
     val mensaje: String,
     val usuario: UserData?
+)
+
+data class AchievementData(
+    val id: String,
+    val titulo: String,
+    val descripcion: String,
+    val icono: String,
+    val fecha_obtencion: String?
 )

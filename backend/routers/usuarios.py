@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from logic.usuarios_logic import registrar_usuario, login_usuario, actualizar_usuario_datos, cambiar_usuario_icono, obtener_iconos_disponibles
+from logic.usuarios_logic import registrar_usuario, login_usuario, actualizar_usuario_datos, cambiar_usuario_icono, obtener_iconos_disponibles, obtener_usuario_info
+from logic.logros_logic import obtener_usuario_logros
 from schemas import UsuarioRegistro, UsuarioLogin, UsuarioActualizar, IconoActualizar
 
 router = APIRouter(prefix="/usuarios", tags=["Usuarios"])
@@ -58,3 +59,19 @@ async def actualizar_icono(id_usuario: str, datos: IconoActualizar):
   if isinstance(resultado, dict) and "error" in resultado:
     raise HTTPException(status_code=403, detail=resultado["error"])
   return {"mensaje": "Icono actualizado.", "usuario": resultado}
+
+
+@router.get("/{id_usuario}/info")
+async def obtener_perfil(id_usuario: str):
+  resultado = await obtener_usuario_info(id_usuario)
+  if isinstance(resultado, dict) and "error" in resultado:
+    raise HTTPException(status_code=404, detail=resultado["error"])
+  return resultado
+
+
+@router.get("/{id_usuario}/logros")
+async def obtener_logros(id_usuario: str):
+  resultado = await obtener_usuario_logros(id_usuario)
+  if isinstance(resultado, dict) and "error" in resultado:
+    raise HTTPException(status_code=400, detail=resultado["error"])
+  return resultado

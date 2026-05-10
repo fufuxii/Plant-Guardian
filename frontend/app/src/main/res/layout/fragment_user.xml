@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blanco"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:paddingBottom="25dp">
+
+        <ImageButton
+            android:id="@+id/btnSettings"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_button_green"
+            android:src="@drawable/ic_settings"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="25dp"
+            android:layout_marginTop="50dp"
+            android:elevation="4dp"
+            app:tint="@color/blanco" />
+
+        <FrameLayout
+            android:id="@+id/frameAvatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="75dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivAvatar"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:padding="4dp"
+                android:scaleType="centerCrop"
+                app:strokeColor="@color/verde_principal"
+                app:strokeWidth="4dp"
+                app:shapeAppearanceOverlay="@style/CircleImage" />
+
+            <ImageButton
+                android:id="@+id/btnEditAvatar"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="bottom|end"
+                android:background="@drawable/btn_edit"
+                android:padding="10dp"
+                android:src="@drawable/ic_edit"
+                app:tint="@color/verde_principal" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tvNombreUsuario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:textColor="@color/gris_texto"
+            android:textSize="32sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/frameAvatar" />
+
+        <TextView
+            android:id="@+id/tvNivel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="25dp"
+            android:textColor="@color/gris_texto"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvNombreUsuario"
+            app:layout_constraintEnd_toStartOf="@id/progressNivel"
+            android:layout_marginEnd="8dp" />
+
+        <ProgressBar
+            android:id="@+id/progressNivel"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="0dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginStart="25dp"
+            android:max="100"
+            android:progressDrawable="@drawable/bg_progress_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvNivel"
+            app:layout_constraintTop_toBottomOf="@id/tvNombreUsuario"
+            app:layout_constraintBottom_toBottomOf="@id/tvNivel" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/containerLogros"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:background="@drawable/bg_grid_achievements"
+            android:padding="25dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvNivel">
+
+            <TextView
+                android:id="@+id/tvTituloLogros"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Logros"
+                android:textColor="@color/verde_principal"
+                android:textSize="24sp"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvLogros"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTituloLogros" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

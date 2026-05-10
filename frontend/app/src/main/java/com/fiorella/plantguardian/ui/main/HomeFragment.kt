@@ -47,7 +47,7 @@ class HomeFragment : Fragment() {
     private fun cargarClima(userId: String, view: View, prefs: android.content.SharedPreferences) {
         lifecycleScope.launch {
             try {
-                val response = RetrofitClient.instance.obtener_clima(userId)
+                val response = RetrofitClient.instance.obtenerClima(userId)
                 if (response.isSuccessful && response.body() != null) {
                     val clima = response.body()!!
 
