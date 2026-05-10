@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.fiorella.plantguardian.R
+import com.fiorella.plantguardian.data.schemas.AchievementData
 import com.fiorella.plantguardian.ui.main.MainActivity
 import com.fiorella.plantguardian.ui.tools.adapters.AchievementAdapter
 import com.fiorella.plantguardian.ui.tools.models.UserViewModel
@@ -28,6 +29,16 @@ class UserFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_user, container, false)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val prefs = requireContext().getSharedPreferences("PlantGuardianPrefs", Context.MODE_PRIVATE)
+        val userId = prefs.getString("user_id", "") ?: ""
+
+        if (userId.isNotEmpty()) {
+            viewModel.sincronizarDatos(userId)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -90,12 +101,15 @@ class UserFragment : Fragment() {
         pNivel.animate().alpha(1f).setStartDelay(200).setDuration(400).start()
     }
 
-    private fun setupLogros(
-        listaLogros: List<com.fiorella.plantguardian.data.schemas.AchievementData>,
-        rvLogros: RecyclerView
-    ) {
-        rvLogros.adapter = AchievementAdapter(listaLogros)
-        rvLogros.animate().alpha(1f).setStartDelay(300).setDuration(400).start()
+    private fun setupLogros(listaLogros: List<AchievementData>, rvLogros: RecyclerView) {
+        val adapter = rvLogros.adapter as? AchievementAdapter
+
+        if (adapter == null) {
+            rvLogros.adapter = AchievementAdapter(listaLogros)
+            rvLogros.animate().alpha(1f).setDuration(400).start()
+        } else {
+            adapter.actualizarLista(listaLogros)
+        }
     }
 
     private fun cargarAvatar(ivAvatar: ImageView, url: String) {

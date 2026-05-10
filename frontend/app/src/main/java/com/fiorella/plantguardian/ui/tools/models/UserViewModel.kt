@@ -19,8 +19,8 @@ class UserViewModel : ViewModel() {
     val logros: LiveData<List<AchievementData>?> = _logros
     val cargando: LiveData<Boolean> = _cargando
 
-    fun cargarDatosUsuario(idUsuario: String) {
-        if (_usuario.value != null) return
+    fun cargarDatosUsuario(idUsuario: String, forzar: Boolean = false) {
+        if (_usuario.value != null && !forzar) return
 
         _cargando.value = true
         viewModelScope.launch {
@@ -37,8 +37,8 @@ class UserViewModel : ViewModel() {
         }
     }
 
-    fun cargarLogrosUsuario(idUsuario: String) {
-        if (_logros.value != null) return
+    fun cargarLogrosUsuario(idUsuario: String, forzar: Boolean = false) {
+        if (_usuario.value != null && !forzar) return
 
         viewModelScope.launch {
             try {
@@ -78,5 +78,10 @@ class UserViewModel : ViewModel() {
         _logros.value = null
         cargarDatosUsuario(idUsuario)
         cargarLogrosUsuario(idUsuario)
+    }
+
+    fun sincronizarDatos(idUsuario: String) {
+        cargarDatosUsuario(idUsuario, forzar = true)
+        cargarLogrosUsuario(idUsuario, forzar = true)
     }
 }
