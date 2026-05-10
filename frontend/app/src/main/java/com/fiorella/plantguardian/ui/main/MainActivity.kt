@@ -113,4 +113,9 @@ class MainActivity : AppCompatActivity() {
             mostrarNav()
         }
     }
+
+    fun asignarSeleccionMenu(itemId: Int) {
+        val bottomNavigation = findViewById<BottomNavigationView>(R.id.navMenu)
+        bottomNavigation.selectedItemId = itemId
+    }
 }

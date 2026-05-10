@@ -112,7 +112,7 @@ class AddPlantPt5Fragment : Fragment() {
 
         (activity as? MainActivity)?.let { main ->
             main.mostrarNav()
-            main.cargarFragmento(MyPlantsFragment(), "Plantas")
+            main.asignarSeleccionMenu(R.id.nav_plants)
         }
 
         Toast.makeText(requireContext(), "¡Planta guardada!", Toast.LENGTH_SHORT).show()

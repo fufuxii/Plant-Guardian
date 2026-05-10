@@ -72,7 +72,7 @@ class MyPlantsFragment : Fragment() {
 
     private fun configurarFab(view: View) {
         view.findViewById<FloatingActionButton>(R.id.fabAddPlant).setOnClickListener {
-            (activity as? MainActivity)?.cargarFragmento(AddPlantFragment(), "Añadir")
+            (activity as? MainActivity)?.asignarSeleccionMenu(R.id.nav_add)
         }
     }
 
