@@ -52,6 +52,27 @@ class UserViewModel : ViewModel() {
         }
     }
 
+    fun actualizarDatosPerfil(idUsuario: String, nombre: String, correo: String, ciudad: String, onResultado: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            try {
+                val datos = mapOf(
+                    "nombre" to nombre,
+                    "correo" to correo,
+                    "ubicacion" to ciudad
+                )
+                val response = RetrofitClient.instance.actualizarPerfil(idUsuario, datos)
+                if (response.isSuccessful) {
+                    refrescarDatos(idUsuario)
+                    onResultado(true)
+                } else {
+                    onResultado(false)
+                }
+            } catch (e: Exception) {
+                onResultado(false)
+            }
+        }
+    }
+
     fun refrescarDatos(idUsuario: String) {
         _usuario.value = null
         _logros.value = null

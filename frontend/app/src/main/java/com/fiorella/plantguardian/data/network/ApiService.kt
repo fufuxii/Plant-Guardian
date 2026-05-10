@@ -14,6 +14,7 @@ import com.fiorella.plantguardian.data.schemas.TaskData
 import com.fiorella.plantguardian.data.schemas.UserProgressData
 import com.fiorella.plantguardian.data.schemas.UserRequest
 import okhttp3.MultipartBody
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
@@ -83,4 +84,10 @@ interface ApiService {
     suspend fun obtenerTareasPlanta(
         @Path("id_usuario_planta") idUsuarioPlanta: String
     ): Response<List<TaskData>>
+
+    @PATCH("usuarios/actualizar/{id}")
+    suspend fun actualizarPerfil(
+        @Path("id") id: String,
+        @Body datos: Map<String, String>
+    ): Response<ResponseBody>
 }

@@ -36,52 +36,88 @@ class UserFragment : Fragment() {
         val prefs = requireContext().getSharedPreferences("PlantGuardianPrefs", Context.MODE_PRIVATE)
         val userId = prefs.getString("user_id", "") ?: ""
 
-        observarDatos(view)
-
-        viewModel.cargarDatosUsuario(userId)
-        viewModel.cargarLogrosUsuario(userId)
+        setupBotones(view)
+        setupObservadores(view, userId)
     }
 
-    private fun observarDatos(view: View) {
+    private fun setupBotones(view: View) {
+        view.findViewById<ImageButton>(R.id.btnSettings).setOnClickListener {
+            (activity as? MainActivity)?.cargarFragmento(UserSettingsFragment(), "Ajustes", true)
+        }
+        view.findViewById<ImageButton>(R.id.btnEditAvatar).setOnClickListener {
+            (activity as? MainActivity)?.cargarFragmento(UserIconsFragment(), "Iconos", true)
+        }
+    }
+
+    private fun setupObservadores(view: View, userId: String) {
         val ivAvatar = view.findViewById<ImageView>(R.id.ivAvatar)
         val tvNombre = view.findViewById<TextView>(R.id.tvNombreUsuario)
         val pNivel = view.findViewById<ProgressBar>(R.id.progressNivel)
         val tvNivel = view.findViewById<TextView>(R.id.tvNivel)
         val rvLogros = view.findViewById<RecyclerView>(R.id.rvLogros)
 
-        val btnSettings = view.findViewById<ImageButton>(R.id.btnSettings)
-        btnSettings.setOnClickListener {
-            (activity as? MainActivity)?.cargarFragmento(UserSettingsFragment(), "Ajustes", true)
-        }
-
-        val btnEditAvatar = view.findViewById<ImageButton>(R.id.btnEditAvatar)
-        btnEditAvatar.setOnClickListener {
-            (activity as? MainActivity)?.cargarFragmento(UserIconsFragment(), "Iconos", true)
-        }
+        ocultarVistas(ivAvatar, tvNombre, tvNivel, pNivel, rvLogros)
 
         rvLogros.layoutManager = GridLayoutManager(requireContext(), 3)
 
-        viewModel.usuario.observe(viewLifecycleOwner) { user ->
-            user?.let {
-                tvNombre.text = it.nombre
-                tvNivel.text = "Nivel ${it.nivel}"
-                pNivel.setProgress(it.progreso_porcentaje, true)
+        viewModel.cargarDatosUsuario(userId)
+        viewModel.cargarLogrosUsuario(userId)
 
-                ivAvatar.load(it.icono) {
-                    crossfade(true)
-                    transformations(CircleCropTransformation())
-                }
-            }
+        viewModel.usuario.observe(viewLifecycleOwner) { user ->
+            user?.let { setupUsuario(it, ivAvatar, tvNombre, tvNivel, pNivel) }
         }
 
         viewModel.logros.observe(viewLifecycleOwner) { listaLogros ->
-            listaLogros?.let {
-                rvLogros.adapter = AchievementAdapter(it)
-            }
+            listaLogros?.let { setupLogros(it, rvLogros) }
         }
+    }
 
-        viewModel.cargando.observe(viewLifecycleOwner) { estaCargando ->
+    private fun setupUsuario(
+        user: com.fiorella.plantguardian.data.schemas.UserProgressData,
+        ivAvatar: ImageView,
+        tvNombre: TextView,
+        tvNivel: TextView,
+        pNivel: ProgressBar
+    ) {
+        tvNombre.text = user.nombre
+        tvNivel.text = "Nivel ${user.nivel}"
 
+        animarProgressBar(pNivel, user.progreso_porcentaje)
+        cargarAvatar(ivAvatar, user.icono)
+
+        tvNombre.animate().alpha(1f).setStartDelay(100).setDuration(400).start()
+        tvNivel.animate().alpha(1f).setStartDelay(150).setDuration(400).start()
+        pNivel.animate().alpha(1f).setStartDelay(200).setDuration(400).start()
+    }
+
+    private fun setupLogros(
+        listaLogros: List<com.fiorella.plantguardian.data.schemas.AchievementData>,
+        rvLogros: RecyclerView
+    ) {
+        rvLogros.adapter = AchievementAdapter(listaLogros)
+        rvLogros.animate().alpha(1f).setStartDelay(300).setDuration(400).start()
+    }
+
+    private fun cargarAvatar(ivAvatar: ImageView, url: String) {
+        ivAvatar.load(url) {
+            crossfade(true)
+            transformations(CircleCropTransformation())
+            listener(onSuccess = { _, _ ->
+                ivAvatar.animate().alpha(1f).setDuration(400).start()
+            })
         }
+    }
+
+    private fun animarProgressBar(pNivel: ProgressBar, progreso: Int) {
+        pNivel.progress = 0
+        pNivel.animate()
+            .setStartDelay(200)
+            .setDuration(800)
+            .withStartAction { pNivel.setProgress(progreso, true) }
+            .start()
+    }
+
+    private fun ocultarVistas(vararg vistas: View) {
+        vistas.forEach { it.alpha = 0f }
     }
 }

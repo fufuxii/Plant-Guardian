@@ -17,6 +17,8 @@ class AchievementAdapter(private val logros: List<AchievementData>) :
         val icono: ImageView = view.findViewById(R.id.ivIconoLogro)
     }
 
+    override fun getItemCount() = logros.size
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LogroViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_achievement, parent, false)
         return LogroViewHolder(view)
@@ -24,11 +26,22 @@ class AchievementAdapter(private val logros: List<AchievementData>) :
 
     override fun onBindViewHolder(holder: LogroViewHolder, position: Int) {
         val logro = logros[position]
+
         holder.icono.load(logro.icono) {
             crossfade(true)
             decoderFactory(SvgDecoder.Factory())
         }
-    }
 
-    override fun getItemCount() = logros.size
+        holder.itemView.alpha = 0f
+        holder.itemView.scaleX = 0.8f
+        holder.itemView.scaleY = 0.8f
+
+        holder.itemView.animate()
+            .alpha(1f)
+            .scaleX(1f)
+            .scaleY(1f)
+            .setStartDelay(position * 60L)
+            .setDuration(300)
+            .start()
+    }
 }

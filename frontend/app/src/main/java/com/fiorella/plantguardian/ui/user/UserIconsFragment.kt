@@ -2,7 +2,6 @@ package com.fiorella.plantguardian.ui.user
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,6 +42,9 @@ class UserIconsFragment : Fragment() {
             .getSharedPreferences("PlantGuardianPrefs", Context.MODE_PRIVATE)
             .getString("user_id", "") ?: ""
 
+        rv.alpha = 0f
+        rv.translationY = 40f
+
         rv.layoutManager = GridLayoutManager(requireContext(), 3)
 
         btnBack.setOnClickListener {
@@ -56,6 +58,11 @@ class UserIconsFragment : Fragment() {
                     val lista = response.body() ?: emptyList()
                     if (lista.isNotEmpty()) {
                         rv.adapter = IconAdapter(lista) { url -> iconoElegido = url }
+                        rv.animate()
+                            .alpha(1f)
+                            .translationY(0f)
+                            .setDuration(400)
+                            .start()
                     }
                 }
             } catch (e: Exception) {
@@ -84,7 +91,6 @@ class UserIconsFragment : Fragment() {
                     Toast.makeText(requireContext(), "Error del servidor", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
-                Log.e("DEBUG_ICONOS", "Crash al guardar: ${e.message}")
                 Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
             }
         }
