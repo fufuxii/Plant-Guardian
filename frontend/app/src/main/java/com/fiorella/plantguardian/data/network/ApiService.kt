@@ -3,6 +3,7 @@ package com.fiorella.plantguardian.data.network
 import com.fiorella.plantguardian.data.schemas.AchievementData
 import com.fiorella.plantguardian.data.schemas.AnalisisResponse
 import com.fiorella.plantguardian.data.schemas.GenericResponse
+import com.fiorella.plantguardian.data.schemas.IconData
 import com.fiorella.plantguardian.data.schemas.WeatherData
 import com.fiorella.plantguardian.data.schemas.LoginRequest
 import com.fiorella.plantguardian.data.schemas.LoginResponse
@@ -18,6 +19,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Multipart
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Path
@@ -43,6 +45,17 @@ interface ApiService {
     suspend fun obtenerLogrosUsuario(
         @Path("id") idUsuario: String
     ): Response<List<AchievementData>>
+
+    @GET("usuarios/{id}/iconos")
+    suspend fun obtenerIconosDisponibles(
+        @Path("id") id: String
+    ): Response<List<IconData>>
+
+    @PATCH("usuarios/{id}/icono")
+    suspend fun actualizarIcono(
+        @Path("id") id: String,
+        @Body datos: Map<String, String>
+    ): Response<UserProgressData>
 
     @Multipart
     @POST("plantas/identificar")

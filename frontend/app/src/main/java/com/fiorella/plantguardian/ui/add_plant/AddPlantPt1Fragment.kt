@@ -47,7 +47,6 @@ class AddPlantPt1Fragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         (activity as? MainActivity)?.ocultarNav()
 
         view.findViewById<ImageButton>(R.id.btnCerrar).setOnClickListener {

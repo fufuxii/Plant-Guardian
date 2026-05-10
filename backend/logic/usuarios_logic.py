@@ -86,19 +86,17 @@ async def obtener_iconos_disponibles(id_usuario: str):
   if not usuario_bd.data: return None
 
   nivel_actual = usuario_bd.data[0]["nivel"]
-  bucket_name = "publico"
-  folder_path = "iconos"
   iconos_elegibles = []
-  
+
   for n in range(1, nivel_actual + 1):
     file_name = f"lvl{n}.png"
-    url = supabase.storage.from_(bucket_name).get_public_url(f"{folder_path}/{file_name}")
+    url = supabase.storage.from_("iconos").get_public_url(file_name)
     iconos_elegibles.append({
       "id": n,
       "url": url,
       "nombre": f"Nivel {n}"
     })
-  
+
   return iconos_elegibles
 
 

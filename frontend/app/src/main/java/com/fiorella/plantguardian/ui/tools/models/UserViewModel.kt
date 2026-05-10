@@ -14,11 +14,14 @@ class UserViewModel : ViewModel() {
     private val _usuario = MutableLiveData<UserProgressData>()
     private val _cargando = MutableLiveData<Boolean>()
     private val _logros = MutableLiveData<List<AchievementData>>()
+
     val usuario: LiveData<UserProgressData> = _usuario
     val cargando: LiveData<Boolean> = _cargando
     val logros: LiveData<List<AchievementData>> = _logros
 
     fun cargarDatosUsuario(idUsuario: String) {
+        if (_usuario.value != null) return
+
         _cargando.value = true
         viewModelScope.launch {
             try {
@@ -27,6 +30,7 @@ class UserViewModel : ViewModel() {
                     _usuario.value = response.body()
                 }
             } catch (e: Exception) {
+                Log.e("DEBUG_USER", "Error: ${e.message}")
             } finally {
                 _cargando.value = false
             }
@@ -34,20 +38,24 @@ class UserViewModel : ViewModel() {
     }
 
     fun cargarLogrosUsuario(idUsuario: String) {
+        if (_logros.value != null) return
+
         viewModelScope.launch {
             try {
                 val response = RetrofitClient.instance.obtenerLogrosUsuario(idUsuario)
                 if (response.isSuccessful) {
-                    val lista = response.body()
-                    Log.d("DEBUG_LOGROS", "Logros recibidos: ${lista?.size ?: 0}")
-                    Log.d("DEBUG_LOGROS", "Contenido: $lista") // Verifica si el JSON mapea bien
-                    _logros.value = lista ?: emptyList()
-                } else {
-                    Log.e("DEBUG_LOGROS", "Error API: ${response.code()} - ${response.errorBody()?.string()}")
+                    _logros.value = response.body() ?: emptyList()
                 }
             } catch (e: Exception) {
                 Log.e("DEBUG_LOGROS", "Fallo total: ${e.message}")
             }
         }
+    }
+
+    fun refrescarDatos(idUsuario: String) {
+        _usuario.value = null
+        _logros.value = null
+        cargarDatosUsuario(idUsuario)
+        cargarLogrosUsuario(idUsuario)
     }
 }

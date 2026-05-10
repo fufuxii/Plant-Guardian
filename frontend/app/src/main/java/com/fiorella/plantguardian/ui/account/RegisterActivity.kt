@@ -29,9 +29,9 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun configurarRegistro() {
-        val btnRegistrar = findViewById<Button>(R.id.btnRegistrar)
-        val etNombre = findViewById<EditText>(R.id.etRegistroNombre)
-        val etCorreo = findViewById<EditText>(R.id.etRegistroCorreo)
+        val btnRegistrar = findViewById<Button>(R.id.btnCerrarSesion)
+        val etNombre = findViewById<EditText>(R.id.etNombre)
+        val etCorreo = findViewById<EditText>(R.id.etCorreo)
         val etCiudad = findViewById<EditText>(R.id.etRegistroCiudad)
         val etContra = findViewById<EditText>(R.id.etRegistroContra)
         val etRepiteContra = findViewById<EditText>(R.id.etRegistroRepiteContra)

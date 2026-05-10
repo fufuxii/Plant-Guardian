@@ -1,5 +1,7 @@
 package com.fiorella.plantguardian.data.schemas
 
+import com.google.gson.annotations.SerializedName
+
 data class UserData(
     val id: String,
     val nombre: String,
@@ -46,4 +48,13 @@ data class AchievementData(
     val descripcion: String,
     val icono: String,
     val fecha_obtencion: String?
+)
+
+data class IconData(
+    @SerializedName("url")
+    val url: String,
+    @SerializedName("id")
+    val id: Int,
+    @SerializedName("nombre")
+    val nombre: String
 )

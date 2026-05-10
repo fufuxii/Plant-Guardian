@@ -2,7 +2,6 @@ package com.fiorella.plantguardian.ui.user
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +9,8 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -21,10 +19,9 @@ import com.fiorella.plantguardian.R
 import com.fiorella.plantguardian.ui.main.MainActivity
 import com.fiorella.plantguardian.ui.tools.adapters.AchievementAdapter
 import com.fiorella.plantguardian.ui.tools.models.UserViewModel
-import com.google.android.material.imageview.ShapeableImageView
 
 class UserFragment : Fragment() {
-    private val viewModel: UserViewModel by viewModels()
+    private val viewModel: UserViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,6 +49,16 @@ class UserFragment : Fragment() {
         val tvNivel = view.findViewById<TextView>(R.id.tvNivel)
         val rvLogros = view.findViewById<RecyclerView>(R.id.rvLogros)
 
+        val btnSettings = view.findViewById<ImageButton>(R.id.btnSettings)
+        btnSettings.setOnClickListener {
+            (activity as? MainActivity)?.cargarFragmento(UserSettingsFragment(), "Ajustes", true)
+        }
+
+        val btnEditAvatar = view.findViewById<ImageButton>(R.id.btnEditAvatar)
+        btnEditAvatar.setOnClickListener {
+            (activity as? MainActivity)?.cargarFragmento(UserIconsFragment(), "Iconos", true)
+        }
+
         rvLogros.layoutManager = GridLayoutManager(requireContext(), 3)
 
         viewModel.usuario.observe(viewLifecycleOwner) { user ->
@@ -61,8 +68,6 @@ class UserFragment : Fragment() {
 
             ivAvatar.load(user.icono) {
                 crossfade(true)
-                placeholder(R.drawable.ic_user)
-                error(R.drawable.ic_user)
                 transformations(CircleCropTransformation())
             }
         }

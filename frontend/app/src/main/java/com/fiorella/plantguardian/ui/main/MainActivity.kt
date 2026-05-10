@@ -13,6 +13,8 @@ import com.fiorella.plantguardian.ui.add_plant.AddPlantPt5Fragment
 import com.fiorella.plantguardian.ui.my_plants.MyPlantsFragment
 import com.fiorella.plantguardian.ui.my_plants.ViewPlantFragment
 import com.fiorella.plantguardian.ui.user.UserFragment
+import com.fiorella.plantguardian.ui.user.UserIconsFragment
+import com.fiorella.plantguardian.ui.user.UserSettingsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -23,7 +25,9 @@ class MainActivity : AppCompatActivity() {
         AddPlantPt3Fragment::class.java,
         AddPlantPt4Fragment::class.java,
         AddPlantPt5Fragment::class.java,
-        ViewPlantFragment::class.java
+        ViewPlantFragment::class.java,
+        UserSettingsFragment::class.java,
+        UserIconsFragment::class.java
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,12 +56,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun cargarFragmento(fragment: Fragment, tag: String) {
+    fun cargarFragmento(fragment: Fragment, tag: String, addStack: Boolean = false) {
         if (fragmentsSinNav.contains(fragment::class.java)) ocultarNav() else mostrarNav()
-        supportFragmentManager.beginTransaction()
+
+        val transaction = supportFragmentManager.beginTransaction()
             .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
             .replace(R.id.contenedorPrincipal, fragment, tag)
-            .commit()
+
+        if (addStack) {
+            transaction.addToBackStack(tag)
+        }
+
+        transaction.commit()
     }
 
     fun ocultarNav() {

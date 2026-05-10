@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.imageview.ShapeableImageView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ivIconoItem"
+    android:layout_width="90dp"
+    android:layout_height="90dp"
+    android:layout_margin="8dp"
+    android:padding="10dp"
+    android:scaleType="centerInside"
+    android:adjustViewBounds="true"
+    app:shapeAppearanceOverlay="@style/CircleImage"
+    app:strokeColor="@color/verde_principal"
+    app:strokeWidth="0dp" />

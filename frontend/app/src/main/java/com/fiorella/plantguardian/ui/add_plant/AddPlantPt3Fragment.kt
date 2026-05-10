@@ -81,6 +81,7 @@ class AddPlantPt3Fragment : Fragment() {
         val paso4 = AddPlantPt4Fragment().apply {
             arguments = bundle
         }
+
         parentFragmentManager.navigateTo(paso4, R.id.contenedorPrincipal)
     }
 
