@@ -19,6 +19,7 @@ import com.fiorella.plantguardian.data.schemas.PlantData
 import com.fiorella.plantguardian.ui.tools.adapters.ViewPlantAdapter
 import com.fiorella.plantguardian.ui.main.MainActivity
 import com.fiorella.plantguardian.ui.tools.models.MyPlantsViewModel
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -108,14 +109,30 @@ class ViewPlantFragment : Fragment() {
     }
 
     private fun mostrarDialogoConfirmacion(id: String) {
-        AlertDialog.Builder(requireContext())
-            .setTitle("Eliminar planta")
-            .setMessage("¿Estás seguro de que quieres eliminar a ${planta?.nombre_comun}? Esta acción no se puede deshacer.")
-            .setPositiveButton("Eliminar") { _, _ ->
-                ejecutarBorradoPlanta(id)
-            }
-            .setNegativeButton("Cancelar", null)
-            .show()
+        val dialogView = LayoutInflater.from(requireContext())
+            .inflate(R.layout.dialog_confirm_delete, null)
+
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .create()
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        dialogView.findViewById<MaterialButton>(R.id.btnCancelar).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialogView.findViewById<MaterialButton>(R.id.btnAceptar).setOnClickListener {
+            ejecutarBorradoPlanta(id)
+            dialog.dismiss()
+        }
+
+        dialog.show()
+
+        dialog.window?.setLayout(
+            (resources.displayMetrics.widthPixels * 0.88).toInt(),
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
     }
 
     private fun ejecutarBorradoPlanta(idPlanta: String) {

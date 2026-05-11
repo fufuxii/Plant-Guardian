@@ -51,4 +51,8 @@
     <string name="no_tienes_tareas_pendientes_para_hoy">No tienes tareas pendientes para hoy.</string>
     <string name="no_hay_tareas_programadas_para_el_futuro">No hay tareas programadas para el futuro.</string>
     <string name="buscar_planta">Buscar planta...</string>
+    <string name="est_s_seguro_a">¿Estás seguro/a?</string>
+    <string name="esta_acci_n_no_se_puede_deshacer">Esta acción no se puede deshacer.</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="cancelar">Cancelar</string>
 </resources>
