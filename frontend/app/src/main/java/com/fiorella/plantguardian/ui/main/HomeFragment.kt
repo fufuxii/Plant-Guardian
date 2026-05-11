@@ -1,4 +1,5 @@
 package com.fiorella.plantguardian.ui.main
+
 import android.annotation.SuppressLint
 import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
@@ -7,16 +8,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import coil.load
+import coil.transform.CircleCropTransformation
 import com.fiorella.plantguardian.R
 import com.fiorella.plantguardian.data.network.RetrofitClient
+import com.fiorella.plantguardian.ui.tools.models.UserViewModel
 import kotlinx.coroutines.launch
 
-@Suppress("DEPRECATION")
 class HomeFragment : Fragment() {
+
+    private val userViewModel: UserViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,19 +34,63 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val prefs = requireContext().getSharedPreferences("PlantGuardianPrefs", MODE_PRIVATE)
         val userId = prefs.getString("user_id", null)
 
         if (userId != null) {
             actualizarFecha(view)
-            val ultimaCarga = prefs.getLong("clima_timestamp", 0L)
-            val ahora = System.currentTimeMillis()
-            val maxEspera = 30 * 60 * 1000
-            if (ahora - ultimaCarga > maxEspera) {
-                cargarClima(userId, view, prefs)
-            } else {
-                mostrarClima(view, prefs)
+            setupClima(view, userId, prefs)
+            setupPerfilUsuario(view, userId)
+            setupAccionesRapidas(view)
+        }
+    }
+
+    private fun setupPerfilUsuario(view: View, userId: String) {
+        val tvNombre = view.findViewById<TextView>(R.id.tvSaludoNombre)
+        val tvXp = view.findViewById<TextView>(R.id.tvXP)
+        val pbNivel = view.findViewById<ProgressBar>(R.id.pbNivel)
+        val tvNivelLabel = view.findViewById<TextView>(R.id.tvNivel)
+        val ivUser = view.findViewById<ImageView>(R.id.ivIconoUsuarioHome)
+
+        userViewModel.cargarDatosUsuario(userId)
+
+        userViewModel.usuario.observe(viewLifecycleOwner) { user ->
+            user?.let {
+                tvNombre.text = it.nombre
+                tvNivelLabel.text = "Nivel ${it.nivel}"
+                tvXp.text = "${it.experiencia_actual} / ${it.experiencia_nivel} xp"
+                pbNivel.progress = it.progreso_porcentaje
+
+                ivUser?.load(it.icono) {
+                    transformations(CircleCropTransformation())
+                    error(R.drawable.ic_user)
+                }
             }
+        }
+    }
+
+    private fun setupAccionesRapidas(view: View) {
+        view.findViewById<LinearLayout>(R.id.llAccionMisplantas).setOnClickListener {
+            (activity as? MainActivity)?.asignarSeleccionMenu(R.id.nav_plants)
+        }
+
+        view.findViewById<LinearLayout>(R.id.llAccionAnadir).setOnClickListener {
+            (activity as? MainActivity)?.asignarSeleccionMenu(R.id.nav_add)
+        }
+
+        view.findViewById<LinearLayout>(R.id.llUsuarioInfo).setOnClickListener {
+            (activity as? MainActivity)?.asignarSeleccionMenu(R.id.nav_profile)
+        }
+    }
+
+    private fun setupClima(view: View, userId: String, prefs: android.content.SharedPreferences) {
+        val ultimaCarga = prefs.getLong("clima_timestamp", 0L)
+        val ahora = System.currentTimeMillis()
+        if (ahora - ultimaCarga > 30 * 60 * 1000) {
+            cargarClima(userId, view, prefs)
+        } else {
+            mostrarClima(view, prefs)
         }
     }
 
@@ -50,7 +101,6 @@ class HomeFragment : Fragment() {
                 val response = RetrofitClient.instance.obtenerClima(userId)
                 if (response.isSuccessful && response.body() != null) {
                     val clima = response.body()!!
-
                     actualizarClima(view, clima.temp, clima.viento, clima.humedad, clima.lluvia, clima.icono)
                     prefs.edit().apply {
                         putFloat("cache_temp", clima.temp.toFloat())
@@ -63,7 +113,7 @@ class HomeFragment : Fragment() {
                     }
                 }
             } catch (e: Exception) {
-                Log.e("DEBUG_PLANT", "Error de red: ${e.message}")
+                Log.e("DEBUG_HOME", "Error Clima: ${e.message}")
             }
         }
     }
