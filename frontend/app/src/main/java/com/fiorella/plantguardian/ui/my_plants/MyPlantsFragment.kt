@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fiorella.plantguardian.R
 import com.fiorella.plantguardian.data.schemas.PlantData
 import com.fiorella.plantguardian.ui.tools.adapters.PlantAdapter
-import com.fiorella.plantguardian.ui.add_plant.AddPlantFragment
 import com.fiorella.plantguardian.ui.main.MainActivity
 import com.fiorella.plantguardian.ui.tools.models.MyPlantsViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton

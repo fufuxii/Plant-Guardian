@@ -192,7 +192,7 @@
         android:layout_marginStart="25dp"
         android:text="Repite la\ncontraseña"
         android:textColor="@color/gris_texto"
-        android:textSize="15sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cvRegistroContra" />
 

@@ -23,6 +23,7 @@ import com.fiorella.plantguardian.ui.tools.models.UserViewModel
 
 class UserFragment : Fragment() {
     private val viewModel: UserViewModel by activityViewModels()
+    private lateinit var achievementAdapter: AchievementAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,24 +32,23 @@ class UserFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_user, container, false)
     }
 
-    override fun onResume() {
-        super.onResume()
-        val prefs = requireContext().getSharedPreferences("PlantGuardianPrefs", Context.MODE_PRIVATE)
-        val userId = prefs.getString("user_id", "") ?: ""
-
-        if (userId.isNotEmpty()) {
-            viewModel.sincronizarDatos(userId)
-        }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val prefs = requireContext().getSharedPreferences("PlantGuardianPrefs", Context.MODE_PRIVATE)
         val userId = prefs.getString("user_id", "") ?: ""
 
+        val rvLogros = view.findViewById<RecyclerView>(R.id.rvLogros)
+        rvLogros.layoutManager = GridLayoutManager(requireContext(), 3)
+
+        achievementAdapter = AchievementAdapter(emptyList())
+        rvLogros.adapter = achievementAdapter
+
         setupBotones(view)
-        setupObservadores(view, userId)
+
+        if (userId.isNotEmpty()) {
+            setupObservadores(view, userId)
+        }
     }
 
     private fun setupBotones(view: View) {
@@ -68,8 +68,6 @@ class UserFragment : Fragment() {
         val rvLogros = view.findViewById<RecyclerView>(R.id.rvLogros)
 
         ocultarVistas(ivAvatar, tvNombre, tvNivel, pNivel, rvLogros)
-
-        rvLogros.layoutManager = GridLayoutManager(requireContext(), 3)
 
         viewModel.cargarDatosUsuario(userId)
         viewModel.cargarLogrosUsuario(userId)
@@ -102,14 +100,10 @@ class UserFragment : Fragment() {
     }
 
     private fun setupLogros(listaLogros: List<AchievementData>, rvLogros: RecyclerView) {
-        val adapter = rvLogros.adapter as? AchievementAdapter
-
-        if (adapter == null) {
-            rvLogros.adapter = AchievementAdapter(listaLogros)
+        if (achievementAdapter.itemCount == 0 && listaLogros.isNotEmpty()) {
             rvLogros.animate().alpha(1f).setDuration(400).start()
-        } else {
-            adapter.actualizarLista(listaLogros)
         }
+        achievementAdapter.actualizarLista(listaLogros)
     }
 
     private fun cargarAvatar(ivAvatar: ImageView, url: String) {

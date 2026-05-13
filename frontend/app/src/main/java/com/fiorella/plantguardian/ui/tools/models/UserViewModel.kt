@@ -38,7 +38,7 @@ class UserViewModel : ViewModel() {
     }
 
     fun cargarLogrosUsuario(idUsuario: String, forzar: Boolean = false) {
-        if (_usuario.value != null && !forzar) return
+        if (_logros.value != null && !forzar) return // ← FIX: era _usuario
 
         viewModelScope.launch {
             try {

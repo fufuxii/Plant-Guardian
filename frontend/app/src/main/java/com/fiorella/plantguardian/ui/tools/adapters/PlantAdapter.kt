@@ -16,8 +16,11 @@ class PlantAdapter(
     private val onPlantClick: (PlantData) -> Unit
 ) : RecyclerView.Adapter<PlantAdapter.PlantViewHolder>() {
 
+    private val posicionesAnimadas = mutableSetOf<Int>()
+
     class PlantViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val nombre: TextView = view.findViewById(R.id.tvNombrePlanta)
+        val nombreCientifico: TextView = view.findViewById(R.id.tvNombreCientifico)
         val lugar: TextView = view.findViewById(R.id.tvLugarPlanta)
         val foto: ImageView = view.findViewById(R.id.ivPlanta)
         val cargador: ProgressBar = view.findViewById(R.id.pbCargandoImagen)
@@ -35,27 +38,35 @@ class PlantAdapter(
         val planta = listaPlantas[position]
 
         holder.nombre.text = planta.nombre_comun
+        holder.nombreCientifico.text = planta.nombre_cientifico
         holder.lugar.text = planta.lugar
 
-        holder.foto.load(planta.imagen_url) {
-            crossfade(true)
-            error(R.drawable.ic_my_plants)
-            listener(
-                onStart = { holder.cargador.visibility = View.VISIBLE },
-                onSuccess = { _, _ -> holder.cargador.visibility = View.GONE },
-                onError = { _, _ -> holder.cargador.visibility = View.GONE }
-            )
+        if (holder.foto.tag != planta.imagen_url) {
+            holder.foto.tag = planta.imagen_url
+            holder.foto.load(planta.imagen_url) {
+                crossfade(false)
+                error(R.drawable.ic_my_plants)
+                listener(
+                    onStart = { holder.cargador.visibility = View.VISIBLE },
+                    onSuccess = { _, _ -> holder.cargador.visibility = View.GONE },
+                    onError = { _, _ -> holder.cargador.visibility = View.GONE }
+                )
+            }
         }
 
         holder.itemView.setOnClickListener { onPlantClick(planta) }
-        holder.itemView.alpha = 0f
-        holder.itemView.translationY = 40f
-        holder.itemView.animate()
-            .alpha(1f)
-            .translationY(0f)
-            .setDuration(350)
-            .setStartDelay(position * 80L)
-            .start()
+
+        if (position !in posicionesAnimadas) {
+            posicionesAnimadas.add(position)
+            holder.itemView.alpha = 0f
+            holder.itemView.animate()
+                .alpha(1f)
+                .setDuration(300)
+                .setStartDelay(minOf(position, 5) * 60L)
+                .start()
+        } else {
+            holder.itemView.alpha = 1f
+        }
     }
 
     fun actualizarLista(nuevaLista: List<PlantData>) {

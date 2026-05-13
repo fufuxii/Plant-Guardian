@@ -55,4 +55,6 @@
     <string name="esta_acci_n_no_se_puede_deshacer">Esta acción no se puede deshacer.</string>
     <string name="aceptar">Aceptar</string>
     <string name="cancelar">Cancelar</string>
+    <string name="se_registrar_la_tarea_como_finalizada">Se registrará la tarea como finalizada.</string>
+    <string name="marcar_como_completada">¿Marcar como completada?</string>
 </resources>

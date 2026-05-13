@@ -3,6 +3,7 @@ package com.fiorella.plantguardian.ui.tools.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +15,8 @@ import com.fiorella.plantguardian.data.schemas.AchievementData
 class AchievementAdapter(private var logros: List<AchievementData>) :
     RecyclerView.Adapter<AchievementAdapter.LogroViewHolder>() {
 
+    private val posicionesAnimadas = mutableSetOf<Int>()
+
     class LogroViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val icono: ImageView = view.findViewById(R.id.ivIconoLogro)
     }
@@ -21,7 +24,6 @@ class AchievementAdapter(private var logros: List<AchievementData>) :
     fun actualizarLista(nuevaLista: List<AchievementData>) {
         val diffCallback = AchievementDiffCallback(this.logros, nuevaLista)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
-
         this.logros = nuevaLista
         diffResult.dispatchUpdatesTo(this)
     }
@@ -37,21 +39,25 @@ class AchievementAdapter(private var logros: List<AchievementData>) :
         val logro = logros[position]
 
         holder.icono.load(logro.icono) {
-            crossfade(true)
+            crossfade(false)
             decoderFactory(SvgDecoder.Factory())
         }
 
-        holder.itemView.alpha = 0f
-        holder.itemView.scaleX = 0.8f
-        holder.itemView.scaleY = 0.8f
-
-        holder.itemView.animate()
-            .alpha(1f)
-            .scaleX(1f)
-            .scaleY(1f)
-            .setStartDelay(position * 30L)
-            .setDuration(300)
-            .start()
+        if (position !in posicionesAnimadas) {
+            posicionesAnimadas.add(position)
+            holder.itemView.alpha = 0f
+            holder.itemView.translationY = 40f
+            holder.itemView.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setDuration(350)
+                .setStartDelay(minOf(position, 5) * 80L)
+                .setInterpolator(DecelerateInterpolator())
+                .start()
+        } else {
+            holder.itemView.alpha = 1f
+            holder.itemView.translationY = 0f
+        }
     }
 
     class AchievementDiffCallback(

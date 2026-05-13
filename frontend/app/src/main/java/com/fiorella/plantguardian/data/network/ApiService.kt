@@ -96,4 +96,7 @@ interface ApiService {
     suspend fun obtenerTareasPlanta(
         @Path("id_usuario_planta") idUsuarioPlanta: String
     ): Response<List<TaskData>>
+
+    @PATCH("tareas/{id_tarea}/completar")
+    suspend fun completarTarea(@Path("id_tarea") idTarea: String): Response<Void>
 }

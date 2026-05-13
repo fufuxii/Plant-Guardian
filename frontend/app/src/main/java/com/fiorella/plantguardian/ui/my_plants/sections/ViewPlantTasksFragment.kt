@@ -1,12 +1,16 @@
 package com.fiorella.plantguardian.ui.my_plants.sections
 
+import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +19,8 @@ import com.fiorella.plantguardian.data.schemas.PlantData
 import com.fiorella.plantguardian.data.network.RetrofitClient
 import com.fiorella.plantguardian.data.schemas.TaskData
 import com.fiorella.plantguardian.ui.tools.adapters.TaskAdapter
+import com.fiorella.plantguardian.ui.tools.models.UserViewModel
+import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -24,6 +30,7 @@ import java.util.Locale
 class ViewPlantTasksFragment : Fragment() {
 
     private var planta: PlantData? = null
+    private val userViewModel: UserViewModel by activityViewModels()
 
     companion object {
         fun newInstance(planta: PlantData?): ViewPlantTasksFragment {
@@ -115,9 +122,58 @@ class ViewPlantTasksFragment : Fragment() {
             rv.apply {
                 visibility = View.VISIBLE
                 layoutManager = LinearLayoutManager(requireContext())
-                adapter = TaskAdapter(lista, esHoy = esHoy)
+                adapter = TaskAdapter(lista, esHoy = esHoy) { tarea ->
+                    mostrarDialogoConfirmacionTarea(tarea)
+                }
             }
         }
+    }
+
+    private fun ejecutarCompletarTarea(tarea: TaskData) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                val response = RetrofitClient.instance.completarTarea(tarea.id)
+
+                if (response.isSuccessful) {
+                    Toast.makeText(requireContext(), "¡Tarea guardada!", Toast.LENGTH_SHORT).show()
+
+                    val prefs = requireContext().getSharedPreferences("PlantGuardianPrefs", Context.MODE_PRIVATE)
+                    val userId = prefs.getString("user_id", "") ?: ""
+                    userViewModel.cargarDatosUsuario(userId, forzar = true)
+
+                    planta?.let { obtenerTareas(requireView(), it.id_usuario_planta) }
+                }
+            } catch (e: Exception) {
+                Log.e("ViewPlantTasks", "Error al completar: ${e.message}")
+            }
+        }
+    }
+
+    private fun mostrarDialogoConfirmacionTarea(tarea: TaskData) {
+        val dialogView = LayoutInflater.from(requireContext())
+            .inflate(R.layout.dialog_confirm_task, null)
+
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .create()
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        dialogView.findViewById<MaterialButton>(R.id.btnCancelar).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialogView.findViewById<MaterialButton>(R.id.btnAceptar).setOnClickListener {
+            dialog.dismiss()
+            ejecutarCompletarTarea(tarea)
+        }
+
+        dialog.show()
+
+        dialog.window?.setLayout(
+            (resources.displayMetrics.widthPixels * 0.88).toInt(),
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
     }
 
     private fun ejecutarAnimaciones(
