@@ -12,7 +12,7 @@ app.include_router(tareas.router)
 app.include_router(clima.router)
 
 @app.get("/")
-def inicio():
+async def inicio():
   return {
     "mensaje": "Plant Guardian API funcionando.",
     "estado": "Online",
