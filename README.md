@@ -18,36 +18,39 @@ Fiorella Lucia Queirolo Chavez · Grado en Ingeniería Informática · Universid
 
 ## 🌿 Descripción
 
-Plant Guardian es un ecosistema digital desarrollado como **Proyecto de Final de Grado (TFG)** que combina Inteligencia Artificial y mecánicas de gamificación para transformar el mantenimiento botánico en una experiencia interactiva, educativa y personalizada.
+Plant Guardian es un **proyecto de final de grado (TFG)** que combina la Inteligencia Artificial con mecánicas de gamificación para transformar el mantenimiento botánico en una experiencia interactiva y personalizada.
 
 ## ✨ Características
 
 - **Diagnóstico con IA** — Análisis avanzado de la salud de las plantas mediante fotos usando Google Gemini AI.
 - **Identificación botánica** — Reconocimiento automático de especies a través de la API de Pl@ntNet.
 - **Gamificación** — Sistema de niveles, puntos XP, logros desbloqueables y avatares personalizados.
-- **Gestión de tareas** — Calendario dinámico de riegos con notificaciones basadas en el clima local (OpenWeather).
+- **Gestión de tareas** — Tareas personalizadas para cada planta según su estado, el lugar y el clima local.
 - **Repositorio centralizado** — Seguimiento individualizado de cada planta con persistencia de datos en la nube.
 
 ## 🛠️ Tecnología
 
 **Backend** 
 - Lenguaje — Python 3.10+
-- Framework — FastAPI (arquitectura asíncrona)
+- Framework — FastAPI 
 - Base de datos — Supabase (PostgreSQL)
-- Seguridad — JWT & Bcrypt
-- Arquitectura — Estructura modular por capas (Routers, Services, Logic)
+- Arquitectura — Por capas (Routers, Services, Logic)
 
 **Frontend** 
 - Lenguaje — Kotlin
 - Entorno — Android Studio
 - Arquitectura — MVVM
 - Comunicación API — Retrofit
-- Gestión de imágenes — Coil
-- Diseño — Material Design 3 con animaciones de transición
+- Diseño — Material Design 3
 
-## 📈 Metodología
+**APIs externas**
+- [Gemini](https://ai.google.dev/) — Inteligencia artificial
+- [Pl@ntNet](https://my.plantnet.org) — Base de datos de plantas
+- [OpenWeather](https://openweathermap.org/) — Datos meteorológicos
 
-El proyecto se ha desarrollado bajo un marco **Ágil (SCRUM)**, dividido en 4 sprints. Se ha utilizado IA Generativa como soporte para la optimización de código, diseño de arquitectura y rediseño de interfaces (UX/UI).
+## 📈 Desarrollo
+
+El proyecto se ha desarrollado bajo una metodología **Ágil (SCRUM)**, dividido en 4 sprints. Se ha utilizado IA Generativa con Gemini y Claude como soporte para la optimización de código y mejora en el diseño de las interfaces.
 
 ## 📁 Estructura del proyecto
 
@@ -66,7 +69,7 @@ PlantGuardian/
 └── imgs/                   # Activos gráficos (logos, iconos de logros y avatares)
 ```
 
-## 🚀 Instalación
+## 🚀 Instalación en local
 
 ### 1. Clonar el repositorio
 
@@ -106,4 +109,15 @@ OPENWEATHER_API_KEY=tu_clave_weather
 uvicorn main:app --reload
 ```
 
-Servidor disponible en `http://127.0.0.1:8000` · Documentación Swagger en `/docs`
+El servidor estará disponible en `http://127.0.0.1:8000`
+
+### 6. Configurar la conexión en Android Studio
+
+En `Plant-Guardian/frontend/app/src/main/java/com/fiorella/plantguardian/data/network/RetrofitClient.kt`, ajusta `BASE_URL` según tu caso:
+
+| Entorno | URL |
+|---|---|
+| Emulador Android | `http://10.0.2.2:8000/` |
+| Dispositivo físico | `http://<tu-IP-local>:8000/` (ej: `192.168.1.X`) |
+
+Para obtener tu IP local en Windows ejecuta `ipconfig`, en Mac/Linux `ifconfig` o `ip a`.
