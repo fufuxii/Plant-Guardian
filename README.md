@@ -18,11 +18,11 @@ Fiorella Lucia Queirolo Chavez · Grado en Ingeniería Informática · Universid
 
 ## 🌿 Descripción
 
-Plant Guardian es un **proyecto de final de grado (TFG)** que combina la Inteligencia Artificial con mecánicas de gamificación para transformar el mantenimiento botánico en una experiencia interactiva y personalizada.
+Plant Guardian es un **proyecto de final de grado (TFG)** que desarrolla una app Android con IA para ayudar al cuidado de plantas mediante reconocimiento visual y análisis de síntomas, ofreciendo recomendaciones personalizadas para su mantenimiento. Además, incorpora gamificación para fomentar hábitos de cuidado constantes y hace el proceso más accesible, sencillo y guiado para cualquier usuario.
 
 ## ✨ Características
 
-- **Diagnóstico con IA** — Análisis avanzado de la salud de las plantas mediante fotos usando Google Gemini AI.
+- **Diagnóstico con IA** — Análisis avanzado de la salud de las plantas mediante fotos usando Google Gemini.
 - **Identificación botánica** — Reconocimiento automático de especies a través de la API de Pl@ntNet.
 - **Gamificación** — Sistema de niveles, puntos XP, logros desbloqueables y avatares personalizados.
 - **Gestión de tareas** — Tareas personalizadas para cada planta según su estado, el lugar y el clima local.
@@ -31,7 +31,7 @@ Plant Guardian es un **proyecto de final de grado (TFG)** que combina la Intelig
 ## 🛠️ Tecnología
 
 **Backend** 
-- Lenguaje — Python 3.10+
+- Lenguaje — Python
 - Framework — FastAPI 
 - Base de datos — Supabase (PostgreSQL)
 - Arquitectura — Por capas (Routers, Services, Logic)
@@ -40,7 +40,6 @@ Plant Guardian es un **proyecto de final de grado (TFG)** que combina la Intelig
 - Lenguaje — Kotlin
 - Entorno — Android Studio
 - Arquitectura — MVVM
-- Comunicación API — Retrofit
 - Diseño — Material Design 3
 
 **APIs externas**
@@ -50,7 +49,7 @@ Plant Guardian es un **proyecto de final de grado (TFG)** que combina la Intelig
 
 ## 📈 Desarrollo
 
-El proyecto se ha desarrollado bajo una metodología **Ágil (SCRUM)**, dividido en 4 sprints. Se ha utilizado IA Generativa con Gemini y Claude como soporte para la optimización de código y mejora en el diseño de las interfaces.
+El proyecto se ha desarrollado bajo una metodología **Ágil (SCRUM)**, dividido en 4 sprints entre el 12 de febrero y 18 de junio de 2026. Se ha utilizado IA Generativa con Gemini y Claude como soporte para la optimización de código y mejora en el diseño de las interfaces.
 
 ## 📁 Estructura del proyecto
 
@@ -59,11 +58,11 @@ PlantGuardian/
 ├── backend/                # API REST (FastAPI)
 │   ├── logic/              # Algoritmos de XP, Logros y Tareas
 │   ├── routers/            # Definición de Endpoints de la API
-│   ├── services/           # Integración de APIs externas (Gemini, Weather)
-│   ├── schemas/            # Modelos de validación de datos (Pydantic)
+│   ├── services/           # Integración de APIs externas
+│   ├── schemas/            # Modelos de validación de datos
 │   └── database.py         # Configuración y conexión con Supabase
 ├── frontend/               # Aplicación Android (Kotlin)
-│   ├── app/src/main/java/  # Código fuente organizado por paquetes (ui, data, tools)
+│   ├── app/src/main/java/  # Código fuente organizado por paquetes (ui, data)
 │   └── app/src/main/res/   # Recursos visuales, layouts XML y estilos
 ├── docs/                   # Informes de progreso y documentación del TFG
 └── imgs/                   # Activos gráficos (logos, iconos de logros y avatares)
