@@ -44,7 +44,7 @@ class UserSettingsFragment : Fragment() {
         val etCiudad = view.findViewById<EditText>(R.id.etCiudad)
         val btnGuardar = view.findViewById<Button>(R.id.btnGuardarCambios)
 
-        setupUI(etNombre, etCorreo, etCiudad)
+        animarTexto(etNombre, etCorreo, etCiudad)
         viewModel.cargarDatosUsuario(userId)
 
         btnGuardar.setOnClickListener {
@@ -53,13 +53,12 @@ class UserSettingsFragment : Fragment() {
             val ciudad = etCiudad.text.toString().trim()
 
             if (nombre.isNotEmpty() && correo.isNotEmpty()) {
-                // Llamamos a la función de guardado que crearemos en el ViewModel
                 viewModel.actualizarDatosPerfil(userId, nombre, correo, ciudad) { exito ->
                     if (exito) {
-                        Toast.makeText(context, "¡Perfil actualizado!", Toast.LENGTH_SHORT).show()
-                        parentFragmentManager.popBackStack() // Volvemos atrás al terminar
+                        Toast.makeText(context, "Perfil actualizado", Toast.LENGTH_SHORT).show()
+                        parentFragmentManager.popBackStack()
                     } else {
-                        Toast.makeText(context, "Error al guardar los datos", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "No se ha podido actualizar los datos, inténtalo más tarde", Toast.LENGTH_SHORT).show()
                     }
                 }
             } else {
@@ -72,7 +71,7 @@ class UserSettingsFragment : Fragment() {
         }
     }
 
-    private fun setupUI(etNombre: EditText, etCorreo: EditText, etCiudad: EditText) {
+    private fun animarTexto(etNombre: EditText, etCorreo: EditText, etCiudad: EditText) {
         listOf(etNombre, etCorreo, etCiudad).forEach {
             it.alpha = 0f
             it.translationX = -30f

@@ -1,4 +1,4 @@
-package com.fiorella.plantguardian.ui.extensions
+package com.fiorella.plantguardian.ui.tools.extensions
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -32,23 +32,5 @@ fun FragmentManager.navigateClose(
             R.anim.slide_out_right
         )
         .replace(containerId, fragment)
-        .commit()
-}
-
-fun FragmentManager.navigateWithFade(
-    fragment: Fragment,
-    containerId: Int,
-    addToBackStack: Boolean = true
-) {
-    beginTransaction()
-        .setReorderingAllowed(true)
-        .setCustomAnimations(
-            R.anim.fade_in,
-            R.anim.fade_out,
-            R.anim.fade_in,
-            R.anim.fade_out
-        )
-        .replace(containerId, fragment)
-        .apply { if (addToBackStack) addToBackStack(null) }
         .commit()
 }

@@ -94,7 +94,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun validarCampos(correo: String, password: String): Boolean {
         if (correo.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Por favor, completa los campos.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Completa los campos, por favor", Toast.LENGTH_SHORT).show()
             return false
         }
         return true
@@ -102,26 +102,22 @@ class LoginActivity : AppCompatActivity() {
 
     private fun ejecutarLogin(correo: String, password: String) {
         lifecycleScope.launch {
-            try {
-                val response = RetrofitClient.instance.login(LoginRequest(correo, password))
+            val response = RetrofitClient.instance.login(LoginRequest(correo, password))
 
-                if (response.isSuccessful && response.body() != null) {
-                    val loginRes = response.body()!!
-                    val uuidUsuario = loginRes.usuario?.id
+            if (response.isSuccessful && response.body() != null) {
+                val loginRes = response.body()!!
+                val uuidUsuario = loginRes.usuario?.id
 
-                    if (uuidUsuario != null) {
-                        getSharedPreferences("PlantGuardianPrefs", MODE_PRIVATE)
-                            .edit {
-                                putString("user_id", uuidUsuario)
-                                apply()
-                            }
-                        ejecutarMain()
-                    }
-                } else {
-                    Toast.makeText(this@LoginActivity, "Credenciales incorrectas.", Toast.LENGTH_SHORT).show()
+                if (uuidUsuario != null) {
+                    getSharedPreferences("PlantGuardianPrefs", MODE_PRIVATE)
+                        .edit {
+                            putString("user_id", uuidUsuario)
+                            apply()
+                        }
+                    ejecutarMain()
                 }
-            } catch (e: Exception) {
-                Log.e("LOGIN_ERROR", "Fallo de conexión: ${e.message}")
+            } else {
+                Toast.makeText(this@LoginActivity, "Las credenciales no coinciden, vuélvelo a intentar", Toast.LENGTH_SHORT).show()
             }
         }
     }

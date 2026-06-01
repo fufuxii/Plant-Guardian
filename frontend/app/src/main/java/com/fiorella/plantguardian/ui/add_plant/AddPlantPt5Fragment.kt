@@ -1,7 +1,6 @@
 package com.fiorella.plantguardian.ui.add_plant
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,9 +17,8 @@ import com.fiorella.plantguardian.R
 import com.fiorella.plantguardian.data.schemas.TaskResponse
 import com.fiorella.plantguardian.data.schemas.UserRequest
 import com.fiorella.plantguardian.data.network.RetrofitClient
-import com.fiorella.plantguardian.ui.extensions.navigateClose
+import com.fiorella.plantguardian.ui.tools.extensions.navigateClose
 import com.fiorella.plantguardian.ui.main.MainActivity
-import com.fiorella.plantguardian.ui.my_plants.MyPlantsFragment
 import com.fiorella.plantguardian.ui.tools.models.AddPlantViewModel
 import com.fiorella.plantguardian.ui.tools.models.MyPlantsViewModel
 import kotlinx.coroutines.launch
@@ -84,22 +82,17 @@ class AddPlantPt5Fragment : Fragment() {
         layoutCargando?.visibility = View.VISIBLE
 
         viewLifecycleOwner.lifecycleScope.launch {
-            try {
-                val response = RetrofitClient.instance.guardarPlanta(
-                    tempId,
-                    UserRequest(idUsuario)
-                )
-                if (response.isSuccessful) {
-                    gestionarGuardado(idUsuario)
-                } else {
-                    mostrarError("Error al guardar la planta")
-                }
-            } catch (e: Exception) {
-                Log.e("DEBUG_PLANT", "Error final: ${e.message}")
-                mostrarError("Error de conexión al guardar")
-            } finally {
-                layoutCargando?.visibility = View.GONE
+            val response = RetrofitClient.instance.guardarPlanta(
+                tempId,
+                UserRequest(idUsuario)
+            )
+            if (response.isSuccessful) {
+                gestionarGuardado(idUsuario)
+            } else {
+                Toast.makeText(requireContext(), "No se ha podido guardar la planta, inténtalo más tarde", Toast.LENGTH_SHORT).show()
             }
+            layoutCargando?.visibility = View.GONE
+
         }
     }
 
@@ -116,10 +109,6 @@ class AddPlantPt5Fragment : Fragment() {
         }
 
         Toast.makeText(requireContext(), "¡Planta guardada!", Toast.LENGTH_SHORT).show()
-    }
-
-    private fun mostrarError(mensaje: String) {
-        Toast.makeText(requireContext(), mensaje, Toast.LENGTH_SHORT).show()
     }
 
     private fun cerrarFlujo() {

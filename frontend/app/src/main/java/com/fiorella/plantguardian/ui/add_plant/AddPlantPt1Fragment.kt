@@ -17,8 +17,8 @@ import coil.load
 import com.fiorella.plantguardian.R
 import com.fiorella.plantguardian.data.schemas.PlantResponse
 import com.fiorella.plantguardian.data.network.RetrofitClient
-import com.fiorella.plantguardian.ui.extensions.navigateClose
-import com.fiorella.plantguardian.ui.extensions.navigateTo
+import com.fiorella.plantguardian.ui.tools.extensions.navigateClose
+import com.fiorella.plantguardian.ui.tools.extensions.navigateTo
 import com.fiorella.plantguardian.ui.main.MainActivity
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -71,7 +71,7 @@ class AddPlantPt1Fragment : Fragment() {
             if (imgCapturada != null) {
                 enviarImagen(imgCapturada!!)
             } else {
-                Toast.makeText(requireContext(), "Es necesario una foto o imagen de la planta.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Adjunta una foto o imagen de la planta, por favor", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -112,14 +112,14 @@ class AddPlantPt1Fragment : Fragment() {
                     redireccionarSiguientePaso(uri, respuesta)
                 } else {
                     layoutCarga?.visibility = View.GONE
-                    val errorMsg = datosPlanta?.error ?: "No se reconoció la planta."
+                    val errorMsg = datosPlanta?.error ?: "No se pudo reconocer la planta, inténtalo más tarde"
                     Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_LONG).show()
                 }
             }
 
             override fun onFailure(call: retrofit2.Call<PlantResponse>, t: Throwable) {
                 layoutCarga?.visibility = View.GONE
-                Toast.makeText(requireContext(), "Error de conexión: ${t.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "No se pudo reconocer la planta, inténtalo más tarde", Toast.LENGTH_SHORT).show()
             }
         })
     }

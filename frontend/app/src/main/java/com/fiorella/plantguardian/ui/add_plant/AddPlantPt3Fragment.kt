@@ -12,8 +12,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.fiorella.plantguardian.R
 import com.fiorella.plantguardian.ui.tools.adapters.NoFilterAdapter
-import com.fiorella.plantguardian.ui.extensions.navigateClose
-import com.fiorella.plantguardian.ui.extensions.navigateTo
+import com.fiorella.plantguardian.ui.tools.extensions.navigateClose
+import com.fiorella.plantguardian.ui.tools.extensions.navigateTo
 import com.fiorella.plantguardian.ui.main.MainActivity
 
 class AddPlantPt3Fragment : Fragment() {
@@ -46,7 +46,8 @@ class AddPlantPt3Fragment : Fragment() {
 
     private fun configurarBotones(view: View, actvLugar: AutoCompleteTextView) {
         view.findViewById<ImageButton>(R.id.btnCerrar).setOnClickListener {
-            cerrarFlujo()
+            (activity as? MainActivity)?.mostrarNav()
+            parentFragmentManager.navigateClose(AddPlantFragment(), R.id.contenedorPrincipal)
         }
 
         view.findViewById<Button>(R.id.btnAtras).setOnClickListener {
@@ -62,12 +63,13 @@ class AddPlantPt3Fragment : Fragment() {
         if (lugarSeleccionado.isNotEmpty()) {
             redireccionarSiguientePaso(lugarSeleccionado)
         } else {
-            Toast.makeText(requireContext(), "Por favor, indica dónde está la planta.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Indica dónde está la planta, por favor", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun redireccionarSiguientePaso(lugarSeleccionado: String) {
-        val userId = obtenerUserId()
+        val prefs = requireContext().getSharedPreferences("PlantGuardianPrefs", Context.MODE_PRIVATE)
+        val userId = prefs.getString("user_id", "")
 
         val bundle = Bundle().apply {
             putString("foto_uri", arguments?.getString("foto_uri"))
@@ -83,15 +85,5 @@ class AddPlantPt3Fragment : Fragment() {
         }
 
         parentFragmentManager.navigateTo(paso4, R.id.contenedorPrincipal)
-    }
-
-    private fun obtenerUserId(): String? {
-        val prefs = requireContext().getSharedPreferences("PlantGuardianPrefs", Context.MODE_PRIVATE)
-        return prefs.getString("user_id", "")
-    }
-
-    private fun cerrarFlujo() {
-        (activity as? MainActivity)?.mostrarNav()
-        parentFragmentManager.navigateClose(AddPlantFragment(), R.id.contenedorPrincipal)
     }
 }

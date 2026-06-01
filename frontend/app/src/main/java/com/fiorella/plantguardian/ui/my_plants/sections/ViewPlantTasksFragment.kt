@@ -88,27 +88,22 @@ class ViewPlantTasksFragment : Fragment() {
         val tvAvisoProximas = view.findViewById<TextView>(R.id.tvAvisoSinTareasProximas)
 
         viewLifecycleOwner.lifecycleScope.launch {
-            try {
-                val response = RetrofitClient.instance.obtenerTareasPlanta(idPlanta)
+            val response = RetrofitClient.instance.obtenerTareasPlanta(idPlanta)
+            if (response.isSuccessful && response.body() != null) {
+                val hoyIso = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+                val tareasList = response.body()!!
 
-                if (response.isSuccessful && response.body() != null) {
-                    val hoyIso = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
-                    val tareasList = response.body()!!
-
-                    val tareasLimpias = tareasList.map {
-                        it.copy(fecha_proxima = it.fecha_proxima.substringBefore("T"))
-                    }
-
-                    val listaHoy = tareasLimpias.filter { it.fecha_proxima <= hoyIso }
-                    val listaProximas = tareasLimpias.filter { it.fecha_proxima > hoyIso }
-
-                    configurarSeccion(listaHoy, rvHoy, tvAvisoHoy, esHoy = true)
-                    configurarSeccion(listaProximas, rvProximas, tvAvisoProximas, esHoy = false)
-
-                    ejecutarAnimaciones(tvTituloHoy, rvHoy, tvAvisoHoy, tvTituloProximas, rvProximas, tvAvisoProximas, listaHoy.isEmpty(), listaProximas.isEmpty())
+                val tareasLimpias = tareasList.map {
+                    it.copy(fecha_proxima = it.fecha_proxima.substringBefore("T"))
                 }
-            } catch (e: Exception) {
-                Log.e("ViewPlantTasks", "Error al cargar tareas: ${e.message}")
+
+                val listaHoy = tareasLimpias.filter { it.fecha_proxima <= hoyIso }
+                val listaProximas = tareasLimpias.filter { it.fecha_proxima > hoyIso }
+
+                configurarSeccion(listaHoy, rvHoy, tvAvisoHoy, esHoy = true)
+                configurarSeccion(listaProximas, rvProximas, tvAvisoProximas, esHoy = false)
+
+                ejecutarAnimaciones(tvTituloHoy, rvHoy, tvAvisoHoy, tvTituloProximas, rvProximas, tvAvisoProximas, listaHoy.isEmpty(), listaProximas.isEmpty())
             }
         }
     }
@@ -131,20 +126,16 @@ class ViewPlantTasksFragment : Fragment() {
 
     private fun ejecutarCompletarTarea(tarea: TaskData) {
         viewLifecycleOwner.lifecycleScope.launch {
-            try {
-                val response = RetrofitClient.instance.completarTarea(tarea.id)
+            val response = RetrofitClient.instance.completarTarea(tarea.id)
 
-                if (response.isSuccessful) {
-                    Toast.makeText(requireContext(), "¡Tarea guardada!", Toast.LENGTH_SHORT).show()
+            if (response.isSuccessful) {
+                Toast.makeText(requireContext(), "¡Tarea guardada!", Toast.LENGTH_SHORT).show()
 
-                    val prefs = requireContext().getSharedPreferences("PlantGuardianPrefs", Context.MODE_PRIVATE)
-                    val userId = prefs.getString("user_id", "") ?: ""
-                    userViewModel.cargarDatosUsuario(userId, forzar = true)
+                val prefs = requireContext().getSharedPreferences("PlantGuardianPrefs", Context.MODE_PRIVATE)
+                val userId = prefs.getString("user_id", "") ?: ""
+                userViewModel.cargarDatosUsuario(userId, forzar = true)
 
-                    planta?.let { obtenerTareas(requireView(), it.id_usuario_planta) }
-                }
-            } catch (e: Exception) {
-                Log.e("ViewPlantTasks", "Error al completar: ${e.message}")
+                planta?.let { obtenerTareas(requireView(), it.id_usuario_planta) }
             }
         }
     }

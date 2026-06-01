@@ -44,11 +44,11 @@ class RegisterActivity : AppCompatActivity() {
             val repiteContra = etRepiteContra.text.toString().trim()
 
             if (nombre.isEmpty() || correo.isEmpty() || ciudad.isEmpty() || contra.isEmpty()) {
-                Toast.makeText(this, "Por favor, rellena todos los campos.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Rellena todos los campos, por favor", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             if (contra != repiteContra) {
-                Toast.makeText(this, "Las contraseñas no coinciden.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -58,22 +58,18 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun ejecutarRegistro(nombre: String, correo: String, ciudad: String, contra: String) {
         lifecycleScope.launch {
-            try {
-                val request = RegisterRequest(
-                    nombre = nombre,
-                    correo = correo,
-                    password = contra,
-                    ubicacion = ciudad
-                )
-                val response = RetrofitClient.instance.registro(request)
-                if (response.isSuccessful) {
-                    Toast.makeText(this@RegisterActivity, "¡Cuenta creada con éxito!", Toast.LENGTH_LONG).show()
-                    finish()
-                } else {
-                    Toast.makeText(this@RegisterActivity, "Error al crear la cuenta.", Toast.LENGTH_SHORT).show()
-                }
-            } catch (e: Exception) {
-                Toast.makeText(this@RegisterActivity, "Error de red: ${e.message}", Toast.LENGTH_LONG).show()
+            val request = RegisterRequest(
+                nombre = nombre,
+                correo = correo,
+                password = contra,
+                ubicacion = ciudad
+            )
+            val response = RetrofitClient.instance.registro(request)
+            if (response.isSuccessful) {
+                Toast.makeText(this@RegisterActivity, "Cuenta creada con éxito", Toast.LENGTH_LONG).show()
+                finish()
+            } else {
+                Toast.makeText(this@RegisterActivity, "La cuenta no se ha podido crear, vuélvelo a intentar más tarde", Toast.LENGTH_SHORT).show()
             }
         }
     }

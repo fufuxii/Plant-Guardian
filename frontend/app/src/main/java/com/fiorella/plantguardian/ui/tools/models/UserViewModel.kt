@@ -17,57 +17,41 @@ class UserViewModel : ViewModel() {
 
     val usuario: LiveData<UserProgressData?> = _usuario
     val logros: LiveData<List<AchievementData>?> = _logros
-    val cargando: LiveData<Boolean> = _cargando
 
     fun cargarDatosUsuario(idUsuario: String, forzar: Boolean = false) {
         if (_usuario.value != null && !forzar) return
-
         _cargando.value = true
         viewModelScope.launch {
-            try {
-                val response = RetrofitClient.instance.obtenerUsuarioInfo(idUsuario)
-                if (response.isSuccessful) {
-                    _usuario.value = response.body()
-                }
-            } catch (e: Exception) {
-                Log.e("DEBUG_USER", "Error: ${e.message}")
-            } finally {
-                _cargando.value = false
+            val response = RetrofitClient.instance.obtenerUsuarioInfo(idUsuario)
+            if (response.isSuccessful) {
+                _usuario.value = response.body()
             }
         }
+        _cargando.value = false
     }
 
     fun cargarLogrosUsuario(idUsuario: String, forzar: Boolean = false) {
-        if (_logros.value != null && !forzar) return // ← FIX: era _usuario
-
+        if (_logros.value != null && !forzar) return
         viewModelScope.launch {
-            try {
-                val response = RetrofitClient.instance.obtenerLogrosUsuario(idUsuario)
-                if (response.isSuccessful) {
-                    _logros.value = response.body() ?: emptyList()
-                }
-            } catch (e: Exception) {
-                Log.e("DEBUG_LOGROS", "Fallo total: ${e.message}")
+            val response = RetrofitClient.instance.obtenerLogrosUsuario(idUsuario)
+            if (response.isSuccessful) {
+                _logros.value = response.body() ?: emptyList()
             }
         }
     }
 
     fun actualizarDatosPerfil(idUsuario: String, nombre: String, correo: String, ciudad: String, onResultado: (Boolean) -> Unit) {
         viewModelScope.launch {
-            try {
-                val datos = mapOf(
-                    "nombre" to nombre,
-                    "correo" to correo,
-                    "ubicacion" to ciudad
-                )
-                val response = RetrofitClient.instance.actualizarPerfil(idUsuario, datos)
-                if (response.isSuccessful) {
-                    refrescarDatos(idUsuario)
-                    onResultado(true)
-                } else {
-                    onResultado(false)
-                }
-            } catch (e: Exception) {
+            val datos = mapOf(
+                "nombre" to nombre,
+                "correo" to correo,
+                "ubicacion" to ciudad
+            )
+            val response = RetrofitClient.instance.actualizarPerfil(idUsuario, datos)
+            if (response.isSuccessful) {
+                refrescarDatos(idUsuario)
+                onResultado(true)
+            } else {
                 onResultado(false)
             }
         }
@@ -78,10 +62,5 @@ class UserViewModel : ViewModel() {
         _logros.value = null
         cargarDatosUsuario(idUsuario)
         cargarLogrosUsuario(idUsuario)
-    }
-
-    fun sincronizarDatos(idUsuario: String) {
-        cargarDatosUsuario(idUsuario, forzar = true)
-        cargarLogrosUsuario(idUsuario, forzar = true)
     }
 }

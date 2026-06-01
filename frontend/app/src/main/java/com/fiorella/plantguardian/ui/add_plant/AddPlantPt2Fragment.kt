@@ -12,8 +12,8 @@ import androidx.fragment.app.Fragment
 import androidx.core.net.toUri
 import coil.load
 import com.fiorella.plantguardian.R
-import com.fiorella.plantguardian.ui.extensions.navigateClose
-import com.fiorella.plantguardian.ui.extensions.navigateTo
+import com.fiorella.plantguardian.ui.tools.extensions.navigateClose
+import com.fiorella.plantguardian.ui.tools.extensions.navigateTo
 import com.fiorella.plantguardian.ui.main.MainActivity
 
 @Suppress("DEPRECATION")
@@ -62,7 +62,8 @@ class AddPlantPt2Fragment : Fragment() {
 
     private fun configurarBotones(view: View) {
         view.findViewById<ImageButton>(R.id.btnCerrar).setOnClickListener {
-            cerrarFlujo()
+            (activity as? MainActivity)?.mostrarNav()
+            parentFragmentManager.navigateClose(AddPlantFragment(), R.id.contenedorPrincipal)
         }
 
         view.findViewById<Button>(R.id.btnAtras).setOnClickListener {
@@ -72,11 +73,6 @@ class AddPlantPt2Fragment : Fragment() {
         view.findViewById<Button>(R.id.btnSiguientePaso2).setOnClickListener {
             redireccionarSiguientePaso()
         }
-    }
-
-    private fun cerrarFlujo() {
-        (activity as? MainActivity)?.mostrarNav()
-        parentFragmentManager.navigateClose(AddPlantFragment(), R.id.contenedorPrincipal)
     }
 
     private fun redireccionarSiguientePaso() {
@@ -90,6 +86,7 @@ class AddPlantPt2Fragment : Fragment() {
         val paso3 = AddPlantPt3Fragment().apply {
             arguments = bundle
         }
+
         parentFragmentManager.navigateTo(paso3, R.id.contenedorPrincipal)
     }
 }

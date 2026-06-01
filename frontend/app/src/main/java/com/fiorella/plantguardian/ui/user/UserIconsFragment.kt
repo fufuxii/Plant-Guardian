@@ -52,21 +52,17 @@ class UserIconsFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            try {
-                val response = RetrofitClient.instance.obtenerIconosDisponibles(userId)
-                if (response.isSuccessful) {
-                    val lista = response.body() ?: emptyList()
-                    if (lista.isNotEmpty()) {
-                        rv.adapter = IconAdapter(lista) { url -> iconoElegido = url }
-                        rv.animate()
-                            .alpha(1f)
-                            .translationY(0f)
-                            .setDuration(400)
-                            .start()
-                    }
+            val response = RetrofitClient.instance.obtenerIconosDisponibles(userId)
+            if (response.isSuccessful) {
+                val lista = response.body() ?: emptyList()
+                if (lista.isNotEmpty()) {
+                    rv.adapter = IconAdapter(lista) { url -> iconoElegido = url }
+                    rv.animate()
+                        .alpha(1f)
+                        .translationY(0f)
+                        .setDuration(400)
+                        .start()
                 }
-            } catch (e: Exception) {
-                Toast.makeText(context, "Error al cargar iconos", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -74,24 +70,20 @@ class UserIconsFragment : Fragment() {
             if (iconoElegido != null) {
                 actualizarIconoEnBD(userId, iconoElegido!!)
             } else {
-                Toast.makeText(context, "Selecciona un icono", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Selecciona un icono, por favor", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun actualizarIconoEnBD(userId: String, url: String) {
         lifecycleScope.launch {
-            try {
-                val res = RetrofitClient.instance.actualizarIcono(userId, mapOf("url" to url))
-                if (res.isSuccessful) {
-                    viewModel.refrescarDatos(userId)
-                    Toast.makeText(requireContext(), "¡Icono actualizado!", Toast.LENGTH_SHORT).show()
-                    requireActivity().onBackPressedDispatcher.onBackPressed()
-                } else {
-                    Toast.makeText(requireContext(), "Error del servidor", Toast.LENGTH_SHORT).show()
-                }
-            } catch (e: Exception) {
-                Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
+            val res = RetrofitClient.instance.actualizarIcono(userId, mapOf("url" to url))
+            if (res.isSuccessful) {
+                viewModel.refrescarDatos(userId)
+                Toast.makeText(requireContext(), "Icono actualizado", Toast.LENGTH_SHORT).show()
+                requireActivity().onBackPressedDispatcher.onBackPressed()
+            } else {
+                Toast.makeText(requireContext(), "No se ha podido actualizar el icono, inténtalo más tarde", Toast.LENGTH_SHORT).show()
             }
         }
     }

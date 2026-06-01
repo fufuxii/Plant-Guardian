@@ -144,7 +144,7 @@ class ViewPlantFragment : Fragment() {
                 Toast.makeText(context, "Planta eliminada con éxito", Toast.LENGTH_SHORT).show()
                 parentFragmentManager.popBackStack()
             } else {
-                Toast.makeText(context, "Error al eliminar la planta", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "No se ha podido eliminar la planta, inténtalo más tarde", Toast.LENGTH_SHORT).show()
             }
         }
     }

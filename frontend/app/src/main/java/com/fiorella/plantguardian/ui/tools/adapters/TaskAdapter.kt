@@ -18,7 +18,7 @@ class TaskAdapter(
     class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val check: CheckBox? = view.findViewById(R.id.cbTareaEstado)
         val texto: TextView = view.findViewById(R.id.tvNombreTarea)
-        val tvDatoDerecha: TextView? = view.findViewById(R.id.tvFrecuenciaTarea)
+        val tvFecha: TextView? = view.findViewById(R.id.tvFrecuenciaTarea)
     }
 
     override fun getItemCount(): Int = tareas.size
@@ -45,17 +45,17 @@ class TaskAdapter(
                 }
             }
         } else {
-            holder.tvDatoDerecha?.text = formatearFecha(tarea.fecha_proxima)
+            holder.tvFecha?.text = formatearFecha(tarea.fecha_proxima)
             holder.texto.alpha = 1.0f
         }
     }
 
     private fun formatearFecha(fechaRaw: String): String {
         return try {
-            val inputFormat = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
-            val outputFormat = java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault())
-            val date = inputFormat.parse(fechaRaw)
-            outputFormat.format(date!!)
+            val inputFecha = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
+            val outputFecha = java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault())
+            val fecha = inputFecha.parse(fechaRaw)
+            outputFecha.format(fecha!!)
         } catch (e: Exception) {
             fechaRaw
         }

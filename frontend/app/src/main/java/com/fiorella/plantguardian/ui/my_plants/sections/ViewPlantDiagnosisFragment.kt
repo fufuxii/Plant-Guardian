@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
 import com.fiorella.plantguardian.R
 import com.fiorella.plantguardian.data.schemas.PlantData
@@ -47,7 +46,6 @@ class ViewPlantDiagnosisFragment : Fragment() {
         val tvProblema = view.findViewById<TextView>(R.id.tvValorProblema)
         val tvDescripcion = view.findViewById<TextView>(R.id.tvValorDescripcion)
         val tvConsejos = view.findViewById<TextView>(R.id.tvValorConsejos)
-        val btnVolverAnalizar = view.findViewById<AppCompatButton>(R.id.btnVolverAnalizar)
 
         planta?.let { p ->
             tvEstado.text = p.estado ?: "-"
@@ -56,10 +54,6 @@ class ViewPlantDiagnosisFragment : Fragment() {
             tvConsejos.text = p.consejos
                 ?.joinToString(separator = "\n\n") { "• $it" }
                 ?: "-"
-        }
-
-        btnVolverAnalizar.setOnClickListener {
-            // volver a analizar
         }
     }
 }

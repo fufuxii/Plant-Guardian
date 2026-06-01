@@ -1,7 +1,6 @@
 package com.fiorella.plantguardian.ui.add_plant
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,8 +15,8 @@ import com.fiorella.plantguardian.R
 import com.fiorella.plantguardian.data.schemas.TaskResponse
 import com.fiorella.plantguardian.data.network.RetrofitClient
 import com.fiorella.plantguardian.data.schemas.AnalisisResponse
-import com.fiorella.plantguardian.ui.extensions.navigateClose
-import com.fiorella.plantguardian.ui.extensions.navigateTo
+import com.fiorella.plantguardian.ui.tools.extensions.navigateClose
+import com.fiorella.plantguardian.ui.tools.extensions.navigateTo
 import com.fiorella.plantguardian.ui.main.MainActivity
 import com.fiorella.plantguardian.ui.tools.models.AddPlantViewModel
 import kotlinx.coroutines.launch
@@ -64,26 +63,22 @@ class AddPlantPt4Fragment : Fragment() {
         contentView.visibility = View.GONE
 
         viewLifecycleOwner.lifecycleScope.launch {
-            try {
-                val response = RetrofitClient.instance.analizarPlanta(tempId, lugar, idUsuario)
+            val response = RetrofitClient.instance.analizarPlanta(tempId, lugar, idUsuario)
 
-                if (response.isSuccessful && response.body() != null) {
-                    val analisis = response.body()!!
+            if (response.isSuccessful && response.body() != null) {
+                val analisis = response.body()!!
 
-                    addPlantViewModel.resultadoAnalisis.value = analisis
-                    addPlantViewModel.ultimoLugarAnalizado = lugar
-                    addPlantViewModel.ultimoTempIdAnalizado = tempId
+                addPlantViewModel.resultadoAnalisis.value = analisis
+                addPlantViewModel.ultimoLugarAnalizado = lugar
+                addPlantViewModel.ultimoTempIdAnalizado = tempId
 
-                    mostrarResultadoAnalisis(view, response.body()!!)
+                mostrarResultadoAnalisis(view, response.body()!!)
 
-                    loadingView.visibility = View.GONE
-                    contentView.visibility = View.VISIBLE
-                } else {
-                    finalizarConError("No se ha podido procesar el análisis")
-                }
-            } catch (e: Exception) {
-                Log.e("DEBUG_PLANT", "Fallo análisis: ${e.localizedMessage}")
-                finalizarConError("No se ha podido procesar el análisis")
+                loadingView.visibility = View.GONE
+                contentView.visibility = View.VISIBLE
+            } else {
+                Toast.makeText(requireContext(), "No se ha podido realizar el análisis, inténtalo más tarde", Toast.LENGTH_SHORT).show()
+                parentFragmentManager.popBackStack()
             }
         }
     }
@@ -128,14 +123,6 @@ class AddPlantPt4Fragment : Fragment() {
 
         val paso5 = AddPlantPt5Fragment().apply { arguments = bundle }
         parentFragmentManager.navigateTo(paso5, R.id.contenedorPrincipal)
-    }
-
-    @Suppress("SameParameterValue")
-    private fun finalizarConError(mensaje: String) {
-        if (isAdded) {
-            Toast.makeText(requireContext(), mensaje, Toast.LENGTH_SHORT).show()
-            parentFragmentManager.popBackStack()
-        }
     }
 
     private fun cerrarFlujo() {

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.fiorella.plantguardian.R
-import com.fiorella.plantguardian.ui.extensions.navigateTo
+import com.fiorella.plantguardian.ui.tools.extensions.navigateTo
 
 class AddPlantFragment : Fragment() {
 

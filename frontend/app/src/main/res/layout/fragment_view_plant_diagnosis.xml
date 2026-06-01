@@ -173,16 +173,5 @@
                 android:textSize="14sp"
                 android:lineSpacingExtra="3dp" />
         </LinearLayout>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnVolverAnalizar"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="25dp"
-            android:text="Volver a analizar"
-            android:textSize="16sp"
-            android:textAllCaps="false"
-            android:textColor="@color/blanco"
-            android:background="@drawable/btn_analisis" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

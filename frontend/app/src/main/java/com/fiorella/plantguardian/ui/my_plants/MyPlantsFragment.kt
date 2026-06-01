@@ -7,7 +7,6 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.util.Log
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -87,7 +86,7 @@ class MyPlantsFragment : Fragment() {
 
         idUsuario?.let {
             viewModel.obtenerPlantas(it)
-        } ?: Log.e("PlantsFragment", "Error: User ID is null")
+        }
     }
 
     private fun filtrarPlantas(query: String) {
