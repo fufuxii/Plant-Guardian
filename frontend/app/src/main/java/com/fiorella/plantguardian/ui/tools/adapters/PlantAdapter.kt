@@ -71,6 +71,7 @@ class PlantAdapter(
 
     fun actualizarLista(nuevaLista: List<PlantData>) {
         this.listaPlantas = nuevaLista
+        posicionesAnimadas.clear()
         notifyDataSetChanged()
     }
 }

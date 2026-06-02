@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,9 +23,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class MyPlantsFragment : Fragment() {
 
     private val viewModel: MyPlantsViewModel by activityViewModels()
-    private lateinit var adapter: PlantAdapter
     private var idUsuario: String? = null
     private var listaCompleta: List<PlantData> = emptyList()
+    private lateinit var adapter: PlantAdapter
+    private lateinit var rvPlantas: RecyclerView
+    private lateinit var tvNoPlantas: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,6 +39,8 @@ class MyPlantsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        tvNoPlantas = view.findViewById(R.id.tvNoPlantas)
+        tvNoPlantas.alpha = 0f
         cargarUsuario()
         configurarRecyclerView(view)
         configurarBusqueda(view)
@@ -50,10 +55,10 @@ class MyPlantsFragment : Fragment() {
     }
 
     private fun configurarRecyclerView(view: View) {
-        val rv = view.findViewById<RecyclerView>(R.id.rvPlantas)
-        rv.layoutManager = LinearLayoutManager(requireContext())
+        rvPlantas = view.findViewById(R.id.rvPlantas)
+        rvPlantas.layoutManager = LinearLayoutManager(requireContext())
         adapter = PlantAdapter(emptyList()) { planta -> abrirDetallePlanta(planta) }
-        rv.adapter = adapter
+        rvPlantas.adapter = adapter
     }
 
     private fun configurarBusqueda(view: View) {
@@ -76,14 +81,12 @@ class MyPlantsFragment : Fragment() {
 
     private fun observarViewModel() {
         (activity as? MainActivity)?.mostrarNav()
-
         viewModel.plantas.observe(viewLifecycleOwner) { lista ->
             if (lista != null) {
                 listaCompleta = lista
-                adapter.actualizarLista(lista)
+                actualizarListaVacia(lista)
             }
         }
-
         idUsuario?.let {
             viewModel.obtenerPlantas(it)
         }
@@ -97,7 +100,14 @@ class MyPlantsFragment : Fragment() {
                 planta.nombre_comun.contains(query, ignoreCase = true)
             }
         }
-        adapter.actualizarLista(filtradas)
+
+        if (query.isNotEmpty() && filtradas.isEmpty()) {
+            tvNoPlantas.text = "No se encontraron plantas"
+        } else if (listaCompleta.isEmpty()) {
+            tvNoPlantas.text = "Aún no has añadido una planta"
+        }
+
+        actualizarListaVacia(filtradas)
     }
 
     private fun abrirDetallePlanta(planta: PlantData) {
@@ -107,5 +117,22 @@ class MyPlantsFragment : Fragment() {
             }
         }
         (activity as? MainActivity)?.cargarFragmento(detalleFragment, "DetallePlanta", true)
+    }
+
+    private fun actualizarListaVacia(lista: List<PlantData>) {
+        if (lista.isEmpty()) {
+            rvPlantas.visibility = View.GONE
+            tvNoPlantas.visibility = View.VISIBLE
+            tvNoPlantas.animate().alpha(1f).setDuration(400).start()
+            adapter.actualizarLista(emptyList())
+        } else {
+            tvNoPlantas.visibility = View.GONE
+            rvPlantas.visibility = View.VISIBLE
+
+            if (adapter.itemCount == 0) {
+                rvPlantas.animate().alpha(1f).setDuration(400).start()
+            }
+            adapter.actualizarLista(lista)
+        }
     }
 }

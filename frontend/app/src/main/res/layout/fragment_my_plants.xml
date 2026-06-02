@@ -65,6 +65,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <TextView
+        android:id="@+id/tvNoPlantas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="Aún no has añadido una planta"
+        android:textColor="@color/gris_texto_hint"
+        android:visibility="visible"
+        android:textSize="16sp"
+        android:alpha="0"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/lineaDivisoria"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddPlant"
         android:layout_width="wrap_content"
