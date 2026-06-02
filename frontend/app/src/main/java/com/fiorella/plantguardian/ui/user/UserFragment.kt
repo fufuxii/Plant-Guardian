@@ -66,6 +66,7 @@ class UserFragment : Fragment() {
         val pNivel = view.findViewById<ProgressBar>(R.id.progressNivel)
         val tvNivel = view.findViewById<TextView>(R.id.tvNivel)
         val rvLogros = view.findViewById<RecyclerView>(R.id.rvLogros)
+        val tvNoLogros = view.findViewById<TextView>(R.id.tvNoLogros)
 
         ocultarVistas(ivAvatar, tvNombre, tvNivel, pNivel, rvLogros)
 
@@ -77,7 +78,7 @@ class UserFragment : Fragment() {
         }
 
         viewModel.logros.observe(viewLifecycleOwner) { listaLogros ->
-            listaLogros?.let { setupLogros(it, rvLogros) }
+            listaLogros?.let { setupLogros(it, rvLogros, tvNoLogros) }
         }
     }
 
@@ -99,11 +100,20 @@ class UserFragment : Fragment() {
         pNivel.animate().alpha(1f).setStartDelay(200).setDuration(400).start()
     }
 
-    private fun setupLogros(listaLogros: List<AchievementData>, rvLogros: RecyclerView) {
-        if (achievementAdapter.itemCount == 0 && listaLogros.isNotEmpty()) {
-            rvLogros.animate().alpha(1f).setDuration(400).start()
+    private fun setupLogros(listaLogros: List<AchievementData>, rvLogros: RecyclerView, tvNoLogros: TextView) {
+        if (listaLogros.isEmpty()) {
+            rvLogros.visibility = View.GONE
+            tvNoLogros.visibility = View.VISIBLE
+            tvNoLogros.animate().alpha(1f).setDuration(400).start()
+        } else {
+            tvNoLogros.visibility = View.GONE
+            rvLogros.visibility = View.VISIBLE
+
+            if (achievementAdapter.itemCount == 0) {
+                rvLogros.animate().alpha(1f).setDuration(400).start()
+            }
+            achievementAdapter.actualizarLista(listaLogros)
         }
-        achievementAdapter.actualizarLista(listaLogros)
     }
 
     private fun cargarAvatar(ivAvatar: ImageView, url: String) {
