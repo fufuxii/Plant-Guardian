@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    android:padding="4dp">
+    android:padding="8dp">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="72dp"
@@ -14,8 +13,7 @@
         app:cardElevation="0dp"
         app:cardBackgroundColor="@color/blanco"
         app:strokeColor="@color/verde_principal"
-        app:strokeWidth="2dp"
-        android:backgroundTint="@color/blanco">
+        app:strokeWidth="2dp">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivIconoLogro"

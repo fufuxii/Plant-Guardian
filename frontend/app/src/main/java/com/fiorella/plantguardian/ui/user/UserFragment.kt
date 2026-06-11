@@ -40,6 +40,7 @@ class UserFragment : Fragment() {
 
         val rvLogros = view.findViewById<RecyclerView>(R.id.rvLogros)
         rvLogros.layoutManager = GridLayoutManager(requireContext(), 3)
+        rvLogros.isNestedScrollingEnabled = false
 
         achievementAdapter = AchievementAdapter(emptyList())
         rvLogros.adapter = achievementAdapter
