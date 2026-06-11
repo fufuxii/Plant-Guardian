@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blanco"
-    android:padding="25dp">
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    android:requiresFadingEdge="vertical"
+    android:fadingEdgeLength="40dp">
 
-    <ImageView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="25dp"
+        android:paddingBottom="50dp"> <ImageView
         android:id="@+id/ivLogoApp"
         android:layout_width="250dp"
         android:layout_height="250dp"
@@ -18,114 +25,118 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_launcher_foreground" />
 
-    <TextView
-        android:id="@+id/tvTituloApp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/plant_guardian"
-        android:textColor="@color/verde_principal"
-        android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivLogoApp" />
+        <TextView
+            android:id="@+id/tvTituloApp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/plant_guardian"
+            android:textColor="@color/verde_principal"
+            android:textSize="40sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivLogoApp" />
 
-    <TextView
-        android:id="@+id/tvLabelLoginCorreo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="@string/correo"
-        android:textColor="@color/gris_texto"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTituloApp" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvLoginCorreo"
-        android:layout_width="0dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="20dp"
-        app:cardBackgroundColor="#D9E7D2"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvLabelLoginCorreo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvLabelLoginContra"
-        app:layout_constraintTop_toTopOf="@+id/tvLabelLoginCorreo">
-
-        <EditText
-            android:id="@+id/etLoginCorreo"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:gravity="center_vertical"
-            android:inputType="textEmailAddress"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
+        <TextView
+            android:id="@+id/tvLabelLoginCorreo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="@string/correo"
             android:textColor="@color/gris_texto"
-            android:textSize="12sp" />
-    </androidx.cardview.widget.CardView>
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTituloApp" />
 
-    <TextView
-        android:id="@+id/tvLabelLoginContra"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="@string/contrase_a"
-        android:textColor="@color/gris_texto"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cvLoginCorreo" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvLoginCorreo"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="20dp"
+            app:cardBackgroundColor="#D9E7D2"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvLabelLoginCorreo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvLabelLoginContra"
+            app:layout_constraintTop_toTopOf="@+id/tvLabelLoginCorreo">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvLoginContra"
-        android:layout_width="0dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="20dp"
-        app:cardBackgroundColor="#D9E7D2"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvLabelLoginContra"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvLabelLoginContra"
-        app:layout_constraintTop_toTopOf="@+id/tvLabelLoginContra">
+            <EditText
+                android:id="@+id/etLoginCorreo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:gravity="center_vertical"
+                android:inputType="textEmailAddress"
+                android:imeOptions="actionNext"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/gris_texto"
+                android:textSize="12sp" />
+        </androidx.cardview.widget.CardView>
 
-        <EditText
-            android:id="@+id/etLoginContra"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:inputType="textPassword"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
+        <TextView
+            android:id="@+id/tvLabelLoginContra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="@string/contrase_a"
             android:textColor="@color/gris_texto"
-            android:textSize="12sp" />
-    </androidx.cardview.widget.CardView>
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cvLoginCorreo" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnEntrar"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="50dp"
-        android:text="@string/entrar"
-        android:textColor="@color/blanco"
-        android:textSize="16sp"
-        android:textAllCaps="false"
-        android:background="@drawable/btn_login_register"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cvLoginContra" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvLoginContra"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="20dp"
+            app:cardBackgroundColor="#D9E7D2"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvLabelLoginContra"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvLabelLoginContra"
+            app:layout_constraintTop_toTopOf="@+id/tvLabelLoginContra">
 
-    <TextView
-        android:id="@+id/tvRegistro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="@string/no_tienes_cuenta_crea_una"
-        android:textColor="@color/gris_texto"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnEntrar" />
+            <EditText
+                android:id="@+id/etLoginContra"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:inputType="textPassword"
+                android:imeOptions="actionDone"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/gris_texto"
+                android:textSize="12sp" />
+        </androidx.cardview.widget.CardView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnEntrar"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="50dp"
+            android:text="@string/entrar"
+            android:textColor="@color/blanco"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:background="@drawable/btn_login_register"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cvLoginContra" />
+
+        <TextView
+            android:id="@+id/tvRegistro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="@string/no_tienes_cuenta_crea_una"
+            android:textColor="@color/gris_texto"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnEntrar" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

@@ -1,239 +1,250 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blanco"
-    android:clipChildren="false"
-    android:clipToPadding="false">
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    android:requiresFadingEdge="vertical"
+    android:fadingEdgeLength="40dp">
 
-    <ImageButton
-        android:id="@+id/btnBack"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginStart="25dp"
-        android:background="@drawable/bg_button_green"
-        android:elevation="4dp"
-        android:src="@drawable/ic_arrow_back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/blanco" />
-
-    <TextView
-        android:id="@+id/tvTituloCuenta"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="25dp"
-        android:text="Bienvenido/a"
-        android:textColor="@color/verde_principal"
-        android:textSize="32sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnBack" />
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:paddingBottom="40dp">
 
-    <TextView
-        android:id="@+id/tvLabelNombre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginStart="25dp"
-        android:text="Nombre"
-        android:textColor="@color/gris_texto"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTituloCuenta" />
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="25dp"
+            android:background="@drawable/bg_button_green"
+            android:elevation="4dp"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/blanco" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvRegistroNombre"
-        android:layout_width="0dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="25dp"
-        app:cardBackgroundColor="#D9E7D2"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvLabelNombre"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvLabelContra"
-        app:layout_constraintTop_toTopOf="@+id/tvLabelNombre">
+        <TextView
+            android:id="@+id/tvTituloCuenta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"
+            android:text="Bienvenido/a"
+            android:textColor="@color/verde_principal"
+            android:textSize="32sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnBack" />
 
-        <EditText
-            android:id="@+id/etNombre"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:inputType="textPersonName"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
+        <TextView
+            android:id="@+id/tvLabelNombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="25dp"
+            android:text="Nombre"
             android:textColor="@color/gris_texto"
-            android:textSize="12sp" />
-    </androidx.cardview.widget.CardView>
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTituloCuenta" />
 
-    <TextView
-        android:id="@+id/tvLabelCorreo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginStart="25dp"
-        android:text="Correo"
-        android:textColor="@color/gris_texto"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cvRegistroNombre" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvRegistroNombre"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="25dp"
+            app:cardBackgroundColor="#D9E7D2"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvLabelNombre"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvLabelContra"
+            app:layout_constraintTop_toTopOf="@+id/tvLabelNombre">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvRegistroCorreo"
-        android:layout_width="0dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="25dp"
-        app:cardBackgroundColor="#D9E7D2"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvLabelCorreo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvLabelContra"
-        app:layout_constraintTop_toTopOf="@+id/tvLabelCorreo">
+            <EditText
+                android:id="@+id/etNombre"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:inputType="textPersonName"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/gris_texto"
+                android:textSize="12sp" />
+        </androidx.cardview.widget.CardView>
 
-        <EditText
-            android:id="@+id/etCorreo"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:inputType="textEmailAddress"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
+        <TextView
+            android:id="@+id/tvLabelCorreo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="25dp"
+            android:text="Correo"
             android:textColor="@color/gris_texto"
-            android:textSize="12sp" />
-    </androidx.cardview.widget.CardView>
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cvRegistroNombre" />
 
-    <TextView
-        android:id="@+id/tvLabelCiudad"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginStart="25dp"
-        android:text="Ciudad"
-        android:textColor="@color/gris_texto"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cvRegistroCorreo" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvRegistroCorreo"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="25dp"
+            app:cardBackgroundColor="#D9E7D2"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvLabelCorreo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvLabelContra"
+            app:layout_constraintTop_toTopOf="@+id/tvLabelCorreo">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvRegistroCiudad"
-        android:layout_width="0dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="25dp"
-        app:cardBackgroundColor="@color/verde_elementos"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvLabelCiudad"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvLabelContra"
-        app:layout_constraintTop_toTopOf="@+id/tvLabelCiudad">
+            <EditText
+                android:id="@+id/etCorreo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:inputType="textEmailAddress"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/gris_texto"
+                android:textSize="12sp" />
+        </androidx.cardview.widget.CardView>
 
-        <EditText
-            android:id="@+id/etRegistroCiudad"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
+        <TextView
+            android:id="@+id/tvLabelCiudad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="25dp"
+            android:text="Ciudad"
             android:textColor="@color/gris_texto"
-            android:textSize="12sp" />
-    </androidx.cardview.widget.CardView>
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cvRegistroCorreo" />
 
-    <TextView
-        android:id="@+id/tvLabelContra"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginStart="25dp"
-        android:text="Contraseña"
-        android:textColor="@color/gris_texto"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cvRegistroCiudad" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvRegistroCiudad"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="25dp"
+            app:cardBackgroundColor="@color/verde_elementos"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvLabelCiudad"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvLabelContra"
+            app:layout_constraintTop_toTopOf="@+id/tvLabelCiudad">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvRegistroContra"
-        android:layout_width="0dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="25dp"
-        app:cardBackgroundColor="@color/verde_elementos"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvLabelContra"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvLabelContra"
-        app:layout_constraintTop_toTopOf="@+id/tvLabelContra">
+            <EditText
+                android:id="@+id/etRegistroCiudad"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/gris_texto"
+                android:textSize="12sp" />
+        </androidx.cardview.widget.CardView>
 
-        <EditText
-            android:id="@+id/etRegistroContra"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:inputType="textPassword"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
+        <TextView
+            android:id="@+id/tvLabelContra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="25dp"
+            android:text="Contraseña"
             android:textColor="@color/gris_texto"
-            android:textSize="12sp" />
-    </androidx.cardview.widget.CardView>
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cvRegistroCiudad" />
 
-    <TextView
-        android:id="@+id/tvLabelRegistroRepiteContra"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginStart="25dp"
-        android:text="Repite la\ncontraseña"
-        android:textColor="@color/gris_texto"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cvRegistroContra" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvRegistroContra"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="25dp"
+            app:cardBackgroundColor="@color/verde_elementos"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvLabelContra"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvLabelContra"
+            app:layout_constraintTop_toTopOf="@+id/tvLabelContra">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvRegistroRepiteContra"
-        android:layout_width="0dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="25dp"
-        app:cardBackgroundColor="@color/verde_elementos"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvLabelRegistroRepiteContra"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvLabelContra"
-        app:layout_constraintTop_toTopOf="@+id/tvLabelRegistroRepiteContra">
+            <EditText
+                android:id="@+id/etRegistroContra"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:inputType="textPassword"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/gris_texto"
+                android:textSize="12sp" />
+        </androidx.cardview.widget.CardView>
 
-        <EditText
-            android:id="@+id/etRegistroRepiteContra"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:inputType="textPassword"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
+        <TextView
+            android:id="@+id/tvLabelRegistroRepiteContra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="25dp"
+            android:text="Repite la\ncontraseña"
             android:textColor="@color/gris_texto"
-            android:textSize="12sp" />
-    </androidx.cardview.widget.CardView>
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cvRegistroContra" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnCerrarSesion"
-        android:layout_width="180dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="50dp"
-        android:text="Registrarse"
-        android:textColor="@color/blanco"
-        android:textSize="16sp"
-        android:textAllCaps="false"
-        android:background="@drawable/btn_login_register"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cvRegistroRepiteContra" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvRegistroRepiteContra"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="25dp"
+            app:cardBackgroundColor="@color/verde_elementos"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvLabelRegistroRepiteContra"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvLabelContra"
+            app:layout_constraintTop_toTopOf="@+id/tvLabelRegistroRepiteContra">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <EditText
+                android:id="@+id/etRegistroRepiteContra"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:inputType="textPassword"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/gris_texto"
+                android:textSize="12sp" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCerrarSesion"
+            android:layout_width="180dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="50dp"
+            android:text="Registrarse"
+            android:textColor="@color/blanco"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:background="@drawable/btn_login_register"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cvRegistroRepiteContra" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
