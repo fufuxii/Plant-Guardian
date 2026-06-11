@@ -1,5 +1,7 @@
 package com.fiorella.plantguardian.ui.add_plant
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -11,6 +13,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import coil.load
@@ -41,6 +44,16 @@ class AddPlantPt1Fragment : Fragment() {
         }
     }
 
+    private val permisoCamaraLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { concedido ->
+        if (concedido) {
+            abrirCamara()
+        } else {
+            Toast.makeText(requireContext(), "Permiso de cámara denegado", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_add_plant_pt1, container, false)
     }
@@ -59,11 +72,24 @@ class AddPlantPt1Fragment : Fragment() {
         }
 
         view.findViewById<ImageView>(R.id.btnCamara).setOnClickListener {
-            try {
-                imgCapturada = crearArchivoFoto()
-                camaraLauncher.launch(imgCapturada)
-            } catch (e: Exception) {
-                Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_LONG).show()
+            when {
+                ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.CAMERA
+                ) == PackageManager.PERMISSION_GRANTED -> {
+                    abrirCamara()
+                }
+                shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "Necesitamos acceso a la cámara para fotografiar tu planta",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    permisoCamaraLauncher.launch(Manifest.permission.CAMERA)
+                }
+                else -> {
+                    permisoCamaraLauncher.launch(Manifest.permission.CAMERA)
+                }
             }
         }
 
@@ -159,6 +185,15 @@ class AddPlantPt1Fragment : Fragment() {
                         .start()
                 }
             )
+        }
+    }
+
+    private fun abrirCamara() {
+        try {
+            imgCapturada = crearArchivoFoto()
+            camaraLauncher.launch(imgCapturada)
+        } catch (e: Exception) {
+            Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_LONG).show()
         }
     }
 }
