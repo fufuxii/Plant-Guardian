@@ -68,7 +68,7 @@ async def crear_planta_tareas(id_usuario_planta: str, tareas: list):
   filas_tareas = []
   for t in tareas:
     frecuencia_num = re.findall(r'\d+', t.get("frecuencia", ""))
-    dias = int(frecuencia_num[0]) if frecuencia_num else 7  # fallback si el texto no traía ningún número
+    dias = int(frecuencia_num[0]) if frecuencia_num else 7 # Asegurar número en frecuencia para evitar errores.
     filas_tareas.append({
       "id_usuario_planta": id_usuario_planta,
       "titulo": t["tarea"],
