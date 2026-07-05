@@ -2,7 +2,7 @@ import re
 import uuid
 from database import supabase
 from datetime import datetime, timedelta
-from services.gemini import gemini_obtener_info_extra
+from services.openrouter import gemini_obtener_info_extra
 from logic.logros_logic import gestionar_usuario_logros
 
 
@@ -67,16 +67,16 @@ async def crear_planta_tareas(id_usuario_planta: str, tareas: list):
   fecha_base = datetime.now()
   filas_tareas = []
   for t in tareas:
-    frecuencia_num = re.findall(r'\d+', t["frecuencia"])
-    dias = int(frecuencia_num[0])
+    frecuencia_num = re.findall(r'\d+', t.get("frecuencia", ""))
+    dias = int(frecuencia_num[0]) if frecuencia_num else 7  # fallback si el texto no traía ningún número
     filas_tareas.append({
       "id_usuario_planta": id_usuario_planta,
       "titulo": t["tarea"],
-      "frecuencia_textual": t["frecuencia"],
+      "frecuencia_textual": t.get("frecuencia", f"Cada {dias} días"),
       "frecuencia_numerica": dias,
       "fecha_proxima": (fecha_base + timedelta(days=dias)).isoformat(),
       "hecho": False,
-      "experiencia": t["experiencia"]
+      "experiencia": t.get("experiencia", 10)
     })
   res = supabase.table("Tarea").insert(filas_tareas).execute()
   return res.data

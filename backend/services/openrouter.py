@@ -1,4 +1,5 @@
 import os
+import re
 import json
 import base64
 import asyncio
@@ -15,11 +16,13 @@ CLIENT = AsyncOpenAI(
 )
 
 MODELOS_IA = [
-  "google/gemini-2.5-flash",
+  "openrouter/free",
+  "google/gemma-4-31b-it:free",
+  "google/gemma-4-26b-a4b:free",
   "google/gemini-2.5-flash-lite",
   "anthropic/claude-haiku-4.5",
-  "openai/gpt-4o-mini",
 ]
+
 REINTENTOS_POR_MODELO = 2  
 
 
@@ -31,6 +34,7 @@ async def consultar_openrouter(mensajes: list):
         response = await CLIENT.chat.completions.create(
           model=modelo,
           messages=mensajes,
+          max_tokens=1024, # Evitar pedir el máximo del modelo (65k) y el 402 por crédito.
           extra_headers={
             "HTTP-Referer": os.getenv("APP_URL", "http://localhost"),
             "X-Title": "Plantas App",
@@ -48,6 +52,36 @@ async def consultar_openrouter(mensajes: list):
           await asyncio.sleep(1)
         continue
   return None
+
+
+def validar_tareas(tareas: list) -> list:
+  """
+  Garantiza que cada tarea tenga 'frecuencia' como texto que SIEMPRE
+  contiene un número extraíble (para el re.findall que hace plantas_logic
+  al guardar), y experiencia dentro de 10-20. Sin esto, un texto tipo
+  'Semanalmente' sin dígito rompe el guardado con IndexError.
+  """
+  tareas_validas = []
+  for t in tareas or []:
+    tarea = t.get("tarea") or "Cuidado general"
+
+    frecuencia = t.get("frecuencia")
+    dias_encontrados = re.findall(r"\d+", str(frecuencia)) if frecuencia else []
+    if not dias_encontrados:
+      frecuencia = "Cada 7 días"
+
+    try:
+      experiencia = int(t.get("experiencia", 10))
+    except (TypeError, ValueError):
+      experiencia = 10
+    experiencia = max(10, min(20, experiencia))
+
+    tareas_validas.append({
+      "tarea": tarea,
+      "frecuencia": frecuencia,
+      "experiencia": experiencia,
+    })
+  return tareas_validas
 
 
 async def gemini_obtener_info_extra(nombre: str):
@@ -81,7 +115,7 @@ async def gemini_analizar_planta(nombre: str, lugar: str, ubicacion: str, foto_b
   - consejos: [Lista de 3 consejos de mantenimiento].
   - tareas: [{{
     "tarea": "Nombre de la acción (ej. Riego, Poda, Abonado)",
-    "frecuencia": "Formato en 'Cada X días' (ej. Cada 7 días)",
+    "frecuencia": "Formato en 'Cada X días' (ej. Cada 7 días). OBLIGATORIO incluir un número, nunca texto sin dígito como 'Semanalmente'.",
     "experiencia": "Número de experiencia que se otorga al completar la tarea. El mínimo es 10 y el máximo es 20."
     }}]
   Responde solo el JSON, sé muy breve.
@@ -100,7 +134,9 @@ async def gemini_analizar_planta(nombre: str, lugar: str, ubicacion: str, foto_b
   ]
   resultado = await consultar_openrouter(mensajes)
   if resultado:
+    resultado["tareas"] = validar_tareas(resultado.get("tareas"))
     return resultado
+
 
   # Red de seguridad: si los 4 modelos fallan (caída total de OpenRouter,
   # sin internet, etc.), devolvemos un análisis genérico plausible en vez
