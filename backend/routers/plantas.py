@@ -3,7 +3,7 @@ from fastapi import APIRouter, HTTPException, UploadFile, File
 from logic.plantas_logic import obtener_planta_id, registrar_planta_usuario, eliminar_planta_usuario, obtener_plantas_usuario
 from logic.usuarios_logic import obtener_usuario_ubicacion
 from services.plantnet import plantnet_identificar_planta
-from services.gemini import gemini_analizar_planta
+from services.openrouter import gemini_analizar_planta
 from schemas import Usuario
 
 router = APIRouter(prefix="/plantas", tags=["Plantas"])
