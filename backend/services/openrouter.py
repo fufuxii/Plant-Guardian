@@ -16,10 +16,10 @@ CLIENT = AsyncOpenAI(
 )
 
 MODELOS_IA = [
-  "openrouter/free",
+  "google/gemini-2.5-flash-lite",
   "google/gemma-4-31b-it:free",
   "google/gemma-4-26b-a4b:free",
-  "google/gemini-2.5-flash-lite",
+  "openrouter/free",
   "anthropic/claude-haiku-4.5",
 ]
 
